@@ -3,18 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  Users, 
-  Filter,
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
   Search,
-  ArrowRight,
-  ChevronDown
+  ArrowRight
 } from 'lucide-react';
-import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -44,7 +40,7 @@ export default function EventsPage() {
     fetchEvents();
   }, [filter]);
 
-  const filteredEvents = events.filter(event => 
+  const filteredEvents = events.filter(event =>
     event.title.toLowerCase().includes(search.toLowerCase()) ||
     event.description?.toLowerCase().includes(search.toLowerCase())
   );
@@ -52,21 +48,27 @@ export default function EventsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-pink w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Badge color="white" className="bg-white/20 text-white mb-6">Events</Badge>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Explore Our Events
+            <Badge color="purple" className="mb-6">Events</Badge>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+              Explore Our <span className="gradient-text">Events</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-[#B5B5C3]">
               Discover workshops, seminars, hackathons, and more to enhance your AI journey
             </p>
           </motion.div>
@@ -74,8 +76,13 @@ export default function EventsPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-16 lg:top-20 z-30">
-        <div className="container-custom">
+      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+        {/* Subtle Orb */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-64 h-64 top-1/2 right-1/4 opacity-30" />
+        </div>
+
+        <div className="container-custom relative z-10">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             {/* Search */}
             <div className="w-full md:w-96">
@@ -94,11 +101,10 @@ export default function EventsPage() {
                 <button
                   key={type}
                   onClick={() => setFilter(type)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    filter === type
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === type
+                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
+                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    }`}
                 >
                   {type}
                 </button>
@@ -109,19 +115,28 @@ export default function EventsPage() {
       </section>
 
       {/* Events Grid */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-blue w-96 h-96 top-1/3 left-1/4" />
+          <div className="orb orb-pink w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="overflow-hidden">
+                <div key={i} className="glass rounded-2xl overflow-hidden">
                   <Skeleton className="h-48 rounded-none" />
-                  <CardContent className="p-6">
+                  <div className="p-6">
                     <Skeleton className="h-6 w-3/4 mb-3" />
                     <Skeleton className="h-4 w-full mb-2" />
                     <Skeleton className="h-4 w-2/3" />
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           ) : filteredEvents.length > 0 ? (
@@ -130,14 +145,22 @@ export default function EventsPage() {
                 <motion.div
                   key={event.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Card className="overflow-hidden card-hover h-full flex flex-col">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-purple transition-all duration-300 h-full flex flex-col">
                     {/* Event Image */}
-                    <div className="aspect-video bg-gradient-to-br from-primary-400 to-secondary-400 relative">
-                      <Badge 
-                        color={getEventTypeColor(event.type)} 
+                    <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] relative overflow-hidden">
+                      {event.image && (
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                      <Badge
+                        color={getEventTypeColor(event.type)}
                         className="absolute top-4 left-4"
                       >
                         {event.type}
@@ -149,53 +172,53 @@ export default function EventsPage() {
                       )}
                     </div>
 
-                    <CardContent className="p-6 flex-1 flex flex-col">
-                      <CardTitle className="mb-3 line-clamp-2">{event.title}</CardTitle>
-                      <CardDescription className="mb-4 line-clamp-2">
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{event.title}</h3>
+                      <p className="text-[#B5B5C3] mb-4 line-clamp-2">
                         {event.description}
-                      </CardDescription>
+                      </p>
 
-                      <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                      <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="w-4 h-4 text-[#7B61FF]" />
                           <span>{formatDate(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
+                          <Clock className="w-4 h-4 text-[#7B61FF]" />
                           <span>{formatTime(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4" />
+                          <MapPin className="w-4 h-4 text-[#7B61FF]" />
                           <span>{event.venue}</span>
                         </div>
                         {event.maxParticipants && (
                           <div className="flex items-center gap-2">
-                            <Users className="w-4 h-4" />
+                            <Users className="w-4 h-4 text-[#7B61FF]" />
                             <span>{event.registeredCount || 0}/{event.maxParticipants} registered</span>
                           </div>
                         )}
                       </div>
 
-                      <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+                      <div className="mt-auto pt-4 border-t border-white/10">
                         <Link href={`/events/${event.id}`}>
-                          <Button variant="primary" className="w-full">
+                          <button className="btn-nexus-primary w-full px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
                             View Details
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
                         </Link>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
           ) : (
             <div className="text-center py-20">
-              <Calendar className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <Calendar className="w-16 h-16 mx-auto text-[#7B61FF] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">
                 No events found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-[#B5B5C3]">
                 {search ? 'Try a different search term' : 'Check back later for upcoming events'}
               </p>
             </div>
@@ -242,6 +265,7 @@ const mockEvents: Event[] = [
     slug: 'intro-to-ml',
     description: 'Learn the fundamentals of machine learning and build your first model.',
     type: 'Workshop',
+    image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=800&h=450&fit=crop',
     startDate: '2024-03-15T15:00:00',
     endDate: '2024-03-15T18:00:00',
     venue: 'CSE Lab 1, DIU',
@@ -258,6 +282,7 @@ const mockEvents: Event[] = [
     slug: 'ai-hackathon-2024',
     description: '24-hour hackathon to build innovative AI solutions for real-world problems.',
     type: 'Competition',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=450&fit=crop',
     startDate: '2024-03-25T09:00:00',
     endDate: '2024-03-26T09:00:00',
     venue: 'DIU Auditorium',
@@ -274,6 +299,7 @@ const mockEvents: Event[] = [
     slug: 'deep-learning-pytorch',
     description: 'Hands-on workshop on building neural networks using PyTorch framework.',
     type: 'Workshop',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop',
     startDate: '2024-04-05T14:00:00',
     endDate: '2024-04-05T17:00:00',
     venue: 'SWE Lab 2, DIU',
@@ -290,6 +316,7 @@ const mockEvents: Event[] = [
     slug: 'ai-healthcare-seminar',
     description: 'Industry experts discuss the applications of AI in modern healthcare.',
     type: 'Seminar',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=450&fit=crop',
     startDate: '2024-04-12T10:00:00',
     endDate: '2024-04-12T13:00:00',
     venue: 'DIU Conference Hall',
@@ -306,6 +333,7 @@ const mockEvents: Event[] = [
     slug: 'monthly-meetup-march',
     description: 'Network with fellow AI enthusiasts and share your projects.',
     type: 'Meetup',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
     startDate: '2024-03-30T16:00:00',
     endDate: '2024-03-30T18:00:00',
     venue: 'DIU Cafeteria',
@@ -322,6 +350,7 @@ const mockEvents: Event[] = [
     slug: 'cv-fundamentals',
     description: 'Learn image processing and object detection techniques.',
     type: 'Workshop',
+    image: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=800&h=450&fit=crop',
     startDate: '2024-04-20T15:00:00',
     endDate: '2024-04-20T18:00:00',
     venue: 'CSE Lab 3, DIU',

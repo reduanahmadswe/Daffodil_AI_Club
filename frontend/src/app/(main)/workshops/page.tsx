@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
+import {
+  Calendar,
+  Clock,
+  Users,
   Award,
   ArrowRight,
   Search,
@@ -15,8 +15,6 @@ import {
   Brain,
   Layers
 } from 'lucide-react';
-import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
@@ -47,7 +45,7 @@ export default function WorkshopsPage() {
     fetchWorkshops();
   }, [level]);
 
-  const filteredWorkshops = workshops.filter(workshop => 
+  const filteredWorkshops = workshops.filter(workshop =>
     workshop.title.toLowerCase().includes(search.toLowerCase()) ||
     workshop.description?.toLowerCase().includes(search.toLowerCase())
   );
@@ -73,21 +71,27 @@ export default function WorkshopsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Badge color="white" className="bg-white/20 text-white mb-6">Workshops</Badge>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Learn AI Through Practice
+            <Badge color="cyan" className="mb-6">Workshops</Badge>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+              Learn AI Through <span className="gradient-text">Practice</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-[#B5B5C3]">
               Hands-on workshops designed to build your AI skills from beginner to advanced
             </p>
           </motion.div>
@@ -95,8 +99,13 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-16 lg:top-20 z-30">
-        <div className="container-custom">
+      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+        {/* Subtle Orb */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-64 h-64 top-1/2 right-1/4 opacity-30" />
+        </div>
+
+        <div className="container-custom relative z-10">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="w-full md:w-96">
               <Input
@@ -113,11 +122,10 @@ export default function WorkshopsPage() {
                 <button
                   key={lvl}
                   onClick={() => setLevel(lvl)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-                    level === lvl
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${level === lvl
+                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
+                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    }`}
                 >
                   {lvl}
                 </button>
@@ -128,19 +136,28 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Workshops Grid */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/3 left-1/4" />
+          <div className="orb orb-cyan w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="overflow-hidden">
+                <div key={i} className="glass rounded-2xl overflow-hidden">
                   <Skeleton className="h-48 rounded-none" />
-                  <CardContent className="p-6">
+                  <div className="p-6">
                     <Skeleton className="h-6 w-3/4 mb-3" />
                     <Skeleton className="h-4 w-full mb-2" />
                     <Skeleton className="h-4 w-2/3" />
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           ) : filteredWorkshops.length > 0 ? (
@@ -151,15 +168,24 @@ export default function WorkshopsPage() {
                   <motion.div
                     key={workshop.id}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card className="overflow-hidden card-hover h-full flex flex-col">
+                    <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-cyan transition-all duration-300 h-full flex flex-col">
                       {/* Workshop Image */}
-                      <div className="aspect-video bg-gradient-to-br from-primary-400 to-secondary-400 relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <LevelIcon className="w-16 h-16 text-white/30" />
-                        </div>
+                      <div className="aspect-video bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] relative overflow-hidden">
+                        {workshop.image ? (
+                          <img
+                            src={workshop.image}
+                            alt={workshop.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <LevelIcon className="w-16 h-16 text-white/30" />
+                          </div>
+                        )}
                         <div className="absolute top-4 left-4 flex gap-2">
                           <Badge color={getLevelColor(workshop.level) as any}>
                             {workshop.level}
@@ -173,63 +199,63 @@ export default function WorkshopsPage() {
                         </div>
                       </div>
 
-                      <CardContent className="p-6 flex-1 flex flex-col">
-                        <CardTitle className="mb-3 line-clamp-2">{workshop.title}</CardTitle>
-                        <CardDescription className="mb-4 line-clamp-2 flex-1">
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{workshop.title}</h3>
+                        <p className="text-[#B5B5C3] mb-4 line-clamp-2 flex-1">
                           {workshop.description}
-                        </CardDescription>
+                        </p>
 
                         {/* Workshop Details */}
-                        <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                        <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-4 h-4 text-[#6EF3FF]" />
                             <span>{formatDate(workshop.startDate)}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
+                            <Clock className="w-4 h-4 text-[#6EF3FF]" />
                             <span>{workshop.duration}</span>
                           </div>
                           {workshop.maxParticipants && (
                             <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4" />
+                              <Users className="w-4 h-4 text-[#6EF3FF]" />
                               <span>{workshop.registeredCount || 0}/{workshop.maxParticipants} seats</span>
                             </div>
                           )}
                         </div>
 
                         {/* Instructor */}
-                        <div className="flex items-center gap-3 py-3 border-t border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center gap-3 py-3 border-t border-white/10">
                           <Avatar name={workshop.instructor || 'Instructor'} size="sm" />
                           <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="text-sm font-medium text-white">
                               {workshop.instructor || 'Club Instructor'}
                             </p>
-                            <p className="text-xs text-gray-500">Instructor</p>
+                            <p className="text-xs text-[#8A8A9E]">Instructor</p>
                           </div>
                         </div>
 
                         {/* CTA */}
-                        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                        <div className="mt-4 pt-4 border-t border-white/10">
                           <Link href={`/workshops/${workshop.slug}`}>
-                            <Button variant="primary" className="w-full">
+                            <button className="btn-nexus-primary w-full px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
                               View Details
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            </Button>
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
                           </Link>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </motion.div>
                 );
               })}
             </div>
           ) : (
             <div className="text-center py-20">
-              <BookOpen className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <BookOpen className="w-16 h-16 mx-auto text-[#6EF3FF] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">
                 No workshops found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-[#B5B5C3]">
                 {search ? 'Try a different search term' : 'Check back later for upcoming workshops'}
               </p>
             </div>
@@ -238,8 +264,17 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-blue w-96 h-96 top-1/4 right-1/3" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/4 left-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-12">
             <Badge color="blue" className="mb-4">Why Join</Badge>
             <h2 className="section-title mb-4">Workshop Benefits</h2>
@@ -261,15 +296,13 @@ export default function WorkshopsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="h-full text-center card-hover">
-                  <CardContent className="p-8">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
-                      <benefit.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <CardTitle className="mb-2">{benefit.title}</CardTitle>
-                    <CardDescription>{benefit.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-8 text-center h-full hover:shadow-glow-blue transition-all duration-300">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] flex items-center justify-center">
+                    <benefit.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
+                  <p className="text-[#B5B5C3]">{benefit.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -296,6 +329,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'intro-ml-python',
     description: 'Learn the fundamentals of machine learning using Python, scikit-learn, and hands-on projects.',
     level: 'Beginner',
+    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=450&fit=crop',
     startDate: '2024-03-20T10:00:00',
     endDate: '2024-03-20T16:00:00',
     duration: '6 hours',
@@ -313,6 +347,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'deep-learning-tensorflow',
     description: 'Build neural networks and deep learning models using TensorFlow and Keras.',
     level: 'Intermediate',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=450&fit=crop',
     startDate: '2024-03-25T10:00:00',
     endDate: '2024-03-25T17:00:00',
     duration: '7 hours',
@@ -330,6 +365,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'nlp-fundamentals',
     description: 'Explore text processing, sentiment analysis, and building NLP applications.',
     level: 'Intermediate',
+    image: 'https://images.unsplash.com/photo-1516110833967-0b5716ca1387?w=800&h=450&fit=crop',
     startDate: '2024-04-01T14:00:00',
     endDate: '2024-04-01T18:00:00',
     duration: '4 hours',
@@ -347,6 +383,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'cv-opencv',
     description: 'Master image processing and computer vision techniques using OpenCV.',
     level: 'Intermediate',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=450&fit=crop',
     startDate: '2024-04-08T10:00:00',
     endDate: '2024-04-08T15:00:00',
     duration: '5 hours',
@@ -364,6 +401,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'generative-ai-llms',
     description: 'Understand and work with large language models and generative AI technologies.',
     level: 'Advanced',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop',
     startDate: '2024-04-15T10:00:00',
     endDate: '2024-04-15T18:00:00',
     duration: '8 hours',
@@ -381,6 +419,7 @@ const mockWorkshops: Workshop[] = [
     slug: 'python-data-science',
     description: 'Learn Python programming essentials for data science and analytics.',
     level: 'Beginner',
+    image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&h=450&fit=crop',
     startDate: '2024-04-20T14:00:00',
     endDate: '2024-04-20T18:00:00',
     duration: '4 hours',

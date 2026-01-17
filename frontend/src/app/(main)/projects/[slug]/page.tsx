@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   Github,
   ExternalLink,
@@ -15,11 +15,8 @@ import {
   GitFork,
   Code,
   FileCode,
-  BookOpen,
   Play
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -77,20 +74,19 @@ The system consists of three main components:
   category: 'NLP',
   status: 'COMPLETED',
   technologies: ['Python', 'TensorFlow', 'FastAPI', 'React', 'PostgreSQL', 'Docker'],
-  coverImage: undefined,
+  image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=1200&h=600&fit=crop',
   githubUrl: 'https://github.com/daffodil-ai-club/university-chatbot',
   liveUrl: 'https://chatbot.daic.edu.bd',
   demoUrl: 'https://demo.daic.edu.bd/chatbot',
   teamMembers: [
-    { id: '1', name: 'Abdullah Rahman', role: 'Team Lead', profileImage: undefined },
-    { id: '2', name: 'Fatima Akter', role: 'ML Engineer', profileImage: undefined },
-    { id: '3', name: 'Kamal Hossain', role: 'Backend Developer', profileImage: undefined },
-    { id: '4', name: 'Rashida Khanom', role: 'Frontend Developer', profileImage: undefined },
+    { id: '1', name: 'Abdullah Rahman', role: 'Team Lead' },
+    { id: '2', name: 'Fatima Akter', role: 'ML Engineer' },
+    { id: '3', name: 'Kamal Hossain', role: 'Backend Developer' },
+    { id: '4', name: 'Rashida Khanom', role: 'Frontend Developer' },
   ],
   startDate: '2023-09-01',
   endDate: '2024-02-28',
-  isFeatured: true,
-  isPublished: true,
+  featured: true,
   createdAt: '2023-09-01',
   updatedAt: '2024-02-28',
 };
@@ -134,15 +130,17 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <div className="container-custom py-32">
-        <Skeleton className="h-8 w-32 mb-8" />
-        <Skeleton className="h-12 w-3/4 mb-4" />
-        <Skeleton className="h-6 w-1/4 mb-8" />
-        <Skeleton className="h-[300px] w-full mb-8" />
-        <div className="space-y-4">
-          <Skeleton className="h-6 w-full" />
-          <Skeleton className="h-6 w-full" />
-          <Skeleton className="h-6 w-3/4" />
+      <div className="min-h-screen bg-black pt-32 pb-20">
+        <div className="container-custom">
+          <Skeleton className="h-8 w-32 mb-8 bg-white/10" />
+          <Skeleton className="h-12 w-3/4 mb-4 bg-white/10" />
+          <Skeleton className="h-6 w-1/4 mb-8 bg-white/10" />
+          <Skeleton className="h-[300px] w-full mb-8 bg-white/10" />
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-full bg-white/10" />
+            <Skeleton className="h-6 w-full bg-white/10" />
+            <Skeleton className="h-6 w-3/4 bg-white/10" />
+          </div>
         </div>
       </div>
     );
@@ -150,14 +148,16 @@ export default function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div className="container-custom py-32 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Project Not Found
-        </h1>
-        <p className="text-gray-500 mb-8">The project you're looking for doesn't exist.</p>
-        <Link href="/projects">
-          <Button>Browse Projects</Button>
-        </Link>
+      <div className="min-h-screen bg-black pt-32 pb-20">
+        <div className="container-custom text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">
+            Project Not Found
+          </h1>
+          <p className="text-[#B5B5C3] mb-8">The project you're looking for doesn't exist.</p>
+          <Link href="/projects">
+            <button className="btn-nexus-primary px-6 py-3 rounded-xl">Browse Projects</button>
+          </Link>
+        </div>
       </div>
     );
   }
@@ -165,17 +165,23 @@ export default function ProjectDetailPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/projects" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6">
+            <Link href="/projects" className="inline-flex items-center gap-2 text-[#B5B5C3] hover:text-white mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Projects
             </Link>
@@ -188,7 +194,7 @@ export default function ProjectDetailPage() {
               <Badge color={statusColors[project.status as keyof typeof statusColors] || 'gray'}>
                 {project.status.replace('_', ' ')}
               </Badge>
-              {project.isFeatured && <Badge color="yellow">Featured</Badge>}
+              {project.featured && <Badge color="yellow">Featured</Badge>}
             </div>
 
             {/* Title */}
@@ -197,7 +203,7 @@ export default function ProjectDetailPage() {
             </h1>
 
             {/* Short Description */}
-            <p className="text-lg text-white/80 mb-8 max-w-3xl">
+            <p className="text-lg text-[#B5B5C3] mb-8 max-w-3xl">
               {project.shortDescription}
             </p>
 
@@ -205,26 +211,26 @@ export default function ProjectDetailPage() {
             <div className="flex flex-wrap gap-4">
               {project.githubUrl && (
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
-                    <Github className="w-5 h-5 mr-2" />
+                  <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all flex items-center gap-2">
+                    <Github className="w-5 h-5" />
                     View on GitHub
-                  </Button>
+                  </button>
                 </a>
               )}
               {project.liveUrl && (
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-white text-primary-600 hover:bg-white/90">
-                    <ExternalLink className="w-5 h-5 mr-2" />
+                  <button className="btn-nexus-primary px-6 py-3 rounded-xl flex items-center gap-2">
+                    <ExternalLink className="w-5 h-5" />
                     View Live
-                  </Button>
+                  </button>
                 </a>
               )}
               {project.demoUrl && (
                 <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
-                    <Play className="w-5 h-5 mr-2" />
+                  <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all flex items-center gap-2">
+                    <Play className="w-5 h-5" />
                     Demo
-                  </Button>
+                  </button>
                 </a>
               )}
             </div>
@@ -232,162 +238,167 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
+      {/* Project Image */}
+      {project.image && (
+        <section className="relative bg-black">
+          <div className="container-custom">
+            <div className="relative rounded-2xl overflow-hidden">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-[400px] object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Content Section */}
-      <section className="py-12 bg-gray-50 dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/3 left-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Project Description */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>About This Project</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <article className="prose dark:prose-invert prose-lg max-w-none">
-                    {project.description?.split('\n').map((line, index) => {
-                      if (line.startsWith('# ')) {
-                        return <h1 key={index}>{line.slice(2)}</h1>;
-                      } else if (line.startsWith('## ')) {
-                        return <h2 key={index}>{line.slice(3)}</h2>;
-                      } else if (line.startsWith('### ')) {
-                        return <h3 key={index}>{line.slice(4)}</h3>;
-                      } else if (line.startsWith('- ')) {
-                        return <li key={index}>{line.slice(2)}</li>;
-                      } else if (line.trim()) {
-                        return <p key={index}>{line}</p>;
-                      }
-                      return null;
-                    })}
-                  </article>
-                </CardContent>
-              </Card>
+              <div className="glass rounded-2xl p-8">
+                <h2 className="text-2xl font-bold text-white mb-6">About This Project</h2>
+                <article className="prose prose-invert prose-lg max-w-none">
+                  {project.description?.split('\n').map((line, index) => {
+                    if (line.startsWith('# ')) {
+                      return <h1 key={index} className="text-white">{line.slice(2)}</h1>;
+                    } else if (line.startsWith('## ')) {
+                      return <h2 key={index} className="text-white">{line.slice(3)}</h2>;
+                    } else if (line.startsWith('### ')) {
+                      return <h3 key={index} className="text-white">{line.slice(4)}</h3>;
+                    } else if (line.startsWith('- ')) {
+                      return <li key={index} className="text-[#B5B5C3]">{line.slice(2)}</li>;
+                    } else if (line.trim()) {
+                      return <p key={index} className="text-[#B5B5C3]">{line}</p>;
+                    }
+                    return null;
+                  })}
+                </article>
+              </div>
             </div>
 
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Project Info */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Project Info</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <div className="glass rounded-2xl p-6">
+                <h3 className="text-xl font-bold text-white mb-6">Project Info</h3>
+                <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30">
-                      <Calendar className="w-5 h-5 text-primary-600" />
+                    <div className="p-2 rounded-lg bg-[#7B61FF]/20">
+                      <Calendar className="w-5 h-5 text-[#7B61FF]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Timeline</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm text-[#8A8A9E]">Timeline</p>
+                      <p className="font-medium text-white text-sm">
                         {formatDate(project.startDate)} - {project.endDate ? formatDate(project.endDate) : 'Ongoing'}
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30">
-                      <Tag className="w-5 h-5 text-green-600" />
+                    <div className="p-2 rounded-lg bg-[#6EF3FF]/20">
+                      <Tag className="w-5 h-5 text-[#6EF3FF]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Category</p>
-                      <p className="font-medium text-gray-900 dark:text-white">{project.category}</p>
+                      <p className="text-sm text-[#8A8A9E]">Category</p>
+                      <p className="font-medium text-white">{project.category}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                      <Users className="w-5 h-5 text-purple-600" />
+                    <div className="p-2 rounded-lg bg-[#FF4FD8]/20">
+                      <Users className="w-5 h-5 text-[#FF4FD8]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Team Size</p>
-                      <p className="font-medium text-gray-900 dark:text-white">{project.teamMembers?.length || 0} Members</p>
+                      <p className="text-sm text-[#8A8A9E]">Team Size</p>
+                      <p className="font-medium text-white">{project.teamMembers?.length || 0} Members</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Technologies */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Code className="w-5 h-5" />
-                    Technologies
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <Badge key={tech} color="gray" size="sm">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="glass rounded-2xl p-6">
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Code className="w-5 h-5 text-[#7B61FF]" />
+                  Technologies
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies.map((tech) => (
+                    <Badge key={tech} color="purple" size="sm">
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
 
               {/* Team Members */}
               {project.teamMembers && project.teamMembers.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Users className="w-5 h-5" />
-                      Team
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {project.teamMembers.map((member) => (
-                        <div key={member.id} className="flex items-center gap-3">
-                          <Avatar name={member.name} size="sm" />
-                          <div>
-                            <p className="font-medium text-gray-900 dark:text-white">
-                              {member.name}
-                            </p>
-                            <p className="text-sm text-gray-500">{member.role}</p>
-                          </div>
+                <div className="glass rounded-2xl p-6">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-[#FF4FD8]" />
+                    Team
+                  </h3>
+                  <div className="space-y-4">
+                    {project.teamMembers.map((member) => (
+                      <div key={member.id} className="flex items-center gap-3">
+                        <Avatar name={member.name} size="sm" />
+                        <div>
+                          <p className="font-medium text-white">
+                            {member.name}
+                          </p>
+                          <p className="text-sm text-[#8A8A9E]">{member.role}</p>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
 
               {/* GitHub Stats */}
               {project.githubUrl && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Github className="w-5 h-5" />
-                      Repository
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-6 text-gray-600 dark:text-gray-400">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4" />
-                        <span>128</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <GitFork className="w-4 h-4" />
-                        <span>34</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <FileCode className="w-4 h-4" />
-                        <span>Python</span>
-                      </div>
+                <div className="glass rounded-2xl p-6">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <Github className="w-5 h-5" />
+                    Repository
+                  </h3>
+                  <div className="flex items-center gap-6 text-[#B5B5C3] mb-4">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4" />
+                      <span>128</span>
                     </div>
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="mt-4 block"
-                    >
-                      <Button variant="outline" size="sm" className="w-full">
-                        View Repository
-                      </Button>
-                    </a>
-                  </CardContent>
-                </Card>
+                    <div className="flex items-center gap-1">
+                      <GitFork className="w-4 h-4" />
+                      <span>34</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <FileCode className="w-4 h-4" />
+                      <span>Python</span>
+                    </div>
+                  </div>
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="w-full px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-all border border-white/10">
+                      View Repository
+                    </button>
+                  </a>
+                </div>
               )}
             </div>
           </div>

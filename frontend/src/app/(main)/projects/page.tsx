@@ -3,19 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Folder, 
-  Github, 
-  ExternalLink, 
-  Users, 
+import {
+  Folder,
+  Github,
+  ExternalLink,
+  Users,
   Calendar,
   Search,
   ArrowRight,
   Code,
   Star
 } from 'lucide-react';
-import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
@@ -36,7 +34,10 @@ export default function ProjectsPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await projectsApi.getAll();
+        const response = await projectsApi.getAll({
+          category: category !== 'All' ? category : undefined,
+          status: status !== 'All' ? status : undefined
+        });
         setProjects(response.data.projects || mockProjects);
       } catch (error) {
         setProjects(mockProjects);
@@ -46,45 +47,54 @@ export default function ProjectsPage() {
     };
 
     fetchProjects();
-  }, []);
+  }, [category, status]);
 
-  const filteredProjects = projects.filter(project => {
-    const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) ||
-      project.description?.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = category === 'All' || project.category === category;
-    const matchesStatus = status === 'All' || project.status === status;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const filteredProjects = projects.filter(project =>
+    project.title.toLowerCase().includes(search.toLowerCase()) ||
+    project.description?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Badge color="white" className="bg-white/20 text-white mb-6">Projects</Badge>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Our AI Projects
+            <Badge color="pink" className="mb-6">Projects</Badge>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+              Our AI <span className="gradient-text">Projects</span>
             </h1>
-            <p className="text-xl text-white/80">
-              Explore innovative AI projects built by our club members
+            <p className="text-xl text-[#B5B5C3]">
+              Explore innovative AI projects built by our talented club members
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-16 lg:top-20 z-30">
-        <div className="container-custom">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="w-full lg:w-96">
+      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+        {/* Subtle Orb */}
+        <div className="absolute inset-0">
+          <div className="orb orb-blue w-64 h-64 top-1/2 right-1/4 opacity-30" />
+        </div>
+
+        <div className="container-custom relative z-10">
+          <div className="flex flex-col gap-4">
+            {/* Search */}
+            <div className="w-full md:w-96">
               <Input
                 type="search"
                 placeholder="Search projects..."
@@ -94,42 +104,64 @@ export default function ProjectsPage() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              {/* Category Filter */}
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-                      category === cat
-                        ? 'bg-primary-500 text-white'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
+            {/* Category Filters */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === cat
+                      ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
+                      : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
                     }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Status Filters */}
+            <div className="flex gap-2">
+              {statuses.map((stat) => (
+                <button
+                  key={stat}
+                  onClick={() => setStatus(stat)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${status === stat
+                      ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-white shadow-glow-pink'
+                      : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    }`}
+                >
+                  {stat}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/3 left-1/4" />
+          <div className="orb orb-cyan w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="overflow-hidden">
+                <div key={i} className="glass rounded-2xl overflow-hidden">
                   <Skeleton className="h-48 rounded-none" />
-                  <CardContent className="p-6">
+                  <div className="p-6">
                     <Skeleton className="h-6 w-3/4 mb-3" />
                     <Skeleton className="h-4 w-full mb-2" />
                     <Skeleton className="h-4 w-2/3" />
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           ) : filteredProjects.length > 0 ? (
@@ -138,126 +170,100 @@ export default function ProjectsPage() {
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Card className="overflow-hidden card-hover h-full flex flex-col">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-pink transition-all duration-300 h-full flex flex-col">
                     {/* Project Image */}
-                    <div className="aspect-video bg-gradient-to-br from-primary-400 to-secondary-400 relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Folder className="w-16 h-16 text-white/30" />
-                      </div>
+                    <div className="aspect-video bg-gradient-to-br from-[#FF4FD8] to-[#7B61FF] relative overflow-hidden">
+                      {project.image && (
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                       <div className="absolute top-4 left-4 flex gap-2">
                         <Badge color={project.status === 'Completed' ? 'green' : 'blue'}>
                           {project.status}
                         </Badge>
                       </div>
-                      {project.isFeatured && (
-                        <Badge color="yellow" className="absolute top-4 right-4">
-                          <Star className="w-3 h-3 mr-1" />
-                          Featured
-                        </Badge>
+                      {project.featured && (
+                        <div className="absolute top-4 right-4">
+                          <Badge color="yellow">
+                            <Star className="w-3 h-3 mr-1" />
+                            Featured
+                          </Badge>
+                        </div>
                       )}
                     </div>
 
-                    <CardContent className="p-6 flex-1 flex flex-col">
-                      <Badge color="gray" size="sm" className="w-fit mb-3">{project.category}</Badge>
-                      <CardTitle className="mb-3 line-clamp-2">{project.title}</CardTitle>
-                      <CardDescription className="mb-4 line-clamp-2 flex-1">
-                        {project.description}
-                      </CardDescription>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="mb-3">
+                        <Badge color="purple" size="sm">{project.category}</Badge>
+                      </div>
 
-                      {/* Technologies */}
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {project.technologies?.slice(0, 4).map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-400"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {(project.technologies?.length || 0) > 4 && (
-                          <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 rounded text-gray-600 dark:text-gray-400">
-                            +{project.technologies!.length - 4}
-                          </span>
+                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{project.title}</h3>
+                      <p className="text-[#B5B5C3] mb-4 line-clamp-3 flex-1">
+                        {project.description}
+                      </p>
+
+                      {/* Project Details */}
+                      <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
+                        {project.technologies && (
+                          <div className="flex flex-wrap gap-1">
+                            {project.technologies.slice(0, 3).map((tech, i) => (
+                              <span key={i} className="px-2 py-1 rounded bg-white/5 text-xs text-[#B5B5C3]">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        {project.teamMembers && project.teamMembers.length > 0 && (
+                          <div className="flex items-center gap-2">
+                            <Users className="w-4 h-4 text-[#FF4FD8]" />
+                            <span>{project.teamMembers.length} members</span>
+                          </div>
                         )}
                       </div>
 
-                      {/* Team */}
-                      <div className="flex items-center justify-between py-3 border-t border-gray-100 dark:border-gray-800">
-                        <div className="flex -space-x-2">
-                          {project.teamMembers?.slice(0, 3).map((member, i) => (
-                            <Avatar key={i} name={member.name} size="xs" className="border-2 border-white dark:border-gray-900" />
-                          ))}
-                          {(project.teamMembers?.length || 0) > 3 && (
-                            <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs border-2 border-white dark:border-gray-900">
-                              +{project.teamMembers!.length - 3}
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex gap-2">
-                          {project.githubUrl && (
-                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                              <Button variant="ghost" size="sm" className="p-2">
-                                <Github className="w-4 h-4" />
-                              </Button>
-                            </a>
-                          )}
-                          {project.liveUrl && (
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <Button variant="ghost" size="sm" className="p-2">
-                                <ExternalLink className="w-4 h-4" />
-                              </Button>
-                            </a>
-                          )}
-                        </div>
+                      {/* Links */}
+                      <div className="flex gap-2 pt-4 border-t border-white/10">
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                          >
+                            <Github className="w-4 h-4" />
+                            Code
+                          </a>
+                        )}
+                        <Link href={`/projects/${project.slug}`} className="flex-1">
+                          <button className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white text-sm font-medium flex items-center justify-center gap-2 hover:shadow-glow-purple transition-all">
+                            Details
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </Link>
                       </div>
-
-                      {/* CTA */}
-                      <Link href={`/projects/${project.slug}`} className="mt-4">
-                        <Button variant="outline" className="w-full">
-                          View Project
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
           ) : (
             <div className="text-center py-20">
-              <Folder className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              <Folder className="w-16 h-16 mx-auto text-[#FF4FD8] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">
                 No projects found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-[#B5B5C3]">
                 {search ? 'Try a different search term' : 'Check back later for new projects'}
               </p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600">
-        <div className="container-custom">
-          <div className="text-center text-white max-w-2xl mx-auto">
-            <h2 className="text-3xl font-display font-bold mb-4">
-              Have a Project Idea?
-            </h2>
-            <p className="text-white/80 mb-8">
-              We're always looking for innovative AI projects. If you have an idea, 
-              join our club and start building with us!
-            </p>
-            <Link href="/register">
-              <Button className="bg-white text-primary-600 hover:bg-white/90">
-                Join & Submit Your Idea
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
     </>
@@ -272,31 +278,31 @@ const mockProjects: Project[] = [
     slug: 'plant-disease-detection',
     description: 'Mobile app that uses computer vision to identify plant diseases from leaf images.',
     category: 'Computer Vision',
-    technologies: ['Python', 'TensorFlow', 'Flutter', 'FastAPI'],
+    image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=450&fit=crop',
+    technologies: ['TensorFlow', 'Python', 'React Native', 'OpenCV'],
     githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
     status: 'Completed',
-    isFeatured: true,
+    featured: true,
     teamMembers: [
       { id: '1', name: 'Rafiqul Islam', email: '' },
       { id: '2', name: 'Fatima Akter', email: '' },
-      { id: '3', name: 'Kamal Hossain', email: '' },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
     id: '2',
-    title: 'Bangla Sentiment Analysis Tool',
-    slug: 'bangla-sentiment',
-    description: 'NLP tool for analyzing sentiment in Bangla text from social media and news.',
+    title: 'Sentiment Analysis Dashboard',
+    slug: 'sentiment-analysis',
+    description: 'Real-time sentiment analysis tool for social media monitoring and brand reputation management.',
     category: 'NLP',
-    technologies: ['Python', 'PyTorch', 'Hugging Face', 'Streamlit'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop',
+    technologies: ['BERT', 'Flask', 'React', 'MongoDB'],
     githubUrl: 'https://github.com',
-    status: 'Completed',
+    demoUrl: 'https://demo.com',
+    status: 'In Progress',
     teamMembers: [
-      { id: '4', name: 'Ahmed Khan', email: '' },
-      { id: '5', name: 'Nusrat Jahan', email: '' },
+      { id: '3', name: 'Kamal Hossain', email: '' },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -307,28 +313,29 @@ const mockProjects: Project[] = [
     slug: 'smart-traffic',
     description: 'AI system for optimizing traffic flow using real-time vehicle detection and prediction.',
     category: 'Computer Vision',
-    technologies: ['Python', 'YOLO', 'OpenCV', 'React'],
-    status: 'In Progress',
-    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1508614999368-9260051292e5?w=800&h=450&fit=crop',
+    technologies: ['YOLO', 'Python', 'TensorFlow', 'OpenCV'],
+    githubUrl: 'https://github.com',
+    status: 'Completed',
     teamMembers: [
-      { id: '1', name: 'Rafiqul Islam', email: '' },
-      { id: '6', name: 'Mahmudul Hasan', email: '' },
-      { id: '7', name: 'Sabrina Rahman', email: '' },
-      { id: '8', name: 'Tasnim Akhter', email: '' },
+      { id: '4', name: 'Ahmed Khan', email: '' },
+      { id: '5', name: 'Nusrat Jahan', email: '' },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
     id: '4',
-    title: 'AI Chatbot for University FAQ',
-    slug: 'uni-chatbot',
-    description: 'Intelligent chatbot that answers common questions about DIU using NLP.',
+    title: 'AI Study Assistant Chatbot',
+    slug: 'study-assistant',
+    description: 'Intelligent chatbot to help students with study materials, Q&A, and personalized learning paths.',
     category: 'NLP',
-    technologies: ['Python', 'Rasa', 'Next.js', 'PostgreSQL'],
+    image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=450&fit=crop',
+    technologies: ['GPT-3', 'LangChain', 'Next.js', 'PostgreSQL'],
     githubUrl: 'https://github.com',
-    liveUrl: 'https://example.com',
-    status: 'Completed',
+    demoUrl: 'https://demo.com',
+    status: 'In Progress',
+    featured: true,
     teamMembers: [
       { id: '2', name: 'Fatima Akter', email: '' },
       { id: '5', name: 'Nusrat Jahan', email: '' },
@@ -342,26 +349,29 @@ const mockProjects: Project[] = [
     slug: 'predictive-maintenance',
     description: 'Machine learning model to predict equipment failure in manufacturing.',
     category: 'Machine Learning',
-    technologies: ['Python', 'scikit-learn', 'Pandas', 'Flask'],
-    status: 'In Progress',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop',
+    technologies: ['Scikit-learn', 'Pandas', 'Python', 'Docker'],
+    githubUrl: 'https://github.com',
+    status: 'Completed',
     teamMembers: [
-      { id: '3', name: 'Kamal Hossain', email: '' },
-      { id: '4', name: 'Ahmed Khan', email: '' },
+      { id: '6', name: 'Mahmudul Hasan', email: '' },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
     id: '6',
-    title: 'Handwritten Digit Recognition',
-    slug: 'digit-recognition',
-    description: 'Deep learning model for recognizing handwritten Bangla digits.',
-    category: 'Deep Learning',
-    technologies: ['Python', 'TensorFlow', 'Keras', 'Flask'],
+    title: 'Face Recognition Attendance System',
+    slug: 'face-recognition-attendance',
+    description: 'Automated attendance system using facial recognition for educational institutions.',
+    category: 'Computer Vision',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop',
+    technologies: ['Face Recognition', 'OpenCV', 'Flask', 'SQLite'],
     githubUrl: 'https://github.com',
     status: 'Completed',
     teamMembers: [
-      { id: '6', name: 'Mahmudul Hasan', email: '' },
+      { id: '1', name: 'Rafiqul Islam', email: '' },
+      { id: '3', name: 'Kamal Hossain', email: '' },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
