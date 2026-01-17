@@ -27,10 +27,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-      primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-lg shadow-primary-500/25',
-      secondary: 'bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500 shadow-lg shadow-secondary-500/25',
-      outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-950 focus:ring-primary-500',
-      ghost: 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 focus:ring-gray-500',
+      primary: 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white hover:shadow-glow-purple focus:ring-[#7B61FF] shadow-lg',
+      secondary: 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-white hover:shadow-glow-cyan focus:ring-[#5B8CFF] shadow-lg',
+      outline: 'border-2 border-[#7B61FF] text-[#7B61FF] hover:bg-[rgba(123,97,255,0.1)] dark:hover:bg-[rgba(123,97,255,0.2)] focus:ring-[#7B61FF]',
+      ghost: 'text-[#B5B5C3] hover:bg-[rgba(255,255,255,0.05)] dark:text-[#8A8A9E] dark:hover:bg-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
       danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
     };
 

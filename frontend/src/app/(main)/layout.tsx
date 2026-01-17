@@ -8,7 +8,7 @@ export default function MainLayout({
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen" style={{ background: '#000000' }}>{children}</main>
       <Footer />
     </>
   );

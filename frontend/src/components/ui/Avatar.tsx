@@ -35,10 +35,11 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         <div
           ref={ref}
           className={cn(
-            'relative rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700',
+            'relative rounded-full overflow-hidden',
             sizes[size],
             className
           )}
+          style={{ background: 'rgba(123, 97, 255, 0.2)' }}
           {...props}
         >
           <Image
@@ -57,10 +58,11 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       <div
         ref={ref}
         className={cn(
-          'flex items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 text-white font-semibold',
+          'flex items-center justify-center rounded-full text-white font-semibold',
           sizes[size],
           className
         )}
+        style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}
         {...props}
       >
         {getInitials(name)}

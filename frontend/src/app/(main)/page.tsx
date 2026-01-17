@@ -2,44 +2,26 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  ArrowRight, 
-  Users, 
-  Calendar, 
-  Award, 
-  Rocket, 
-  Brain, 
+import {
+  ArrowRight,
+  Users,
+  Calendar,
+  Award,
+  Rocket,
+  Brain,
   Code,
   ChevronRight,
-  Play,
   Star,
-  Zap,
   Target
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
+import HeroSection from '@/components/HeroSection';
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-// Mock data
-const stats = [
-  { icon: Users, label: 'Active Members', value: '500+' },
-  { icon: Calendar, label: 'Events Organized', value: '100+' },
-  { icon: Award, label: 'Workshops', value: '50+' },
-  { icon: Rocket, label: 'Projects Completed', value: '25+' },
-];
+// Mock data for other sections
 
 const features = [
   {
@@ -102,119 +84,21 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 hero-gradient opacity-90" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        {/* Floating Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-            transition={{ duration: 6, repeat: Infinity }}
-            className="absolute top-1/4 left-1/4 w-20 h-20 bg-white/10 rounded-2xl backdrop-blur-sm"
-          />
-          <motion.div
-            animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-            transition={{ duration: 8, repeat: Infinity }}
-            className="absolute top-1/3 right-1/4 w-32 h-32 bg-white/10 rounded-full backdrop-blur-sm"
-          />
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 5, repeat: Infinity }}
-            className="absolute bottom-1/4 left-1/3 w-16 h-16 bg-white/10 rounded-xl backdrop-blur-sm"
-          />
-        </div>
+      <HeroSection />
 
-        {/* Content */}
-        <div className="relative container-custom py-32">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={stagger}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.div variants={fadeInUp}>
-              <Badge color="purple" className="mb-6">
-                <Zap className="w-4 h-4 mr-1" />
-                Welcome to Daffodil AI Club
-              </Badge>
-            </motion.div>
-
-            <motion.h1
-              variants={fadeInUp}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6"
-            >
-              Explore the Future of
-              <span className="block mt-2 bg-gradient-to-r from-yellow-200 via-pink-200 to-cyan-200 bg-clip-text text-transparent">
-                Artificial Intelligence
-              </span>
-            </motion.h1>
-
-            <motion.p
-              variants={fadeInUp}
-              className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
-            >
-              Join DIU's premier AI community. Learn, build, and innovate with us through workshops, 
-              hackathons, and real-world projects.
-            </motion.p>
-
-            <motion.div
-              variants={fadeInUp}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Link href="/register">
-                <Button size="lg" className="bg-white text-primary-600 hover:bg-white/90 px-8">
-                  Join the Club
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link href="/about">
-                <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
-                  <Play className="w-5 h-5 mr-2" />
-                  Learn More
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              variants={fadeInUp}
-              className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
-            >
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center"
-                >
-                  <stat.icon className="w-8 h-8 text-white mx-auto mb-2" />
-                  <p className="text-3xl font-bold text-white">{stat.value}</p>
-                  <p className="text-sm text-white/70">{stat.label}</p>
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1.5 h-3 bg-white rounded-full"
-            />
-          </div>
-        </motion.div>
-      </section>
 
       {/* About Section */}
-      <section className="py-20 lg:py-32 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/4 right-1/4" />
+          <div className="orb orb-cyan w-96 h-96 bottom-1/3 left-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -222,39 +106,39 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <Badge color="blue" className="mb-4">About Us</Badge>
+              <Badge color="purple" className="mb-4">About Us</Badge>
               <h2 className="section-title mb-6">
                 Empowering Students with{' '}
                 <span className="gradient-text">AI Knowledge</span>
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Daffodil AI Club is the premier artificial intelligence community at Daffodil International University. 
+              <p className="text-[#B5B5C3] mb-6 text-lg">
+                Daffodil AI Club is the premier artificial intelligence community at Daffodil International University.
                 We are dedicated to fostering a culture of innovation and learning in the field of AI and Machine Learning.
               </p>
-              <p className="text-gray-600 dark:text-gray-400 mb-8">
-                Our mission is to bridge the gap between academic learning and industry requirements by providing 
+              <p className="text-[#B5B5C3] mb-8 text-lg">
+                Our mission is to bridge the gap between academic learning and industry requirements by providing
                 hands-on experience through workshops, projects, and competitions.
               </p>
               <div className="flex flex-wrap gap-4">
-                <div className="flex items-center gap-2 text-primary-600">
+                <div className="flex items-center gap-2 text-[#7B61FF]">
                   <Target className="w-5 h-5" />
-                  <span className="font-medium">Hands-on Learning</span>
+                  <span className="font-medium text-white">Hands-on Learning</span>
                 </div>
-                <div className="flex items-center gap-2 text-primary-600">
+                <div className="flex items-center gap-2 text-[#FF4FD8]">
                   <Star className="w-5 h-5" />
-                  <span className="font-medium">Industry Experts</span>
+                  <span className="font-medium text-white">Industry Experts</span>
                 </div>
-                <div className="flex items-center gap-2 text-primary-600">
+                <div className="flex items-center gap-2 text-[#6EF3FF]">
                   <Rocket className="w-5 h-5" />
-                  <span className="font-medium">Real Projects</span>
+                  <span className="font-medium text-white">Real Projects</span>
                 </div>
               </div>
               <div className="mt-8">
                 <Link href="/about">
-                  <Button variant="primary">
+                  <button className="btn-nexus-primary px-8 py-4 rounded-xl font-semibold text-base flex items-center gap-2">
                     Know More About Us
-                    <ChevronRight className="w-5 h-5 ml-1" />
-                  </Button>
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </Link>
               </div>
             </motion.div>
@@ -266,8 +150,8 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="relative rounded-2xl overflow-hidden">
-                <div className="aspect-video bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center">
+              <div className="relative rounded-2xl overflow-hidden glass p-8">
+                <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] rounded-2xl flex items-center justify-center">
                   <Brain className="w-32 h-32 text-white/30" />
                 </div>
               </div>
@@ -277,15 +161,15 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4"
+                className="absolute -bottom-6 -left-6 glass rounded-xl shadow-glow-pink p-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                    <Award className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
+                    <Award className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 dark:text-white">5+ Years</p>
-                    <p className="text-sm text-gray-500">Of Excellence</p>
+                    <p className="font-bold text-white">5+ Years</p>
+                    <p className="text-sm text-[#B5B5C3]">Of Excellence</p>
                   </div>
                 </div>
               </motion.div>
@@ -295,8 +179,17 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 lg:py-32 bg-gray-50 dark:bg-gray-800">
-        <div className="container-custom">
+      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/3 left-1/3" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/4 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="blue" className="mb-4">What We Offer</Badge>
             <h2 className="section-title mb-4">Why Join Daffodil AI Club?</h2>
@@ -314,15 +207,13 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card variant="default" className="h-full card-hover">
-                  <CardContent className="p-6 text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
-                      <feature.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <CardTitle className="mb-2">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-6 text-center h-full hover:shadow-glow-purple transition-all duration-300">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
+                    <feature.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-[#B5B5C3]">{feature.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -330,8 +221,17 @@ export default function HomePage() {
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="py-20 lg:py-32 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/3 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
             <div>
               <Badge color="green" className="mb-4">Events</Badge>
@@ -354,18 +254,18 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="overflow-hidden card-hover">
-                  <div className="aspect-video bg-gradient-to-br from-primary-400 to-secondary-400 relative">
-                    <Badge 
-                      color={event.type === 'Workshop' ? 'blue' : 'purple'} 
+                <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-pink transition-all duration-300">
+                  <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] relative">
+                    <Badge
+                      color={event.type === 'Workshop' ? 'blue' : 'purple'}
                       className="absolute top-4 left-4"
                     >
                       {event.type}
                     </Badge>
                   </div>
-                  <CardContent className="p-6">
-                    <CardTitle className="mb-3">{event.title}</CardTitle>
-                    <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-3">{event.title}</h3>
+                    <div className="flex items-center gap-4 text-sm text-[#B5B5C3]">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         {event.date}
@@ -374,13 +274,13 @@ export default function HomePage() {
                       <span>{event.time}</span>
                     </div>
                     <Link href={`/events/${event.id}`} className="mt-4 inline-block">
-                      <Button variant="ghost" size="sm">
+                      <button className="text-[#7B61FF] hover:text-[#FF4FD8] font-medium flex items-center gap-1 transition-colors">
                         Learn More
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
                     </Link>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -388,8 +288,17 @@ export default function HomePage() {
       </section>
 
       {/* Executive Panel Section */}
-      <section className="py-20 lg:py-32 bg-gray-50 dark:bg-gray-800">
-        <div className="container-custom">
+      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/3 right-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/4 left-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="purple" className="mb-4">Our Team</Badge>
             <h2 className="section-title mb-4">Executive Panel</h2>
@@ -407,13 +316,11 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="text-center card-hover">
-                  <CardContent className="p-6">
-                    <Avatar name={member.name} size="xl" className="mx-auto mb-4" />
-                    <CardTitle className="mb-1">{member.name}</CardTitle>
-                    <p className="text-primary-600 text-sm font-medium">{member.role}</p>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-6 text-center hover:shadow-glow-purple transition-all duration-300">
+                  <Avatar name={member.name} size="xl" className="mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
+                  <p className="text-[#7B61FF] text-sm font-medium">{member.role}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -430,11 +337,19 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-dots opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="py-20 lg:py-32 relative overflow-hidden bg-black">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/20 via-[#FF4FD8]/20 to-[#6EF3FF]/20" />
+
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        </div>
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -442,23 +357,23 @@ export default function HomePage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
-              Ready to Start Your AI Journey?
+              Ready to Start Your <span className="gradient-text">AI Journey?</span>
             </h2>
-            <p className="text-lg text-white/80 mb-8">
-              Join Daffodil AI Club today and become part of a thriving community of AI enthusiasts. 
+            <p className="text-lg text-[#B5B5C3] mb-8">
+              Join Daffodil AI Club today and become part of a thriving community of AI enthusiasts.
               Get your unique membership ID and access exclusive resources.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/register">
-                <Button size="lg" className="bg-white text-primary-600 hover:bg-white/90 px-8">
+                <button className="btn-nexus-primary px-8 py-4 rounded-xl font-semibold text-base flex items-center gap-2">
                   Register Now
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
               <Link href="/contact">
-                <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
+                <button className="btn-nexus-secondary px-8 py-4 rounded-xl font-semibold text-base">
                   Contact Us
-                </Button>
+                </button>
               </Link>
             </div>
           </motion.div>

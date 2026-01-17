@@ -79,7 +79,7 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8 bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center p-8" style={{ background: '#000000' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}

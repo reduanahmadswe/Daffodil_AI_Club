@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Linkedin, Github, Youtube, Mail, Phone, MapPin } from 'lucide-react';
@@ -30,21 +32,21 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer style={{ background: '#0B0B12', color: '#B5B5C3' }}>
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
                 AI
               </div>
-              <span className="font-display font-bold text-xl text-white">
+              <span className="font-display font-bold text-xl" style={{ color: '#FFFFFF' }}>
                 Daffodil AI Club
               </span>
             </Link>
-            <p className="text-gray-400 mb-6">
+            <p style={{ color: '#8A8A9E' }} className="mb-6">
               Empowering students with AI knowledge and skills through hands-on learning, workshops, and collaborative projects.
             </p>
             <div className="flex gap-3">
@@ -54,7 +56,16 @@ export const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300"
+                  style={{ background: 'rgba(255, 255, 255, 0.05)', color: '#8A8A9E' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #7B61FF, #FF4FD8)';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.currentTarget.style.color = '#8A8A9E';
+                  }}
                   aria-label={social.label}
                 >
                   <social.icon className="w-5 h-5" />
@@ -65,13 +76,16 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Quick Links</h3>
             <ul className="space-y-3">
               {footerLinks.quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-primary-400 transition-colors"
+                    className="transition-colors"
+                    style={{ color: '#8A8A9E' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}
                   >
                     {link.label}
                   </Link>
@@ -82,13 +96,16 @@ export const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Resources</h3>
+            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Resources</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-primary-400 transition-colors"
+                    className="transition-colors"
+                    style={{ color: '#8A8A9E' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}
                   >
                     {link.label}
                   </Link>
@@ -99,24 +116,28 @@ export const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
+            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400">
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#7B61FF' }} />
+                <span style={{ color: '#8A8A9E' }}>
                   Daffodil International University<br />
                   Ashulia, Savar, Dhaka-1341
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <a href="mailto:aiclub@diu.edu.bd" className="text-gray-400 hover:text-primary-400 transition-colors">
+                <Mail className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
+                <a href="mailto:aiclub@diu.edu.bd" className="transition-colors" style={{ color: '#8A8A9E' }}
+                   onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                   onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                   aiclub@diu.edu.bd
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <a href="tel:+8801234567890" className="text-gray-400 hover:text-primary-400 transition-colors">
+                <Phone className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
+                <a href="tel:+8801234567890" className="transition-colors" style={{ color: '#8A8A9E' }}
+                   onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                   onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                   +880 1234-567890
                 </a>
               </li>
@@ -126,17 +147,21 @@ export const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
+      <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">
+            <p className="text-sm" style={{ color: '#8A8A9E' }}>
               © {new Date().getFullYear()} Daffodil AI Club. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm">
-              <Link href="/privacy" className="text-gray-500 hover:text-gray-400 transition-colors">
+              <Link href="/privacy" className="transition-colors" style={{ color: '#8A8A9E' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-500 hover:text-gray-400 transition-colors">
+              <Link href="/terms" className="transition-colors" style={{ color: '#8A8A9E' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                 Terms of Service
               </Link>
             </div>

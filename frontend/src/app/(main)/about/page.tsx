@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Target, 
-  Eye, 
-  Award, 
-  Users, 
-  Calendar, 
+import {
+  Target,
+  Eye,
+  Award,
+  Users,
+  Calendar,
   Rocket,
   Heart,
   Star,
@@ -56,22 +56,28 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-pink w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Badge color="white" className="bg-white/20 text-white mb-6">About Us</Badge>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Daffodil AI Club
+            <Badge color="purple" className="mb-6">About Us</Badge>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+              Daffodil <span className="gradient-text">AI Club</span>
             </h1>
-            <p className="text-xl text-white/80">
-              The premier artificial intelligence community at Daffodil International University, 
+            <p className="text-xl text-[#B5B5C3]">
+              The premier artificial intelligence community at Daffodil International University,
               dedicated to fostering innovation, learning, and collaboration in AI.
             </p>
           </motion.div>
@@ -79,27 +85,34 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/3 right-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/4 left-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card variant="gradient" className="h-full">
-                <CardContent className="p-8 text-white">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-6">
-                    <Target className="w-8 h-8" />
-                  </div>
-                  <CardTitle className="text-2xl mb-4 text-white">Our Mission</CardTitle>
-                  <CardDescription className="text-white/80 text-lg">
-                    To empower DIU students with cutting-edge AI knowledge and skills through 
-                    hands-on learning, collaborative projects, and industry exposure, preparing 
-                    them to become leaders in the AI revolution.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <div className="glass rounded-2xl p-8 h-full hover:shadow-glow-purple transition-all duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center mb-6">
+                  <Target className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
+                <p className="text-[#B5B5C3] text-lg">
+                  To empower DIU students with cutting-edge AI knowledge and skills through
+                  hands-on learning, collaborative projects, and industry exposure, preparing
+                  them to become leaders in the AI revolution.
+                </p>
+              </div>
             </motion.div>
 
             <motion.div
@@ -107,27 +120,34 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-gray-50 dark:bg-gray-800">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-2xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mb-6">
-                    <Eye className="w-8 h-8 text-primary-600" />
-                  </div>
-                  <CardTitle className="text-2xl mb-4">Our Vision</CardTitle>
-                  <CardDescription className="text-lg">
-                    To become Bangladesh's leading student AI community, recognized for 
-                    producing skilled AI practitioners who contribute to solving real-world 
-                    problems and driving technological innovation.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <div className="glass rounded-2xl p-8 h-full hover:shadow-glow-pink transition-all duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] flex items-center justify-center mb-6">
+                  <Eye className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">Our Vision</h3>
+                <p className="text-[#B5B5C3] text-lg">
+                  To become Bangladesh's leading student AI community, recognized for
+                  producing skilled AI practitioners who contribute to solving real-world
+                  problems and driving technological innovation.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Core Values */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/4 left-1/3" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/3 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="blue" className="mb-4">Core Values</Badge>
             <h2 className="section-title mb-4">What We Stand For</h2>
@@ -145,15 +165,13 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="h-full text-center card-hover">
-                  <CardContent className="p-6">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
-                      <value.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <CardTitle className="mb-2">{value.title}</CardTitle>
-                    <CardDescription>{value.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-6 text-center h-full hover:shadow-glow-purple transition-all duration-300">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
+                    <value.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
+                  <p className="text-[#B5B5C3]">{value.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -161,8 +179,17 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="purple" className="mb-4">Our Journey</Badge>
             <h2 className="section-title mb-4">Milestones</h2>
@@ -174,30 +201,27 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto">
             <div className="relative">
               {/* Timeline Line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
-              
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-[#7B61FF] to-[#FF4FD8]" />
+
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={milestone.year}
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className={`relative flex items-center mb-8 ${
-                    index % 2 === 0 ? 'justify-start' : 'justify-end'
-                  }`}
+                  className={`relative flex items-center mb-8 ${index % 2 === 0 ? 'justify-start' : 'justify-end'
+                    }`}
                 >
                   <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8 order-2'}`}>
-                    <Card className="inline-block">
-                      <CardContent className="p-4">
-                        <span className="text-primary-600 font-bold">{milestone.year}</span>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">{milestone.title}</h4>
-                        <p className="text-sm text-gray-500">{milestone.description}</p>
-                      </CardContent>
-                    </Card>
+                    <div className="glass rounded-xl p-4 inline-block">
+                      <span className="text-[#7B61FF] font-bold">{milestone.year}</span>
+                      <h4 className="font-semibold text-white">{milestone.title}</h4>
+                      <p className="text-sm text-[#B5B5C3]">{milestone.description}</p>
+                    </div>
                   </div>
-                  
+
                   {/* Center Dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary-500 border-4 border-white dark:border-gray-900 shadow-lg" />
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] border-4 border-black shadow-glow-purple" />
                 </motion.div>
               ))}
             </div>
@@ -206,8 +230,17 @@ export default function AboutPage() {
       </section>
 
       {/* Advisors */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/3 right-1/4" />
+          <div className="orb orb-pink w-96 h-96 bottom-1/4 left-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="green" className="mb-4">Faculty</Badge>
             <h2 className="section-title mb-4">Our Advisors</h2>
@@ -225,14 +258,12 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="text-center card-hover">
-                  <CardContent className="p-8">
-                    <Avatar name={advisor.name} size="xl" className="mx-auto mb-4 w-24 h-24" />
-                    <CardTitle className="mb-1">{advisor.name}</CardTitle>
-                    <p className="text-primary-600 font-medium">{advisor.role}</p>
-                    <p className="text-sm text-gray-500">{advisor.department}</p>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-8 text-center hover:shadow-glow-purple transition-all duration-300">
+                  <Avatar name={advisor.name} size="xl" className="mx-auto mb-4 w-24 h-24" />
+                  <h3 className="text-xl font-bold text-white mb-1">{advisor.name}</h3>
+                  <p className="text-[#7B61FF] font-medium">{advisor.role}</p>
+                  <p className="text-sm text-[#B5B5C3]">{advisor.department}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -240,8 +271,17 @@ export default function AboutPage() {
       </section>
 
       {/* Executive Panel */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/3" />
+          <div className="orb orb-pink w-96 h-96 bottom-1/3 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <Badge color="purple" className="mb-4">Leadership</Badge>
             <h2 className="section-title mb-4">Executive Panel 2024</h2>
@@ -259,14 +299,12 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card className="text-center card-hover">
-                  <CardContent className="p-6">
-                    <Avatar name={member.name} size="lg" className="mx-auto mb-4" />
-                    <CardTitle className="text-lg mb-1">{member.name}</CardTitle>
-                    <p className="text-primary-600 text-sm font-medium">{member.role}</p>
-                    <p className="text-xs text-gray-500">Batch {member.batch}</p>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-6 text-center hover:shadow-glow-purple transition-all duration-300">
+                  <Avatar name={member.name} size="lg" className="mx-auto mb-4" />
+                  <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
+                  <p className="text-[#7B61FF] text-sm font-medium">{member.role}</p>
+                  <p className="text-xs text-[#B5B5C3]">Batch {member.batch}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -274,8 +312,19 @@ export default function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/20 via-[#FF4FD8]/20 to-[#6EF3FF]/20" />
+
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        </div>
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { icon: Users, value: '500+', label: 'Active Members' },
@@ -289,11 +338,13 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center text-white"
+                className="text-center"
               >
-                <stat.icon className="w-10 h-10 mx-auto mb-4 opacity-80" />
-                <p className="text-4xl font-bold mb-2">{stat.value}</p>
-                <p className="text-white/80">{stat.label}</p>
+                <div className="glass rounded-2xl p-6 hover:shadow-glow-purple transition-all duration-300">
+                  <stat.icon className="w-10 h-10 mx-auto mb-4 text-[#7B61FF]" />
+                  <p className="text-4xl font-bold mb-2 text-white">{stat.value}</p>
+                  <p className="text-[#B5B5C3]">{stat.label}</p>
+                </div>
               </motion.div>
             ))}
           </div>

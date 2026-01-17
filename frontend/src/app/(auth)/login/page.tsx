@@ -58,7 +58,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex" style={{ background: '#000000' }}>
       {/* Left Side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <motion.div
@@ -68,7 +68,10 @@ export default function LoginPage() {
         >
           <Link
             href="/"
-            className="inline-flex items-center text-gray-600 hover:text-primary-600 mb-8 transition-colors"
+            className="inline-flex items-center mb-8 transition-colors"
+            style={{ color: '#B5B5C3' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#B5B5C3'}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -76,7 +79,7 @@ export default function LoginPage() {
 
           <Card>
             <CardHeader className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
                 AI
               </div>
               <CardTitle className="text-2xl">Welcome Back!</CardTitle>

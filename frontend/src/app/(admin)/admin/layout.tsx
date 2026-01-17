@@ -26,20 +26,20 @@ export default function AdminLayout({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen">
-        <div className="w-64 bg-gray-900 p-4">
-          <Skeleton className="h-10 w-10 rounded-xl mb-8" />
+      <div className="flex min-h-screen" style={{ background: '#000000' }}>
+        <div className="w-64 p-4" style={{ background: '#0B0B12' }}>
+          <Skeleton className="h-10 w-10 rounded-xl mb-8" style={{ background: 'rgba(123, 97, 255, 0.2)' }} />
           <div className="space-y-4">
             {[...Array(8)].map((_, i) => (
-              <Skeleton key={i} className="h-10 w-full rounded-xl bg-gray-800" />
+              <Skeleton key={i} className="h-10 w-full rounded-xl" style={{ background: 'rgba(123, 97, 255, 0.1)' }} />
             ))}
           </div>
         </div>
-        <div className="flex-1 p-8 bg-gray-100 dark:bg-gray-950">
-          <Skeleton className="h-8 w-48 mb-8" />
+        <div className="flex-1 p-8" style={{ background: '#0B0B12' }}>
+          <Skeleton className="h-8 w-48 mb-8" style={{ background: 'rgba(123, 97, 255, 0.2)' }} />
           <div className="grid grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-32 rounded-xl" />
+              <Skeleton key={i} className="h-32 rounded-xl" style={{ background: 'rgba(123, 97, 255, 0.1)' }} />
             ))}
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
+    <div className="flex min-h-screen" style={{ background: '#0B0B12' }}>
       <AdminSidebar />
       <main className="flex-1 ml-64 p-8">{children}</main>
     </div>

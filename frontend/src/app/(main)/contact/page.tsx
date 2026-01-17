@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Facebook,
+  Twitter,
+  Linkedin,
   Github,
   Clock,
   MessageSquare,
@@ -34,27 +34,27 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 const contactInfo = [
-  { 
-    icon: Mail, 
-    title: 'Email Us', 
+  {
+    icon: Mail,
+    title: 'Email Us',
     details: 'aiclub@diu.edu.bd',
     link: 'mailto:aiclub@diu.edu.bd'
   },
-  { 
-    icon: Phone, 
-    title: 'Call Us', 
+  {
+    icon: Phone,
+    title: 'Call Us',
     details: '+880 1234-567890',
     link: 'tel:+8801234567890'
   },
-  { 
-    icon: MapPin, 
-    title: 'Visit Us', 
+  {
+    icon: MapPin,
+    title: 'Visit Us',
     details: 'DIU Permanent Campus, Ashulia, Savar, Dhaka-1341',
     link: 'https://maps.google.com'
   },
-  { 
-    icon: Clock, 
-    title: 'Office Hours', 
+  {
+    icon: Clock,
+    title: 'Office Hours',
     details: 'Sun - Thu: 9:00 AM - 5:00 PM',
     link: null
   },
@@ -100,21 +100,27 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-cyan w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Badge color="white" className="bg-white/20 text-white mb-6">Contact</Badge>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Get in Touch
+            <Badge color="purple" className="mb-6">Contact</Badge>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+              Get in <span className="gradient-text">Touch</span>
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-[#B5B5C3]">
               Have questions or want to collaborate? We'd love to hear from you!
             </p>
           </motion.div>
@@ -139,8 +145,8 @@ export default function ContactPage() {
                     </div>
                     <CardTitle className="text-lg mb-2">{info.title}</CardTitle>
                     {info.link ? (
-                      <a 
-                        href={info.link} 
+                      <a
+                        href={info.link}
                         className="text-gray-600 dark:text-gray-400 hover:text-primary-600 transition-colors"
                       >
                         {info.details}
@@ -157,7 +163,15 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Map */}
-      <section className="py-16 bg-white dark:bg-gray-900">
+      <section className="py-16 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-pink w-96 h-96 top-1/3 left-1/4" />
+          <div className="orb orb-blue w-96 h-96 bottom-1/3 right-1/3" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20" />
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -166,16 +180,16 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <MessageSquare className="w-6 h-6 text-primary-600" />
+              <div className="glass rounded-2xl overflow-hidden">
+                <div className="p-6 border-b border-white/10">
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <MessageSquare className="w-6 h-6 text-[#7B61FF]" />
                     Send us a Message
-                  </CardTitle>
-                  <CardDescription>
+                  </h2>
+                  <p className="text-[#B5B5C3] mt-2">
                     Fill out the form below and we'll get back to you soon
-                  </CardDescription>
-                </CardHeader>
+                  </p>
+                </div>
                 <CardContent>
                   {isSuccess ? (
                     <motion.div
@@ -183,18 +197,18 @@ export default function ContactPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="text-center py-8"
                     >
-                      <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-10 h-10 text-green-600" />
+                      <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-10 h-10 text-white" />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-xl font-semibold text-white mb-2">
                         Message Sent!
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      <p className="text-[#B5B5C3] mb-6">
                         Thank you for reaching out. We'll respond within 24-48 hours.
                       </p>
-                      <Button variant="outline" onClick={() => setIsSuccess(false)}>
+                      <button className="btn-nexus-secondary px-6 py-3 rounded-xl" onClick={() => setIsSuccess(false)}>
                         Send Another Message
-                      </Button>
+                      </button>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -235,83 +249,77 @@ export default function ContactPage() {
                         {...register('message')}
                       />
 
-                      <Button type="submit" variant="primary" className="w-full" isLoading={isSubmitting}>
-                        <Send className="w-5 h-5 mr-2" />
-                        Send Message
-                      </Button>
+                      <button type="submit" className="btn-nexus-primary w-full px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2" disabled={isSubmitting}>
+                        <Send className="w-5 h-5" />
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </button>
                     </form>
                   )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Map & Social */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              {/* Map Placeholder */}
-              <Card className="overflow-hidden">
-                <div className="aspect-video bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-500">Interactive Map</p>
-                    <a 
-                      href="https://maps.google.com/?q=Daffodil+International+University"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:underline text-sm"
-                    >
-                      Open in Google Maps
-                    </a>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Social Links */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Follow Us</CardTitle>
-                  <CardDescription>
-                    Connect with us on social media
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex gap-4">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 transition-all duration-300 ${social.color} hover:text-white`}
-                        aria-label={social.label}
-                      >
-                        <social.icon className="w-5 h-5" />
-                      </a>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* FAQ Prompt */}
-              <Card variant="gradient">
-                <CardContent className="p-6 text-white">
-                  <h3 className="text-xl font-semibold mb-2">Have Questions?</h3>
-                  <p className="text-white/80 mb-4">
-                    Check out our FAQ section for quick answers to common questions.
-                  </p>
-                  <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30">
-                    View FAQ
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+              </div>
           </div>
-        </div>
-      </section>
+        </motion.div>
+
+        {/* Map & Social */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="space-y-8"
+        >
+          {/* Map Placeholder */}
+          <Card className="overflow-hidden">
+            <div className="aspect-video bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                <p className="text-gray-500">Interactive Map</p>
+                <a
+                  href="https://maps.google.com/?q=Daffodil+International+University"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-600 hover:underline text-sm"
+                >
+                  Open in Google Maps
+                </a>
+              </div>
+            </div>
+          </Card>
+
+          {/* Social Links */}
+          <div className="glass rounded-2xl p-6">
+            <h3 className="text-xl font-bold text-white mb-2">Follow Us</h3>
+            <p className="text-[#B5B5C3] mb-4">
+              Connect with us on social media
+            </p>
+            <div className="flex gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-white/5 hover:bg-gradient-to-br hover:from-[#7B61FF] hover:to-[#FF4FD8] flex items-center justify-center text-[#B5B5C3] hover:text-white transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* FAQ Prompt */}
+          <div className="glass rounded-2xl p-6 bg-gradient-to-br from-[#7B61FF]/20 to-[#FF4FD8]/20 border-[#7B61FF]/30">
+            <h3 className="text-xl font-semibold text-white mb-2">Have Questions?</h3>
+            <p className="text-[#B5B5C3] mb-4">
+              Check out our FAQ section for quick answers to common questions.
+            </p>
+            <button className="btn-nexus-secondary px-6 py-3 rounded-xl">
+              View FAQ
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </div >
+      </section >
     </>
   );
 }

@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { useAuthStore, useThemeStore } from '@/lib/store';
 import { Button } from '@/components/ui/Button';
 import { Avatar } from '@/components/ui/Avatar';
+import FadeContent from '@/components/FadeContent';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -57,7 +58,7 @@ export const Navbar = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-lg'
+          ? 'glass shadow-glow-purple'
           : 'bg-transparent'
       )}
     >
@@ -65,12 +66,12 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
               AI
             </div>
             <span className={cn(
               'font-display font-bold text-xl transition-colors',
-              isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+              isScrolled ? 'text-white' : 'text-white'
             )}>
               Daffodil AI Club
             </span>
@@ -85,10 +86,10 @@ export const Navbar = () => {
                 className={cn(
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                   pathname === link.href
-                    ? 'bg-primary-500/10 text-primary-600 dark:text-primary-400'
+                    ? 'gradient-text font-bold'
                     : isScrolled
-                    ? 'text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400'
-                    : 'text-white/90 hover:text-white hover:bg-white/10'
+                      ? 'text-[#B5B5C3] hover:text-[#7B61FF]'
+                      : 'text-white/90 hover:text-white hover:bg-[rgba(255,255,255,0.1)]'
                 )}
               >
                 {link.label}
@@ -182,16 +183,20 @@ export const Navbar = () => {
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-2">
-                <Link href="/login">
-                  <Button variant={isScrolled ? 'ghost' : 'outline'} size="sm">
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button variant="primary" size="sm">
-                    Join Club
-                  </Button>
-                </Link>
+                <FadeContent blur={true} duration={800} ease="ease-out" initialOpacity={0} delay={200}>
+                  <Link href="/login">
+                    <Button variant={isScrolled ? 'ghost' : 'outline'} size="sm">
+                      Login
+                    </Button>
+                  </Link>
+                </FadeContent>
+                <FadeContent blur={true} duration={800} ease="ease-out" initialOpacity={0} delay={400}>
+                  <Link href="/register">
+                    <Button variant="primary" size="sm">
+                      Join Club
+                    </Button>
+                  </Link>
+                </FadeContent>
               </div>
             )}
 
