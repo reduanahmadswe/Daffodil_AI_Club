@@ -38,6 +38,19 @@ export interface Badge {
   points: number;
 }
 
+export interface Speaker {
+  id: string;
+  name: string;
+  title: string;
+  bio: string;
+  image?: string;
+  social?: {
+    linkedin?: string;
+    twitter?: string;
+    website?: string;
+  };
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -45,16 +58,22 @@ export interface Event {
   description: string;
   content?: string;
   image?: string;
-  date: string;
+  date?: string; // Kept for backward compatibility if needed
+  startDate: string; // Added
   endDate?: string;
   time?: string;
   venue?: string;
-  type: EventType;
+  type: string; // Changed to string to be more flexible with "Workshop" vs "WORKSHOP"
+  status?: 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED'; // Added
   capacity?: number;
+  maxParticipants?: number; // Added alias for capacity to match usage
+  registeredCount?: number; // Added
   fee: number;
   isPublished: boolean;
   isFeatured: boolean;
+  speaker?: Speaker; // Added
   createdAt: string;
+  updatedAt?: string; // Added
   _count?: {
     registrations: number;
     attendances: number;
@@ -108,27 +127,28 @@ export interface Project {
   content?: string;
   image?: string;
   category: ProjectCategory;
-  technologies?: string;
+  technologies?: string | string[]; // Allow array
   githubUrl?: string;
   demoUrl?: string;
   paperUrl?: string;
   authorId: string;
-  teamMembers?: string;
+  teamMembers?: string | any[]; // Allow array/object
   isPublished: boolean;
   isFeatured: boolean;
+  featured?: boolean; // Alias
   createdAt: string;
   author?: User;
 }
 
-export type ProjectCategory = 
-  | 'AI_ML' 
-  | 'DEEP_LEARNING' 
-  | 'NLP' 
-  | 'COMPUTER_VISION' 
-  | 'DATA_SCIENCE' 
-  | 'ROBOTICS' 
-  | 'IOT' 
-  | 'RESEARCH' 
+export type ProjectCategory =
+  | 'AI_ML'
+  | 'DEEP_LEARNING'
+  | 'NLP'
+  | 'COMPUTER_VISION'
+  | 'DATA_SCIENCE'
+  | 'ROBOTICS'
+  | 'IOT'
+  | 'RESEARCH'
   | 'OTHER';
 
 export interface Blog {
@@ -138,14 +158,31 @@ export interface Blog {
   excerpt?: string;
   content: string;
   coverImage?: string;
+  image?: string; // Alias
   category?: string;
-  tags?: string;
+  tags?: string | string[]; // Allow array
   authorId: string;
   status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED';
   views: number;
+  likes?: number; // Added
+  readTime?: string; // Added
   publishedAt?: string;
   createdAt: string;
-  author?: User;
+  updatedAt?: string; // Added
+  author?: User | any; // Any to allow loose matching for now
+  isFeatured?: boolean; // Added
+}
+
+export interface Comment {
+  id: string;
+  content: string;
+  author: {
+    id: string;
+    name: string;
+    profileImage?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Executive {
@@ -167,13 +204,15 @@ export interface Executive {
 export interface GalleryImage {
   id: string;
   title: string;
-  image: string;
+  image?: string;
+  imageUrl?: string; // Added alias
   eventId?: string;
   eventName?: string;
   category?: string;
+  date?: string; // Added
   year?: number;
-  order: number;
-  createdAt: string;
+  order?: number;
+  createdAt?: string;
 }
 
 export interface Contact {
@@ -202,6 +241,7 @@ export interface Pagination {
   limit: number;
   total: number;
   totalPages: number;
+  pages?: number; // Alias
 }
 
 export interface ApiResponse<T> {
@@ -210,6 +250,15 @@ export interface ApiResponse<T> {
   data?: T;
   pagination?: Pagination;
   errors?: Array<{ field: string; message: string }>;
+  event?: Event; // Specific response helpers
+  events?: Event[];
+  blog?: Blog;
+  blogs?: Blog[];
+  project?: Project;
+  projects?: Project[];
+  images?: GalleryImage[];
+  isRegistered?: boolean;
+  comments?: Comment[];
 }
 
 export interface Stats {

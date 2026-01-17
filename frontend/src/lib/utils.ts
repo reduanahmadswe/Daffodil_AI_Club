@@ -47,6 +47,8 @@ export function timeAgo(date: string | Date): string {
   return 'Just now';
 }
 
+export const formatRelativeTime = timeAgo;
+
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength).trim() + '...';

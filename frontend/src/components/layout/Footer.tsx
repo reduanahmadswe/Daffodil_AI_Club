@@ -128,16 +128,16 @@ export const Footer = () => {
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
                 <a href="mailto:aiclub@diu.edu.bd" className="transition-colors" style={{ color: '#8A8A9E' }}
-                   onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                   onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                   aiclub@diu.edu.bd
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
                 <a href="tel:+8801234567890" className="transition-colors" style={{ color: '#8A8A9E' }}
-                   onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                   onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                   +880 1234-567890
                 </a>
               </li>
@@ -149,19 +149,34 @@ export const Footer = () => {
       {/* Bottom Bar */}
       <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm" style={{ color: '#8A8A9E' }}>
-              © {new Date().getFullYear()} Daffodil AI Club. All rights reserved.
-            </p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <p className="text-sm" style={{ color: '#8A8A9E' }}>
+                © {new Date().getFullYear()} Daffodil AI Club. All rights reserved.
+              </p>
+              <span className="hidden md:inline text-white/10">|</span>
+              <p className="text-sm" style={{ color: '#8A8A9E' }}>
+                Developed by{' '}
+                <a
+                  href="https://reduanahmadswe.site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                >
+                  Reduan Ahmad
+                </a>
+              </p>
+            </div>
+
             <div className="flex items-center gap-6 text-sm">
               <Link href="/privacy" className="transition-colors" style={{ color: '#8A8A9E' }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                 Privacy Policy
               </Link>
               <Link href="/terms" className="transition-colors" style={{ color: '#8A8A9E' }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
                 Terms of Service
               </Link>
             </div>

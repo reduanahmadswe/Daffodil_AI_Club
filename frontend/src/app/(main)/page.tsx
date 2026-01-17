@@ -16,13 +16,14 @@ import {
   Target
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import HeroSection from '@/components/HeroSection';
+import FadeContent from '@/components/FadeContent';
+
+import DashboardAnimation from '@/components/DashboardAnimation';
 
 // Mock data for other sections
-
 const features = [
   {
     icon: Brain,
@@ -53,7 +54,7 @@ const upcomingEvents = [
     date: 'March 15, 2024',
     time: '3:00 PM',
     type: 'Workshop',
-    image: '/events/ml-workshop.jpg',
+    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=450&fit=crop',
   },
   {
     id: 2,
@@ -61,7 +62,7 @@ const upcomingEvents = [
     date: 'March 25, 2024',
     time: '9:00 AM',
     type: 'Competition',
-    image: '/events/hackathon.jpg',
+    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=450&fit=crop',
   },
   {
     id: 3,
@@ -69,15 +70,26 @@ const upcomingEvents = [
     date: 'April 5, 2024',
     time: '2:00 PM',
     type: 'Workshop',
-    image: '/events/pytorch.jpg',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=450&fit=crop',
   },
 ];
 
 const executives = [
-  { name: 'Dr. Md. Saddam Hossain', role: 'Faculty Advisor', image: '/team/advisor.jpg' },
-  { name: 'Rafiqul Islam', role: 'President', image: '/team/president.jpg' },
-  { name: 'Fatima Akter', role: 'Vice President', image: '/team/vp.jpg' },
-  { name: 'Kamal Hossain', role: 'General Secretary', image: '/team/gs.jpg' },
+  {
+    name: "Professor Dr. Fernaz Narin Nur",
+    role: "Convener",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop"
+  },
+  {
+    name: "Associate Professor Dr. Md. Akhtaruzzaman",
+    role: "Co-Convener",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=800&fit=crop"
+  },
+  {
+    name: "Assistant Professor Mr. Md. Hasanuzzaman Dipu",
+    role: "Co-Convener",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop"
+  }
 ];
 
 export default function HomePage() {
@@ -85,7 +97,6 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <HeroSection />
-
 
       {/* About Section */}
       <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
@@ -150,29 +161,15 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="relative rounded-2xl overflow-hidden glass p-8">
-                <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] rounded-2xl flex items-center justify-center">
-                  <Brain className="w-32 h-32 text-white/30" />
+              <div className="relative w-full flex items-center justify-center">
+                {/* Subtle background glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/10 to-[#FF4FD8]/10 blur-3xl rounded-full opacity-40 pointer-events-none" />
+
+                {/* Animation Container - Larger and Seamless */}
+                <div className="relative w-full max-w-[120%] h-auto -my-10 scale-110 md:scale-125 z-10">
+                  <DashboardAnimation />
                 </div>
               </div>
-              {/* Floating Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="absolute -bottom-6 -left-6 glass rounded-xl shadow-glow-pink p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
-                    <Award className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-white">5+ Years</p>
-                    <p className="text-sm text-[#B5B5C3]">Of Excellence</p>
-                  </div>
-                </div>
-              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -237,12 +234,17 @@ export default function HomePage() {
               <Badge color="green" className="mb-4">Events</Badge>
               <h2 className="section-title">Upcoming Events</h2>
             </div>
-            <Link href="/events" className="mt-4 md:mt-0">
-              <Button variant="outline">
-                View All Events
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            <FadeContent blur={true} duration={1000} delay={200} className="mt-4 md:mt-0">
+              <Link href="/events">
+                <button className="group relative px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  <span className="relative flex items-center gap-2 font-medium text-sm text-white group-hover:text-purple-300 transition-colors">
+                    View All Events
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+              </Link>
+            </FadeContent>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -254,8 +256,14 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-pink transition-all duration-300">
-                  <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] relative">
+                <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-pink transition-all duration-300 group">
+                  <div className="aspect-video relative overflow-hidden">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60" />
                     <Badge
                       color={event.type === 'Workshop' ? 'blue' : 'purple'}
                       className="absolute top-4 left-4"
@@ -300,50 +308,61 @@ export default function HomePage() {
 
         <div className="container-custom relative z-10">
           <div className="text-center mb-16">
-            <Badge color="purple" className="mb-4">Our Team</Badge>
-            <h2 className="section-title mb-4">Executive Panel</h2>
+            <Badge color="purple" className="mb-4">Leadership</Badge>
+            <h2 className="section-title mb-4">Meet Our Conveners</h2>
             <p className="section-subtitle">
-              Meet the dedicated team leading Daffodil AI Club
+              Guided by the visionary faculty of Daffodil International University
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-8 justify-center">
             {executives.map((member, index) => (
               <motion.div
                 key={member.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="glass rounded-2xl p-6 text-center hover:shadow-glow-purple transition-all duration-300">
-                  <Avatar name={member.name} size="xl" className="mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                  <p className="text-[#7B61FF] text-sm font-medium">{member.role}</p>
+                <div className="group relative overflow-hidden rounded-2xl aspect-[4/5]">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+
+                  <div className="absolute bottom-0 left-0 w-full p-6 text-center transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-xl font-bold text-white mb-1 leading-tight">{member.name}</h3>
+                    <p className="text-[#B5B5C3] text-sm font-medium">{member.role}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <FadeContent blur={true} duration={1000} className="text-center mt-12 flex justify-center">
             <Link href="/executives">
-              <Button variant="outline">
-                View All Executives
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+              <button className="group relative px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative flex items-center gap-2 font-medium text-white group-hover:text-purple-300 transition-colors">
+                  View Full Executive Panel
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </button>
             </Link>
-          </div>
+          </FadeContent>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Themed Simple Layout */}
       <section className="py-20 lg:py-32 relative overflow-hidden bg-black">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/20 via-[#FF4FD8]/20 to-[#6EF3FF]/20" />
+        {/* Gradient Background - Subtle */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/10 via-black to-[#6EF3FF]/10 opacity-60" />
 
         {/* Background Orbs */}
-        <div className="absolute inset-0">
-          <div className="orb orb-purple w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-purple w-[500px] h-[500px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
         </div>
 
         {/* Grid Pattern */}
@@ -356,26 +375,29 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
               Ready to Start Your <span className="gradient-text">AI Journey?</span>
             </h2>
-            <p className="text-lg text-[#B5B5C3] mb-8">
+            <p className="text-lg text-[#B5B5C3] mb-10 leading-relaxed">
               Join Daffodil AI Club today and become part of a thriving community of AI enthusiasts.
               Get your unique membership ID and access exclusive resources.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <FadeContent blur={true} duration={1000} delay={200} className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link href="/register">
-                <button className="btn-nexus-primary px-8 py-4 rounded-xl font-semibold text-base flex items-center gap-2">
-                  Register Now
-                  <ArrowRight className="w-5 h-5" />
+                <button className="group relative px-8 py-4 rounded-xl bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white font-bold text-lg shadow-lg shadow-purple-500/25 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Register Now
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
               </Link>
               <Link href="/contact">
-                <button className="btn-nexus-secondary px-8 py-4 rounded-xl font-semibold text-base">
+                <button className="group px-8 py-4 rounded-xl font-bold text-lg text-white border border-white/10 hover:bg-white/5 hover:border-white/30 transition-all flex items-center gap-2">
                   Contact Us
                 </button>
               </Link>
-            </div>
+            </FadeContent>
           </motion.div>
         </div>
       </section>

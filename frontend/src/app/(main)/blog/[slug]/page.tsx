@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   Calendar,
   Clock,
@@ -16,14 +16,10 @@ import {
   Twitter,
   Linkedin,
   Facebook,
-  Link as LinkIcon,
   Send
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
-import { Input } from '@/components/ui/Input';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { blogsApi } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
@@ -67,34 +63,17 @@ Neural networks learn through a process called backpropagation:
 3. **Backward Pass**: Gradients are calculated
 4. **Update**: Weights are adjusted
 
-## Types of Neural Networks
-
-- **Feedforward Neural Networks (FNN)**
-- **Convolutional Neural Networks (CNN)**
-- **Recurrent Neural Networks (RNN)**
-- **Transformer Networks**
-
-## Getting Started
-
-To begin your journey with neural networks, I recommend:
-
-1. Learn Python programming
-2. Understand linear algebra basics
-3. Study calculus fundamentals
-4. Practice with TensorFlow or PyTorch
-
 ## Conclusion
 
 Neural networks are powerful tools that have revolutionized AI. With the right foundation, you can start building your own models and contribute to this exciting field!
   `,
-  coverImage: undefined,
+  coverImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=600&fit=crop',
   category: 'Deep Learning',
   tags: ['Neural Networks', 'AI', 'Machine Learning', 'Deep Learning', 'Python'],
   author: {
     id: '1',
     name: 'Dr. Rafiqul Islam',
     email: 'rafiq@diu.edu.bd',
-    profileImage: undefined,
   },
   status: 'PUBLISHED',
   isFeatured: true,
@@ -109,14 +88,14 @@ const mockComments: Comment[] = [
   {
     id: '1',
     content: 'This is an excellent introduction to neural networks! Very well explained.',
-    author: { id: '2', name: 'Abdullah Rahman', profileImage: undefined },
+    author: { id: '2', name: 'Abdullah Rahman' },
     createdAt: '2024-02-16T10:30:00Z',
     updatedAt: '2024-02-16T10:30:00Z',
   },
   {
     id: '2',
     content: 'I finally understand backpropagation. Thank you for breaking it down!',
-    author: { id: '3', name: 'Fatima Akter', profileImage: undefined },
+    author: { id: '3', name: 'Fatima Akter' },
     createdAt: '2024-02-17T14:20:00Z',
     updatedAt: '2024-02-17T14:20:00Z',
   },
@@ -131,7 +110,7 @@ const relatedPosts = [
 export default function BlogDetailPage() {
   const params = useParams();
   const { isAuthenticated, user } = useAuthStore();
-  
+
   const [blog, setBlog] = useState<Blog | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -159,7 +138,7 @@ export default function BlogDetailPage() {
 
   const handleLike = async () => {
     if (!isAuthenticated) return;
-    
+
     try {
       if (isLiked) {
         await blogsApi.unlike(blog!.id);
@@ -181,11 +160,10 @@ export default function BlogDetailPage() {
     setIsSubmitting(true);
     try {
       await blogsApi.addComment(blog!.id, newComment);
-      // Add comment to local state
       const comment: Comment = {
         id: Date.now().toString(),
         content: newComment,
-        author: { id: user!.id, name: user!.name, profileImage: user!.profileImage },
+        author: { id: user!.id, name: user!.name },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -200,15 +178,17 @@ export default function BlogDetailPage() {
 
   if (loading) {
     return (
-      <div className="container-custom py-32">
-        <Skeleton className="h-8 w-32 mb-8" />
-        <Skeleton className="h-12 w-3/4 mb-4" />
-        <Skeleton className="h-6 w-1/4 mb-8" />
-        <Skeleton className="h-[400px] w-full mb-8" />
-        <div className="space-y-4">
-          <Skeleton className="h-6 w-full" />
-          <Skeleton className="h-6 w-full" />
-          <Skeleton className="h-6 w-3/4" />
+      <div className="min-h-screen bg-black pt-32 pb-20">
+        <div className="container-custom">
+          <Skeleton className="h-8 w-32 mb-8 bg-white/10" />
+          <Skeleton className="h-12 w-3/4 mb-4 bg-white/10" />
+          <Skeleton className="h-6 w-1/4 mb-8 bg-white/10" />
+          <Skeleton className="h-[400px] w-full mb-8 bg-white/10" />
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-full bg-white/10" />
+            <Skeleton className="h-6 w-full bg-white/10" />
+            <Skeleton className="h-6 w-3/4 bg-white/10" />
+          </div>
         </div>
       </div>
     );
@@ -216,14 +196,16 @@ export default function BlogDetailPage() {
 
   if (!blog) {
     return (
-      <div className="container-custom py-32 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Post Not Found
-        </h1>
-        <p className="text-gray-500 mb-8">The blog post you're looking for doesn't exist.</p>
-        <Link href="/blog">
-          <Button>Browse Blog</Button>
-        </Link>
+      <div className="min-h-screen bg-black pt-32 pb-20">
+        <div className="container-custom text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">
+            Post Not Found
+          </h1>
+          <p className="text-[#B5B5C3] mb-8">The blog post you're looking for doesn't exist.</p>
+          <Link href="/blog">
+            <button className="btn-nexus-primary px-6 py-3 rounded-xl">Browse Blog</button>
+          </Link>
+        </div>
       </div>
     );
   }
@@ -231,17 +213,23 @@ export default function BlogDetailPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        <div className="container-custom relative max-w-4xl mx-auto">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-blue w-96 h-96 top-1/4 left-1/4" />
+          <div className="orb orb-purple w-96 h-96 bottom-1/4 right-1/4" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+
+        <div className="container-custom relative max-w-4xl mx-auto z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/blog" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6">
+            <Link href="/blog" className="inline-flex items-center gap-2 text-[#B5B5C3] hover:text-white mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Blog
             </Link>
@@ -258,17 +246,17 @@ export default function BlogDetailPage() {
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-white/80">
+            <div className="flex flex-wrap items-center gap-6 text-[#B5B5C3]">
               <div className="flex items-center gap-3">
                 <Avatar name={blog.author.name} size="sm" />
-                <span>{blog.author.name}</span>
+                <span className="text-white font-medium">{blog.author.name}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="w-4 h-4 text-[#5B8CFF]" />
                 <span>{formatDate(blog.publishedAt || blog.createdAt)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+                <Clock className="w-4 h-4 text-[#5B8CFF]" />
                 <span>5 min read</span>
               </div>
             </div>
@@ -276,192 +264,204 @@ export default function BlogDetailPage() {
         </div>
       </section>
 
+      {/* Featured Image */}
+      {blog.coverImage && (
+        <section className="relative bg-black">
+          <div className="container-custom max-w-5xl">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/20">
+              <img
+                src={blog.coverImage}
+                alt={blog.title}
+                className="w-full max-h-[500px] object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Content Section */}
-      <section className="py-12 bg-gray-50 dark:bg-gray-900">
-        <div className="container-custom">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Orbs */}
+        <div className="absolute inset-0">
+          <div className="orb orb-cyan w-96 h-96 top-1/3 left-1/4 opacity-20" />
+        </div>
+
+        <div className="container-custom relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-8">
               {/* Sidebar - Social Share */}
               <div className="hidden lg:block lg:col-span-1">
-                <div className="sticky top-24 space-y-3">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className={`p-3 ${isLiked ? 'text-red-500' : ''}`}
-                    onClick={handleLike}
-                  >
-                    <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="p-3">
-                    <MessageSquare className="w-5 h-5" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="p-3">
-                    <Bookmark className="w-5 h-5" />
-                  </Button>
-                  <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
-                    <Button variant="ghost" size="sm" className="p-3">
-                      <Twitter className="w-5 h-5" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="p-3">
-                      <Linkedin className="w-5 h-5" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="p-3">
-                      <Facebook className="w-5 h-5" />
-                    </Button>
+                <div className="sticky top-32 space-y-4">
+                  <div className="flex flex-col gap-2">
+                    <button
+                      className={`p-3 rounded-full transition-all ${isLiked ? 'bg-red-500/10 text-red-500' : 'bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10'}`}
+                      onClick={handleLike}
+                    >
+                      <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+                    </button>
+                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                      <MessageSquare className="w-5 h-5" />
+                    </button>
+                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                      <Bookmark className="w-5 h-5" />
+                    </button>
+                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                      <Share2 className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
               </div>
 
               {/* Main Content */}
               <div className="lg:col-span-11">
-                <Card>
-                  <CardContent className="p-8">
-                    {/* Article Content */}
-                    <article className="prose dark:prose-invert prose-lg max-w-none">
-                      {blog.content.split('\n').map((line, index) => {
-                        if (line.startsWith('# ')) {
-                          return <h1 key={index}>{line.slice(2)}</h1>;
-                        } else if (line.startsWith('## ')) {
-                          return <h2 key={index}>{line.slice(3)}</h2>;
-                        } else if (line.startsWith('### ')) {
-                          return <h3 key={index}>{line.slice(4)}</h3>;
-                        } else if (line.startsWith('- ')) {
-                          return <li key={index}>{line.slice(2)}</li>;
-                        } else if (line.trim()) {
-                          return <p key={index}>{line}</p>;
-                        }
-                        return null;
-                      })}
-                    </article>
+                <div className="glass rounded-2xl p-8 md:p-12 mb-12">
+                  {/* Article Content */}
+                  <article className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-[#B5B5C3] prose-strong:text-white prose-a:text-[#5B8CFF]">
+                    {blog.content.split('\n').map((line, index) => {
+                      if (line.startsWith('# ')) {
+                        return <h1 key={index} className="text-3xl font-bold mb-6 text-white">{line.slice(2)}</h1>;
+                      } else if (line.startsWith('## ')) {
+                        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-white">{line.slice(3)}</h2>;
+                      } else if (line.startsWith('### ')) {
+                        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-white">{line.slice(4)}</h3>;
+                      } else if (line.startsWith('- ')) {
+                        return <li key={index} className="ml-4 text-[#B5B5C3] mb-2">{line.slice(2)}</li>;
+                      } else if (line.trim()) {
+                        return <p key={index} className="mb-4 text-[#B5B5C3] leading-relaxed">{line}</p>;
+                      }
+                      return null;
+                    })}
+                  </article>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
-                      {blog.tags.map((tag) => (
-                        <Badge key={tag} color="gray" size="sm">#{tag}</Badge>
-                      ))}
-                    </div>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-white/10">
+                    {blog.tags.map((tag) => (
+                      <Badge key={tag} color="blue" size="sm">#{tag}</Badge>
+                    ))}
+                  </div>
 
-                    {/* Stats */}
-                    <div className="flex items-center gap-6 mt-6 text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <Eye className="w-4 h-4" />
-                        <span>{blog.views} views</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Heart className="w-4 h-4" />
-                        <span>{blog.likes} likes</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MessageSquare className="w-4 h-4" />
-                        <span>{comments.length} comments</span>
-                      </div>
+                  {/* Stats */}
+                  <div className="flex items-center gap-6 mt-6 text-[#8A8A9E] text-sm">
+                    <div className="flex items-center gap-2">
+                      <Eye className="w-4 h-4" />
+                      <span>{blog.views} views</span>
                     </div>
-                  </CardContent>
-                </Card>
+                    <div className="flex items-center gap-2">
+                      <Heart className="w-4 h-4" />
+                      <span>{blog.likes} likes</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4" />
+                      <span>{comments.length} comments</span>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Author Card */}
-                <Card className="mt-8">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <Avatar name={blog.author.name} size="lg" />
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">
-                          {blog.author.name}
-                        </h3>
-                        <p className="text-gray-500">
-                          Member of Daffodil AI Club
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="glass rounded-2xl p-8 mb-12 flex items-center gap-6">
+                  <Avatar name={blog.author.name} size="lg" />
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {blog.author.name}
+                    </h3>
+                    <p className="text-[#B5B5C3]">
+                      Member of Daffodil AI Club | Machine Learning Enthusiast
+                    </p>
+                  </div>
+                </div>
 
                 {/* Comments Section */}
-                <Card className="mt-8">
-                  <CardHeader>
-                    <CardTitle>Comments ({comments.length})</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {/* Comment Form */}
-                    {isAuthenticated ? (
-                      <form onSubmit={handleSubmitComment} className="mb-8">
-                        <div className="flex gap-3">
-                          <Avatar name={user?.name || ''} size="sm" />
-                          <div className="flex-1">
-                            <textarea
-                              value={newComment}
-                              onChange={(e) => setNewComment(e.target.value)}
-                              placeholder="Write a comment..."
-                              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 resize-none"
-                              rows={3}
-                            />
-                            <div className="flex justify-end mt-2">
-                              <Button type="submit" isLoading={isSubmitting}>
-                                <Send className="w-4 h-4 mr-2" />
-                                Post Comment
-                              </Button>
-                            </div>
+                <div className="glass rounded-2xl p-8 mb-12">
+                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <MessageSquare className="w-6 h-6 text-[#5B8CFF]" />
+                    Comments ({comments.length})
+                  </h3>
+
+                  {/* Comment Form */}
+                  {isAuthenticated ? (
+                    <form onSubmit={handleSubmitComment} className="mb-10">
+                      <div className="flex gap-4">
+                        <Avatar name={user?.name || ''} size="md" />
+                        <div className="flex-1">
+                          <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder="Share your thoughts..."
+                            className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-[#B5B5C3] resize-none focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF] transition-all"
+                            rows={3}
+                          />
+                          <div className="flex justify-end mt-3">
+                            <button
+                              type="submit"
+                              disabled={isSubmitting || !newComment.trim()}
+                              className="btn-nexus-primary px-6 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <Send className="w-4 h-4" />
+                              Post Comment
+                            </button>
                           </div>
                         </div>
-                      </form>
-                    ) : (
-                      <div className="text-center py-4 mb-8 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                        <p className="text-gray-500 mb-2">Login to leave a comment</p>
-                        <Link href="/login">
-                          <Button size="sm">Login</Button>
-                        </Link>
                       </div>
-                    )}
+                    </form>
+                  ) : (
+                    <div className="text-center py-8 mb-10 bg-white/5 rounded-xl border border-white/10">
+                      <p className="text-[#B5B5C3] mb-4">Join the discussion by logging in</p>
+                      <Link href="/login">
+                        <button className="btn-nexus-primary px-6 py-2 rounded-lg">Login to Comment</button>
+                      </Link>
+                    </div>
+                  )}
 
-                    {/* Comments List */}
-                    <div className="space-y-6">
-                      {comments.map((comment) => (
-                        <div key={comment.id} className="flex gap-3">
-                          <Avatar name={comment.author.name} size="sm" />
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="font-medium text-gray-900 dark:text-white">
+                  {/* Comments List */}
+                  <div className="space-y-8">
+                    {comments.map((comment) => (
+                      <div key={comment.id} className="flex gap-4 group">
+                        <Avatar name={comment.author.name} size="md" />
+                        <div className="flex-1">
+                          <div className="glass rounded-xl p-4 bg-white/5 border-white/5">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="font-bold text-white">
                                 {comment.author.name}
                               </span>
-                              <span className="text-sm text-gray-500">
+                              <span className="text-xs text-[#8A8A9E]">
                                 {formatRelativeTime(comment.createdAt)}
                               </span>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400">
+                            <p className="text-[#B5B5C3] leading-relaxed">
                               {comment.content}
                             </p>
                           </div>
+                          <div className="flex items-center gap-4 mt-2 ml-2">
+                            <button className="text-xs text-[#8A8A9E] hover:text-white transition-colors">Reply</button>
+                            <button className="text-xs text-[#8A8A9E] hover:text-white transition-colors">Like</button>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Related Posts */}
-                <Card className="mt-8">
-                  <CardHeader>
-                    <CardTitle>Related Posts</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {relatedPosts.map((post) => (
-                        <Link key={post.id} href={`/blog/${post.slug}`}>
-                          <div className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <div>
-                              <h4 className="font-medium text-gray-900 dark:text-white">
-                                {post.title}
-                              </h4>
-                              <Badge color="gray" size="sm" className="mt-1">
-                                {post.category}
-                              </Badge>
-                            </div>
-                            <ArrowLeft className="w-4 h-4 rotate-180" />
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-6">Related Articles</h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {relatedPosts.map((post) => (
+                      <Link key={post.id} href={`/blog/${post.slug}`}>
+                        <div className="glass p-6 rounded-2xl hover:bg-white/10 transition-all cursor-pointer h-full border border-white/10 hover:border-[#5B8CFF]/50 group">
+                          <Badge color="blue" size="sm" className="mb-3">
+                            {post.category}
+                          </Badge>
+                          <h4 className="font-bold text-white group-hover:text-[#6EF3FF] transition-colors line-clamp-2">
+                            {post.title}
+                          </h4>
+                          <div className="mt-4 flex items-center text-sm text-[#5B8CFF] font-medium opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                            Read Article <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
                           </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

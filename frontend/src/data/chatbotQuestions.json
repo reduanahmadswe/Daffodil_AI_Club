@@ -1,0 +1,204 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Daffodil AI Club?",
+      "answer": "Daffodil AI Club (DAIC) is the premier artificial intelligence community at Daffodil International University. We focus on fostering innovation, research, and hands-on learning in AI and Machine Learning."
+    },
+    {
+      "id": 2,
+      "question": "How can I join the club?",
+      "answer": "To join, navigate to the click 'Register Now' on the home page. You'll need to fill out the form using your official university email."
+    },
+    {
+      "id": 3,
+      "question": "How do I become a member?",
+      "answer": "Membership is open to all DIU students. Simply visit our website, go to the registration section, and sign up with your @diu.edu.bd email address."
+    },
+    {
+      "id": 4,
+      "question": "What are the benefits of joining?",
+      "answer": "Members get access to exclusive workshops, priority registration for events, certificates, networking opportunities with industry experts, and the chance to work on real-world AI projects."
+    },
+    {
+      "id": 5,
+      "question": "Is membership free?",
+      "answer": "DAIC membership details regarding fees are usually announced during the recruitment drive. Please check the registration page for the most current information."
+    },
+    {
+      "id": 6,
+      "question": "Do I need prior AI knowledge to join?",
+      "answer": "No! We welcome students from all backgrounds. Our workshops and sessions range from beginner to advanced levels."
+    },
+    {
+      "id": 7,
+      "question": "Who can join the club?",
+      "answer": "Any current student of Daffodil International University with a valid student ID and email address is eligible to join."
+    },
+    {
+      "id": 8,
+      "question": "Why do I need a university email?",
+      "answer": "We use your @diu.edu.bd email to verify your status as a current student of the university."
+    },
+    {
+      "id": 9,
+      "question": "What is a Member ID?",
+      "answer": "A Member ID (e.g., DAIC-Spring-2024-001) is a unique identifier assigned to you upon registration. It's used for event check-ins and tracking your contributions."
+    },
+    {
+      "id": 10,
+      "question": "How do I participate in events?",
+      "answer": "Go to the 'Events' page on our website, select an upcoming event, and click 'Register'. You may need to log in to your account first."
+    },
+    {
+      "id": 11,
+      "question": "Do I get certificates for events?",
+      "answer": "Yes! We provide certificates for most workshops, hackathons, and competitions. These are often digital and can be showcased on your profile."
+    },
+    {
+      "id": 12,
+      "question": "What is the Member Dashboard?",
+      "answer": "The Member Dashboard is your personal hub on the website where you can view your profile, registered events, earned badges, and updated points."
+    },
+    {
+      "id": 13,
+      "question": "Who runs the Daffodil AI Club?",
+      "answer": "The club is run by an Executive Panel of students, guided by Convener and Co-Convener faculty members from the CSE/SWE departments."
+    },
+    {
+      "id": 14,
+      "question": "Can I submit a blog post?",
+      "answer": "Yes, members can contribute technical blogs. Check the 'Blog' section for submission guidelines. Content must be original and related to AI/Tech."
+    },
+    {
+      "id": 15,
+      "question": "What is the Mission of DAIC?",
+      "answer": "Our mission is to bridge the gap between academic learning and industry requirements by providing hands-on experience and a platform for innovation."
+    },
+    {
+      "id": 16,
+      "question": "Where is the club office?",
+      "answer": "Our activities are primarily centered at the Daffodil International University campus. Specific room locations for workshops are announced per event."
+    },
+    {
+      "id": 17,
+      "question": "How do I contact the club?",
+      "answer": "You can reach us via the 'Contact Us' page on the website, or email us directly at our official club email address listed there."
+    },
+    {
+      "id": 18,
+      "question": "What is the Points System?",
+      "answer": "The Points System rewards active members. You earn points for attending events, winning competitions, and contributing to projects. High points can lead to leaderboard recognition."
+    },
+    {
+      "id": 19,
+      "question": "How does the Leaderboard work?",
+      "answer": "The Leaderboard displays the top-performing members based on their accumulated points from club activities and contributions."
+    },
+    {
+      "id": 20,
+      "question": "Does the website support Dark Mode?",
+      "answer": "Yes! Our website is designed with a modern dark 'Nexus' theme by default to provide a comfortable and premium viewing experience."
+    },
+    {
+      "id": 21,
+      "question": "Who developed this website?",
+      "answer": "This website was developed by Reduan Ahmad. You can find more credits in the footer."
+    },
+    {
+      "id": 22,
+      "question": "Can I showcase my project here?",
+      "answer": "Absolutely. We have a 'Projects' section where members can showcase their AI/ML projects. Contact the technical lead for submission details."
+    },
+    {
+      "id": 23,
+      "question": "What kind of events do you organize?",
+      "answer": "We organize workshops, seminars, hackathons, coding competitions, research talks, and project showcases."
+    },
+    {
+      "id": 24,
+      "question": "Is there an alumni section?",
+      "answer": "Yes, we honor our past leaders and contributors in the Alumni section, keeping the network strong even after graduation."
+    },
+    {
+      "id": 25,
+      "question": "How do I get a unique Member ID?",
+      "answer": "Your unique Member ID is generated automatically when your registration is approved by the admin panel."
+    },
+    {
+      "id": 26,
+      "question": "Can I update my profile?",
+      "answer": "Yes, log in to your dashboard and navigate to 'Profile Settings' to update your bio, social links, and skills."
+    },
+    {
+      "id": 27,
+      "question": "What technologies are used in this website?",
+      "answer": "This website is built using Next.js, React, Tailwind CSS, and Framer Motion for a smooth and modern experience."
+    },
+    {
+      "id": 28,
+      "question": "How is attendance taken?",
+      "answer": "We use a QR-code based system. At events, you simply scan your digital member card or a provided QR code to mark your attendance."
+    },
+    {
+      "id": 29,
+      "question": "Is the chatbot real AI?",
+      "answer": "I am a smart rule-based assistant designed to help you navigate the Daffodil AI Club website. I don't 'think' like a human, but I know all about this site!"
+    },
+    {
+      "id": 30,
+      "question": "What if I forget my password?",
+      "answer": "Use the 'Forgot Password' link on the login page. You will receive a reset link at your registered university email."
+    },
+    {
+      "id": 31,
+      "question": "How do I recognize the Executive Panel?",
+      "answer": "Visit the 'Executives' page to see the profiles of our current President, Vice President, and other departmental secretaries."
+    },
+    {
+      "id": 32,
+      "question": "Can I be an executive?",
+      "answer": "Executive selection usually happens annually. Active members with good contribution records are encouraged to apply during recruitment."
+    },
+    {
+      "id": 33,
+      "question": "Do you have a gallery?",
+      "answer": "Yes, check out our Gallery page to see photos and videos from past hackathons, workshops, and energetic club sessions."
+    },
+    {
+      "id": 34,
+      "question": "What is the difference between a Member and an Executive?",
+      "answer": "Members participate in events and learn. Executives manage the club, organize events, and handle potential leadership responsibilities."
+    },
+    {
+      "id": 35,
+      "question": "Where is the registration form?",
+      "answer": "The registration form is available during recruitment periods via the 'Register' button on the homepage or the dedicated Membership page."
+    },
+    {
+      "id": 36,
+      "question": "Can I learn Python here?",
+      "answer": "Yes, Python is a core language for AI. We frequently host Python workshops for data science and machine learning."
+    },
+    {
+      "id": 37,
+      "question": "Who are the Faculty Advisors?",
+      "answer": "Our advisors are distinguished faculty members from the CSE and SWE departments who provide guidance and mentorship to the club."
+    },
+    {
+      "id": 38,
+      "question": "Is there a Discord or WhatsApp group?",
+      "answer": "Yes, official members are invited to our private Discord/WhatsApp communities for day-to-day communication and support."
+    },
+    {
+      "id": 39,
+      "question": "How often are events held?",
+      "answer": "We aim to hold at least one major event or workshop every month during the semester."
+    },
+    {
+      "id": 40,
+      "question": "What is 'FadeContent'?",
+      "answer": "That's a technical term for one of the cool animations checking out right now! We use advanced animations to make this site feel alive."
+    }
+  ]
+}

@@ -49,7 +49,7 @@ export const authApi = {
   updateProfile: (data: any) => api.put('/auth/profile', data),
   forgotPassword: (email: string) => api.post('/auth/forgot-password', { email }),
   resetPassword: (token: string, password: string) => api.post('/auth/reset-password', { token, password }),
-  changePassword: (currentPassword: string, newPassword: string) => 
+  changePassword: (currentPassword: string, newPassword: string) =>
     api.post('/auth/change-password', { currentPassword, newPassword }),
   resendVerification: (email: string) => api.post('/auth/resend-verification', { email }),
 };
@@ -59,6 +59,7 @@ export const eventsApi = {
   getAll: (params?: any) => api.get('/events', { params }),
   getUpcoming: (limit?: number) => api.get('/events/upcoming', { params: { limit } }),
   getById: (id: string) => api.get(`/events/${id}`),
+  getBySlug: (slug: string) => api.get(`/events/slug/${slug}`), // Added
   create: (data: any) => api.post('/events', data),
   update: (id: string, data: any) => api.put(`/events/${id}`, data),
   delete: (id: string) => api.delete(`/events/${id}`),
@@ -72,12 +73,16 @@ export const eventsApi = {
 export const blogsApi = {
   getAll: (params?: any) => api.get('/blogs', { params }),
   getById: (id: string) => api.get(`/blogs/${id}`),
+  getBySlug: (slug: string) => api.get(`/blogs/slug/${slug}`), // Added
   create: (data: any) => api.post('/blogs', data),
   update: (id: string, data: any) => api.put(`/blogs/${id}`, data),
   delete: (id: string) => api.delete(`/blogs/${id}`),
   getMyBlogs: () => api.get('/blogs/my/posts'),
   approve: (id: string) => api.post(`/blogs/${id}/approve`),
   reject: (id: string) => api.post(`/blogs/${id}/reject`),
+  like: (id: string) => api.post(`/blogs/${id}/like`), // Added
+  unlike: (id: string) => api.delete(`/blogs/${id}/like`), // Added
+  addComment: (id: string, content: string) => api.post(`/blogs/${id}/comments`, { content }), // Added
 };
 
 // Members API
@@ -94,6 +99,7 @@ export const membersApi = {
 export const workshopsApi = {
   getAll: (params?: any) => api.get('/workshops', { params }),
   getById: (id: string) => api.get(`/workshops/${id}`),
+  getBySlug: (slug: string) => api.get(`/workshops/slug/${slug}`), // Added
   create: (data: any) => api.post('/workshops', data),
   update: (id: string, data: any) => api.put(`/workshops/${id}`, data),
   delete: (id: string) => api.delete(`/workshops/${id}`),
@@ -106,6 +112,7 @@ export const projectsApi = {
   getAll: (params?: any) => api.get('/projects', { params }),
   getFeatured: (limit?: number) => api.get('/projects/featured', { params: { limit } }),
   getById: (id: string) => api.get(`/projects/${id}`),
+  getBySlug: (slug: string) => api.get(`/projects/slug/${slug}`), // Added
   create: (data: any) => api.post('/projects', data),
   update: (id: string, data: any) => api.put(`/projects/${id}`, data),
   delete: (id: string) => api.delete(`/projects/${id}`),
@@ -131,4 +138,5 @@ export const contactApi = {
   delete: (id: string) => api.delete(`/contact/${id}`),
   subscribeNewsletter: (email: string) => api.post('/contact/newsletter/subscribe', { email }),
   unsubscribeNewsletter: (email: string) => api.post('/contact/newsletter/unsubscribe', { email }),
+  send: (data: any) => api.post('/contact/send', data), // Added alias for submit
 };

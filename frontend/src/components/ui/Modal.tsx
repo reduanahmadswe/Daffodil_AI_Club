@@ -49,43 +49,76 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
           />
 
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          >
-            <div
+          {/* Modal Container to ensure centering */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
               className={cn(
-                'w-full bg-white dark:bg-gray-900 rounded-xl shadow-2xl',
+                'w-full bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden flex flex-col max-h-[90vh]',
                 sizes[size]
               )}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              {title && (
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h2>
+              {(title) && (
+                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
+                  <h2 className="text-xl font-bold text-white">{title}</h2>
                   <button
                     onClick={onClose}
-                    className="p-1 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:text-gray-300 dark:hover:bg-gray-800 transition-colors"
+                    className="p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
               )}
 
-              {/* Content */}
-              <div className="p-6">{children}</div>
-            </div>
-          </motion.div>
+              {/* If no title but we need close button */}
+              {!title && (
+                <button
+                  onClick={onClose}
+                  className="absolute top-4 right-4 p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors z-10"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* Content Wrapper */}
+              {children}
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
+  );
+};
+
+export const ModalHeader = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <div className={cn("px-6 py-4 border-b border-white/10", className)}>
+      {children}
+    </div>
+  );
+};
+
+export const ModalBody = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <div className={cn("p-6 overflow-y-auto custom-scrollbar", className)}>
+      {children}
+    </div>
+  );
+};
+
+export const ModalFooter = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <div className={cn("px-6 py-4 border-t border-white/10 bg-white/5 flex justify-end gap-3", className)}>
+      {children}
+    </div>
   );
 };

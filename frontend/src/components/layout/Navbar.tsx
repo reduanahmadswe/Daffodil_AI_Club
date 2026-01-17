@@ -66,8 +66,12 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
-              AI
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-white/10">
+              <img
+                src="/daiclogo.jpg"
+                alt="DAIC Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className={cn(
               'font-display font-bold text-xl transition-colors',
