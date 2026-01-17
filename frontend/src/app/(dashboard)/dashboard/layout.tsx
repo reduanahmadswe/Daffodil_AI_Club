@@ -48,9 +48,9 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className=\"flex min-h-screen\" style={{ background: '#0B0B12' }}>
+    <div className="flex min-h-screen" style={{ background: '#0B0B12' }}>
       <DashboardSidebar />
-      <main className=\"flex-1 ml-64 p-8\">{children}</main>
+      <main className="flex-1 ml-64 p-8">{children}</main>
     </div>
   );
 }

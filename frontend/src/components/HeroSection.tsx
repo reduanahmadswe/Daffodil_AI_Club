@@ -76,7 +76,7 @@ export default function HeroSection() {
                             />
                             <SplitText
                                 text="Artificial Intelligence"
-                                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display block"
+                                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display block leading-normal pb-4"
                                 delay={25}
                                 duration={0.6}
                                 ease="cubic-bezier(0.22, 1, 0.36, 1)"

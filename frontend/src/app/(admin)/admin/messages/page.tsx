@@ -363,7 +363,7 @@ export default function AdminMessagesPage() {
 
       {/* Reply Modal */}
       <Modal isOpen={showReplyModal} onClose={() => setShowReplyModal(false)} size="lg">
-        <ModalHeader onClose={() => setShowReplyModal(false)}>
+        <ModalHeader>
           Reply to {selectedMessage?.name}
         </ModalHeader>
         <ModalBody>

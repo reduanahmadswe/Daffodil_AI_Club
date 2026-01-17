@@ -100,7 +100,7 @@ export interface Workshop {
   description: string;
   content?: string;
   image?: string;
-  instructor?: string;
+  instructor?: string | { name: string; title: string; bio: string; image?: string };
   startDate: string;
   endDate?: string;
   duration?: string;
@@ -108,12 +108,24 @@ export interface Workshop {
   venue?: string;
   mode: 'ONLINE' | 'OFFLINE' | 'HYBRID';
   fee: number;
+  price?: number; // Alias for fee
   capacity?: number;
-  syllabus?: string;
-  prerequisites?: string;
+  maxParticipants?: number; // Alias for capacity
+  syllabus?: string | any[];
+  prerequisites?: string | string[];
   hasCertificate: boolean;
+  certificate?: boolean; // Alias for hasCertificate
   isPublished: boolean;
+  isFeatured?: boolean; // Added
+  level?: string; // Added
+  totalHours?: number; // Added
+  sessions?: number; // Added
+  materials?: string[]; // Added
+  registrations?: number; // Added
+  registeredCount?: number; // Alias for registrations
+  status?: 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED'; // Added
   createdAt: string;
+  updatedAt?: string;
   _count?: {
     registrations: number;
   };
@@ -124,19 +136,25 @@ export interface Project {
   title: string;
   slug: string;
   description: string;
+  shortDescription?: string;
   content?: string;
   image?: string;
   category: ProjectCategory;
+  status?: 'PLANNING' | 'IN_PROGRESS' | 'COMPLETED' | 'ON_HOLD';
   technologies?: string | string[]; // Allow array
   githubUrl?: string;
+  liveUrl?: string;
   demoUrl?: string;
   paperUrl?: string;
   authorId: string;
   teamMembers?: string | any[]; // Allow array/object
+  startDate?: string;
+  endDate?: string;
   isPublished: boolean;
   isFeatured: boolean;
   featured?: boolean; // Alias
   createdAt: string;
+  updatedAt?: string;
   author?: User;
 }
 

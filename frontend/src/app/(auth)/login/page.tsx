@@ -58,136 +58,122 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#000000' }}>
-      {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
+    <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+      {/* Background Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="orb orb-purple w-[600px] h-[600px] top-[-10%] left-[-10%] opacity-40 blur-[100px] animate-pulse-slow" />
+        <div className="orb orb-cyan w-[600px] h-[600px] bottom-[-10%] right-[-10%] opacity-40 blur-[100px] animate-pulse-slow delay-1000" />
+      </div>
+
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md relative z-10"
+      >
+        <Link
+          href="/"
+          className="inline-flex items-center mb-8 text-[#B5B5C3] hover:text-[#7B61FF] transition-colors"
         >
-          <Link
-            href="/"
-            className="inline-flex items-center mb-8 transition-colors"
-            style={{ color: '#B5B5C3' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#B5B5C3'}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Link>
 
-          <Card>
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
-                AI
-              </div>
-              <CardTitle className="text-2xl">Welcome Back!</CardTitle>
-              <CardDescription>
-                Sign in to your Daffodil AI Club account
-              </CardDescription>
-            </CardHeader>
+        <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-black/40">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
+              AI
+            </div>
+            <h2 className="text-3xl font-display font-bold text-white mb-2">Welcome Back!</h2>
+            <p className="text-[#B5B5C3]">
+              Sign in to your Daffodil AI Club account
+            </p>
+          </div>
 
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                {error && (
-                  <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm">
-                    {error}
-                  </div>
-                )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm flex items-center gap-2"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                {error}
+              </motion.div>
+            )}
 
-                <Input
-                  type="email"
-                  label="DIU Email"
-                  placeholder="yourname@diu.edu.bd"
-                  leftIcon={<Mail className="w-5 h-5" />}
-                  error={errors.email?.message}
-                  {...register('email')}
-                />
+            <div className="space-y-4">
+              <Input
+                type="email"
+                label="DIU Email"
+                placeholder="yourname@diu.edu.bd"
+                leftIcon={<Mail className="w-5 h-5" />}
+                error={errors.email?.message}
+                {...register('email')}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+              />
 
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  label="Password"
-                  placeholder="Enter your password"
-                  leftIcon={<Lock className="w-5 h-5" />}
-                  rightIcon={
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  }
-                  error={errors.password?.message}
-                  {...register('password')}
-                />
-
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-600">Remember me</span>
-                  </label>
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm text-primary-600 hover:underline"
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                label="Password"
+                placeholder="Enter your password"
+                leftIcon={<Lock className="w-5 h-5" />}
+                rightIcon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-gray-400 hover:text-white transition-colors"
                   >
-                    Forgot password?
-                  </Link>
-                </div>
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                }
+                error={errors.password?.message}
+                {...register('password')}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+              />
+            </div>
 
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full"
-                  isLoading={isLoading}
-                >
-                  <LogIn className="w-5 h-5 mr-2" />
-                  Sign In
-                </Button>
-              </form>
+            <div className="flex items-center justify-between pt-2">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-[#7B61FF] focus:ring-[#7B61FF] focus:ring-offset-0"
+                />
+                <span className="text-sm text-[#B5B5C3] group-hover:text-white transition-colors">Remember me</span>
+              </label>
+              <Link
+                href="/forgot-password"
+                className="text-sm text-[#7B61FF] hover:text-[#FF4FD8] transition-colors font-medium"
+              >
+                Forgot password?
+              </Link>
+            </div>
 
-              <div className="mt-6 text-center">
-                <p className="text-gray-600">
-                  Don't have an account?{' '}
-                  <Link href="/register" className="text-primary-600 font-medium hover:underline">
-                    Join the Club
-                  </Link>
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
+            <Button
+              type="submit"
+              variant="ghost"
+              className="w-full h-12 text-base font-semibold border border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
+              isLoading={isLoading}
+            >
+              <span className="flex items-center gap-2">
+                <LogIn className="w-5 h-5" />
+                Sign In
+              </span>
+            </Button>
+          </form>
 
-      {/* Right Side - Decorative */}
-      <div className="hidden lg:flex flex-1 items-center justify-center bg-gradient-to-br from-primary-500 via-secondary-500 to-pink-500 relative overflow-hidden">
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        {/* Floating Elements */}
-        <motion.div
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 6, repeat: Infinity }}
-          className="absolute top-1/4 left-1/4 w-20 h-20 bg-white/10 rounded-2xl backdrop-blur-sm"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/3 right-1/4 w-32 h-32 bg-white/10 rounded-full backdrop-blur-sm"
-        />
-        
-        <div className="relative text-center text-white p-12">
-          <h2 className="text-4xl font-display font-bold mb-6">
-            Daffodil AI Club
-          </h2>
-          <p className="text-xl text-white/80 max-w-md">
-            Login to access your personalized dashboard, view your events, and download your AI Club ID card.
-          </p>
+          <div className="mt-8 pt-6 border-t border-white/10 text-center">
+            <p className="text-[#B5B5C3]">
+              Don't have an account?{' '}
+              <Link href="/register" className="text-white hover:text-[#6EF3FF] font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
+                Join the Club
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

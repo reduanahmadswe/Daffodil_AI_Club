@@ -70,6 +70,7 @@ Neural networks are powerful tools that have revolutionized AI. With the right f
   coverImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=600&fit=crop',
   category: 'Deep Learning',
   tags: ['Neural Networks', 'AI', 'Machine Learning', 'Deep Learning', 'Python'],
+  authorId: '1',
   author: {
     id: '1',
     name: 'Dr. Rafiqul Islam',
@@ -142,10 +143,10 @@ export default function BlogDetailPage() {
     try {
       if (isLiked) {
         await blogsApi.unlike(blog!.id);
-        setBlog(prev => prev ? { ...prev, likes: prev.likes - 1 } : null);
+        setBlog(prev => prev ? { ...prev, likes: (prev.likes || 0) - 1 } : null);
       } else {
         await blogsApi.like(blog!.id);
-        setBlog(prev => prev ? { ...prev, likes: prev.likes + 1 } : null);
+        setBlog(prev => prev ? { ...prev, likes: (prev.likes || 0) + 1 } : null);
       }
       setIsLiked(!isLiked);
     } catch (error) {
@@ -335,7 +336,7 @@ export default function BlogDetailPage() {
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-white/10">
-                    {blog.tags.map((tag) => (
+                    {Array.isArray(blog.tags) && blog.tags.map((tag: string) => (
                       <Badge key={tag} color="blue" size="sm">#{tag}</Badge>
                     ))}
                   </div>

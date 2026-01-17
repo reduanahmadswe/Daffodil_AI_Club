@@ -400,7 +400,7 @@ export default function AdminProjectsPage() {
 
       {/* Delete Modal */}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} size="sm">
-        <ModalHeader onClose={() => setShowDeleteModal(false)}>
+        <ModalHeader>
           Delete Project
         </ModalHeader>
         <ModalBody>

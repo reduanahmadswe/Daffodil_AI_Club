@@ -14,6 +14,7 @@ import {
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Skeleton } from '@/components/ui/Skeleton';
+import FadeContent from '@/components/FadeContent';
 import { eventsApi } from '@/lib/api';
 import { Event } from '@/types';
 
@@ -149,7 +150,7 @@ export default function EventsPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-purple transition-all duration-300 h-full flex flex-col">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full flex flex-col border border-white/5">
                     {/* Event Image */}
                     <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] relative overflow-hidden">
                       {event.image && (
@@ -178,33 +179,37 @@ export default function EventsPage() {
                         {event.description}
                       </p>
 
-                      <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
+                      <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-[#8A8A9E] mb-4">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#7B61FF]" />
-                          <span>{formatDate(event.startDate)}</span>
+                          <Calendar className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <span className="truncate">{formatDate(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-[#7B61FF]" />
-                          <span>{formatTime(event.startDate)}</span>
+                          <Clock className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <span className="truncate">{formatTime(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-[#7B61FF]" />
-                          <span>{event.venue}</span>
+                          <MapPin className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <span className="truncate">{event.venue}</span>
                         </div>
                         {event.maxParticipants && (
                           <div className="flex items-center gap-2">
-                            <Users className="w-4 h-4 text-[#7B61FF]" />
-                            <span>{event.registeredCount || 0}/{event.maxParticipants} registered</span>
+                            <Users className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                            <span className="truncate">{event.registeredCount || 0}/{event.maxParticipants} Reg.</span>
                           </div>
                         )}
                       </div>
 
                       <div className="mt-auto pt-4 border-t border-white/10">
-                        <Link href={`/events/${event.id}`}>
-                          <button className="btn-nexus-primary w-full px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
-                            View Details
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
+                        <Link href={`/events/${event.id}`} className="block w-full">
+                          <FadeContent blur={true} duration={500} delay={200}>
+                            <button className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-transparent px-6 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40 hover:scale-[1.01]">
+                              <span className="flex items-center justify-center gap-2">
+                                View Details
+                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                              </span>
+                            </button>
+                          </FadeContent>
                         </Link>
                       </div>
                     </div>

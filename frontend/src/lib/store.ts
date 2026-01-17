@@ -15,6 +15,9 @@ export interface User {
   points: number;
   isVerified: boolean;
   qrCode?: string;
+  createdAt?: string;
+  bio?: string;
+  membershipStatus?: string;
 }
 
 interface AuthState {

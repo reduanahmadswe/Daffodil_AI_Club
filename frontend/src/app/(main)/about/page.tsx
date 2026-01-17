@@ -19,6 +19,8 @@ import {
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
+import { MemberCard } from '@/components/MemberCard';
+import { advisingPanel, studentPanel } from '@/data/leadership';
 
 const milestones = [
   { year: '2019', title: 'Club Founded', description: 'Daffodil AI Club was established' },
@@ -36,21 +38,7 @@ const values = [
   { icon: Heart, title: 'Inclusivity', description: 'Welcoming members from all backgrounds' },
 ];
 
-const advisors = [
-  { name: 'Dr. Md. Saddam Hossain', role: 'Faculty Advisor', department: 'CSE Department' },
-  { name: 'Prof. Abdul Karim', role: 'Co-Advisor', department: 'SWE Department' },
-];
 
-const executives = [
-  { name: 'Rafiqul Islam', role: 'President', batch: '52' },
-  { name: 'Fatima Akter', role: 'Vice President', batch: '53' },
-  { name: 'Kamal Hossain', role: 'General Secretary', batch: '53' },
-  { name: 'Nusrat Jahan', role: 'Treasurer', batch: '54' },
-  { name: 'Mahmudul Hasan', role: 'Technical Lead', batch: '52' },
-  { name: 'Sabrina Rahman', role: 'Event Coordinator', batch: '54' },
-  { name: 'Ahmed Khan', role: 'Media Secretary', batch: '55' },
-  { name: 'Tasnim Akhter', role: 'PR Manager', batch: '54' },
-];
 
 export default function AboutPage() {
   return (
@@ -249,22 +237,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            {advisors.map((advisor, index) => (
-              <motion.div
-                key={advisor.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="glass rounded-2xl p-8 text-center hover:shadow-glow-purple transition-all duration-300">
-                  <Avatar name={advisor.name} size="xl" className="mx-auto mb-4 w-24 h-24" />
-                  <h3 className="text-xl font-bold text-white mb-1">{advisor.name}</h3>
-                  <p className="text-[#7B61FF] font-medium">{advisor.role}</p>
-                  <p className="text-sm text-[#B5B5C3]">{advisor.department}</p>
-                </div>
-              </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {advisingPanel.map((member, index) => (
+              <MemberCard key={index} member={member} type="TEACHER" />
             ))}
           </div>
         </div>
@@ -290,22 +265,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {executives.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <div className="glass rounded-2xl p-6 text-center hover:shadow-glow-purple transition-all duration-300">
-                  <Avatar name={member.name} size="lg" className="mx-auto mb-4" />
-                  <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-                  <p className="text-[#7B61FF] text-sm font-medium">{member.role}</p>
-                  <p className="text-xs text-[#B5B5C3]">Batch {member.batch}</p>
-                </div>
-              </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {studentPanel.map((member, index) => (
+              <MemberCard key={index} member={member} type="STUDENT" />
             ))}
           </div>
         </div>
@@ -313,9 +275,6 @@ export default function AboutPage() {
 
       {/* Stats */}
       <section className="py-20 bg-black relative overflow-hidden">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/20 via-[#FF4FD8]/20 to-[#6EF3FF]/20" />
-
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -340,10 +299,18 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="glass rounded-2xl p-6 hover:shadow-glow-purple transition-all duration-300">
-                  <stat.icon className="w-10 h-10 mx-auto mb-4 text-[#7B61FF]" />
-                  <p className="text-4xl font-bold mb-2 text-white">{stat.value}</p>
-                  <p className="text-[#B5B5C3]">{stat.label}</p>
+                <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 transition-all hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 transition-opacity group-hover:opacity-100" />
+
+                  <div className="relative z-10">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 ring-1 ring-inset ring-white/10 transition-transform group-hover:scale-110 group-hover:rotate-3">
+                      <stat.icon className="h-8 w-8 text-purple-400" />
+                    </div>
+                    <h3 className="mb-2 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 group-hover:from-purple-400 group-hover:to-pink-400 transition-all">
+                      {stat.value}
+                    </h3>
+                    <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300 transition-colors">{stat.label}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}

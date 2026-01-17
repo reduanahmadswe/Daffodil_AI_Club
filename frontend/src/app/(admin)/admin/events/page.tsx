@@ -326,7 +326,7 @@ export default function AdminEventsPage() {
 
       {/* Delete Confirmation Modal */}
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} size="sm">
-        <ModalHeader onClose={() => setIsDeleteModalOpen(false)}>
+        <ModalHeader>
           Confirm Delete
         </ModalHeader>
         <ModalBody>
@@ -337,7 +337,7 @@ export default function AdminEventsPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-          <Button variant="destructive" onClick={() => setIsDeleteModalOpen(false)}>Delete</Button>
+          <Button variant="danger" onClick={() => setIsDeleteModalOpen(false)}>Delete</Button>
         </ModalFooter>
       </Modal>
     </div>

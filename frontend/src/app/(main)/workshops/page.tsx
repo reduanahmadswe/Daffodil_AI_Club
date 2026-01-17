@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
+import FadeContent from '@/components/FadeContent';
 import { workshopsApi } from '@/lib/api';
 import { Workshop } from '@/types';
 
@@ -163,7 +164,7 @@ export default function WorkshopsPage() {
           ) : filteredWorkshops.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredWorkshops.map((workshop, index) => {
-                const LevelIcon = getLevelIcon(workshop.level);
+                const LevelIcon = getLevelIcon(workshop.level || 'Beginner');
                 return (
                   <motion.div
                     key={workshop.id}
@@ -172,79 +173,76 @@ export default function WorkshopsPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-cyan transition-all duration-300 h-full flex flex-col">
-                      {/* Workshop Image */}
-                      <div className="aspect-video bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] relative overflow-hidden">
-                        {workshop.image ? (
-                          <img
-                            src={workshop.image}
-                            alt={workshop.title}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <LevelIcon className="w-16 h-16 text-white/30" />
-                          </div>
-                        )}
-                        <div className="absolute top-4 left-4 flex gap-2">
-                          <Badge color={getLevelColor(workshop.level) as any}>
-                            {workshop.level}
-                          </Badge>
-                          {workshop.hasCertificate && (
-                            <Badge color="yellow">
-                              <Award className="w-3 h-3 mr-1" />
-                              Certificate
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="p-6 flex-1 flex flex-col">
-                        <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{workshop.title}</h3>
-                        <p className="text-[#B5B5C3] mb-4 line-clamp-2 flex-1">
-                          {workshop.description}
-                        </p>
-
-                        {/* Workshop Details */}
-                        <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-[#6EF3FF]" />
-                            <span>{formatDate(workshop.startDate)}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-[#6EF3FF]" />
-                            <span>{workshop.duration}</span>
-                          </div>
-                          {workshop.maxParticipants && (
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-[#6EF3FF]" />
-                              <span>{workshop.registeredCount || 0}/{workshop.maxParticipants} seats</span>
+                    <Link href={`/workshops/${workshop.slug}`}>
+                      <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 h-full flex flex-col border border-white/5 group relative">
+                        {/* Workshop Image */}
+                        <div className="aspect-video bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] relative overflow-hidden">
+                          {workshop.image ? (
+                            <img
+                              src={workshop.image}
+                              alt={workshop.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <LevelIcon className="w-16 h-16 text-white/30" />
                             </div>
                           )}
-                        </div>
-
-                        {/* Instructor */}
-                        <div className="flex items-center gap-3 py-3 border-t border-white/10">
-                          <Avatar name={workshop.instructor || 'Instructor'} size="sm" />
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-white">
-                              {workshop.instructor || 'Club Instructor'}
-                            </p>
-                            <p className="text-xs text-[#8A8A9E]">Instructor</p>
+                          <div className="absolute top-4 left-4 flex gap-2">
+                            {workshop.level && (
+                              <Badge color={getLevelColor(workshop.level) as any}>
+                                {workshop.level}
+                              </Badge>
+                            )}
+                            {workshop.hasCertificate && (
+                              <Badge color="yellow">
+                                <Award className="w-3 h-3 mr-1" />
+                                Certificate
+                              </Badge>
+                            )}
                           </div>
                         </div>
 
-                        {/* CTA */}
-                        <div className="mt-4 pt-4 border-t border-white/10">
-                          <Link href={`/workshops/${workshop.slug}`}>
-                            <button className="btn-nexus-primary w-full px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
-                              View Details
-                              <ArrowRight className="w-4 h-4" />
-                            </button>
-                          </Link>
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-[#6EF3FF] transition-colors">{workshop.title}</h3>
+                          <p className="text-[#B5B5C3] mb-4 line-clamp-2 flex-1">
+                            {workshop.description}
+                          </p>
+
+                          {/* Workshop Details */}
+                          <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-[#8A8A9E] mb-4">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                              <span className="truncate">{formatDate(workshop.startDate)}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                              <span className="truncate">{workshop.duration}</span>
+                            </div>
+                            {workshop.maxParticipants && (
+                              <div className="flex items-center gap-2">
+                                <Users className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                                <span className="truncate">{workshop.registeredCount || 0}/{workshop.maxParticipants} seats</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Instructor */}
+                          <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                            <div className="flex items-center gap-3">
+                              <Avatar name={typeof workshop.instructor === 'string' ? workshop.instructor : workshop.instructor?.name || 'Instructor'} size="sm" />
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-white">
+                                  {typeof workshop.instructor === 'string' ? workshop.instructor : workshop.instructor?.name || 'Club Instructor'}
+                                </p>
+                                <p className="text-xs text-[#8A8A9E]">Instructor</p>
+                              </div>
+                            </div>
+                            <ArrowRight className="w-5 h-5 text-[#6EF3FF] group-hover:translate-x-1 transition-transform" />
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 );
               })}
@@ -334,9 +332,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-03-20T16:00:00',
     duration: '6 hours',
     instructor: 'Rafiqul Islam',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 40,
     registeredCount: 28,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -352,9 +353,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-03-25T17:00:00',
     duration: '7 hours',
     instructor: 'Dr. Saddam Hossain',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 30,
     registeredCount: 25,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -370,9 +374,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-04-01T18:00:00',
     duration: '4 hours',
     instructor: 'Fatima Akter',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 35,
     registeredCount: 18,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -388,9 +395,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-04-08T15:00:00',
     duration: '5 hours',
     instructor: 'Kamal Hossain',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 30,
     registeredCount: 12,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -406,9 +416,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-04-15T18:00:00',
     duration: '8 hours',
     instructor: 'Dr. Saddam Hossain',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 25,
     registeredCount: 20,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -424,9 +437,12 @@ const mockWorkshops: Workshop[] = [
     endDate: '2024-04-20T18:00:00',
     duration: '4 hours',
     instructor: 'Nusrat Jahan',
+    mode: 'OFFLINE',
+    fee: 500,
     maxParticipants: 50,
     registeredCount: 35,
     hasCertificate: true,
+    isPublished: true,
     status: 'UPCOMING',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

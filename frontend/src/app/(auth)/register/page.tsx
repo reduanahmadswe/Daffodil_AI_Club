@@ -36,15 +36,46 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const departments = [
-  { value: 'CSE', label: 'Computer Science & Engineering' },
+  // Engineering (FSIT)
+  { value: 'CSE', label: 'Computer Science and Engineering' },
   { value: 'SWE', label: 'Software Engineering' },
-  { value: 'EEE', label: 'Electrical & Electronic Engineering' },
-  { value: 'ETE', label: 'Electronics & Telecommunication Engineering' },
+  { value: 'CIS', label: 'Computing and Information System' },
   { value: 'MCT', label: 'Multimedia & Creative Technology' },
-  { value: 'CIS', label: 'Computing & Information System' },
-  { value: 'BBA', label: 'Business Administration' },
-  { value: 'LLB', label: 'Law' },
-  { value: 'PHARMACY', label: 'Pharmacy' },
+  { value: 'ICE', label: 'Information and Communication Engineering' },
+  { value: 'EEE', label: 'Electrical and Electronic Engineering' },
+  { value: 'TE', label: 'Textile Engineering' },
+  { value: 'CE', label: 'Civil Engineering' },
+  { value: 'ARCH', label: 'Architecture' },
+  { value: 'ESDM', label: 'Environmental Science and Disaster Management' },
+  { value: 'ITM', label: 'Information Technology & Management' },
+  { value: 'RME', label: 'Robotics and Mechatronics Engineering' }, // From text
+  { value: 'ICTE', label: 'ICT Education' }, // From text
+
+  // Business (FBE)
+  { value: 'DBA', label: 'Business Administration' },
+  { value: 'ACC', label: 'Accounting' },
+  { value: 'MKT', label: 'Marketing' },
+  { value: 'F&B', label: 'Finance & Banking' },
+  { value: 'MGT', label: 'Management' },
+  { value: 'THM', label: 'Tourism & Hospitality Management' },
+  { value: 'RE', label: 'Real Estate' },
+  { value: 'IE', label: 'Innovation & Entrepreneurship' },
+
+  // Allied Health (FAHS)
+  { value: 'PHARM', label: 'Pharmacy' },
+  { value: 'NFE', label: 'Nutrition and Food Engineering' },
+  { value: 'PH', label: 'Public Health' },
+  { value: 'GEB', label: 'Genetic Engineering and Biotechnology' },
+  { value: 'PESS', label: 'Physical Education & Sports Science' },
+  { value: 'AGRI', label: 'Agricultural Science' },
+
+  // Humanities & Social Science (FHSS)
+  { value: 'ENG', label: 'English' },
+  { value: 'LAW', label: 'Law' },
+  { value: 'JMC', label: 'Journalism, Media and Communication' },
+  { value: 'DS', label: 'Development Studies' },
+  { value: 'ISLM', label: 'Information Science and Library Management' },
+
   { value: 'OTHERS', label: 'Others' },
 ];
 
@@ -79,103 +110,98 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8" style={{ background: '#000000' }}>
+      <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+        {/* Background Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="orb orb-green w-[600px] h-[600px] top-[-10%] left-[-10%] opacity-30 blur-[100px] animate-pulse-slow" />
+          <div className="orb orb-cyan w-[600px] h-[600px] bottom-[-10%] right-[-10%] opacity-30 blur-[100px] animate-pulse-slow delay-1000" />
+        </div>
+
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full"
+          className="max-w-md w-full relative z-10"
         >
-          <Card className="text-center">
-            <CardContent className="p-8">
-              <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-                <Mail className="w-10 h-10 text-green-600" />
-              </div>
-              <CardTitle className="text-2xl mb-4">Check Your Email!</CardTitle>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                We've sent a verification link to your DIU email. Please click the link to verify 
-                your account and complete registration.
-              </p>
-              <p className="text-sm text-gray-500 mb-8">
+          <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl shadow-green-500/10 backdrop-blur-xl bg-black/40 text-center">
+            <div className="w-20 h-20 mx-auto mb-6 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 shadow-glow-green">
+              <Mail className="w-10 h-10 text-green-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-4">Check Your Email!</h2>
+            <p className="text-[#B5B5C3] mb-6">
+              We've sent a verification link to your DIU email. Please click the link to verify
+              your account and complete registration.
+            </p>
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-8">
+              <p className="text-sm text-[#8A8A9E]">
                 After verification, you'll receive your unique AI Club Member ID!
               </p>
-              <Link href="/login">
-                <Button variant="primary" className="w-full">
-                  Go to Login
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+            </div>
+            <Link href="/login" className="block w-full">
+              <Button
+                variant="ghost"
+                className="w-full h-12 text-base font-semibold border border-green-500/30 bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:border-green-500/50 transition-all"
+              >
+                Go to Login
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Decorative */}
-      <div className="hidden lg:flex flex-1 items-center justify-center bg-gradient-to-br from-primary-500 via-secondary-500 to-pink-500 relative overflow-hidden">
-        <div className="absolute inset-0 pattern-grid opacity-10" />
-        
-        {/* Floating Elements */}
-        <motion.div
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 6, repeat: Infinity }}
-          className="absolute top-1/4 right-1/4 w-20 h-20 bg-white/10 rounded-2xl backdrop-blur-sm"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute bottom-1/3 left-1/4 w-32 h-32 bg-white/10 rounded-full backdrop-blur-sm"
-        />
-        
-        <div className="relative text-center text-white p-12">
-          <h2 className="text-4xl font-display font-bold mb-6">
-            Join Daffodil AI Club
-          </h2>
-          <p className="text-xl text-white/80 max-w-md mb-8">
-            Become a member and get your unique ID like:
-          </p>
-          <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 inline-block">
-            <p className="text-2xl font-mono font-bold">DAIC-SPRING-00142</p>
-            <p className="text-sm text-white/70 mt-2">Your Unique Member ID</p>
-          </div>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+      {/* Background Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="orb orb-purple w-[800px] h-[800px] top-[-20%] right-[-20%] opacity-30 blur-[100px] animate-pulse-slow" />
+        <div className="orb orb-blue w-[800px] h-[800px] bottom-[-20%] left-[-20%] opacity-30 blur-[100px] animate-pulse-slow delay-1000" />
       </div>
 
-      {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-lg"
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-2xl relative z-10"
+      >
+        <Link
+          href="/"
+          className="inline-flex items-center mb-8 text-[#B5B5C3] hover:text-[#7B61FF] transition-colors"
         >
-          <Link
-            href="/"
-            className="inline-flex items-center text-gray-600 hover:text-primary-600 mb-8 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Link>
 
-          <Card>
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
-                AI
-              </div>
-              <CardTitle className="text-2xl">Join the Club</CardTitle>
-              <CardDescription>
-                Create your Daffodil AI Club membership account
-              </CardDescription>
-            </CardHeader>
+        <div className="glass rounded-3xl p-8 md:p-10 border border-white/10 shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-black/40">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
+              AI
+            </div>
+            <h2 className="text-3xl font-display font-bold text-white mb-2">Join the Club</h2>
+            <p className="text-[#B5B5C3]">
+              Create your Daffodil AI Club membership account
+            </p>
+          </div>
 
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {error && (
-                  <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm">
-                    {error}
-                  </div>
-                )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm flex items-center gap-2"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                {error}
+              </motion.div>
+            )}
 
+            <div className="grid md:grid-cols-2 gap-5">
+              <div className="md:col-span-2">
                 <Input
                   type="text"
                   label="Full Name"
@@ -183,8 +209,11 @@ export default function RegisterPage() {
                   leftIcon={<User className="w-5 h-5" />}
                   error={errors.name?.message}
                   {...register('name')}
+                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
                 />
+              </div>
 
+              <div className="md:col-span-2">
                 <Input
                   type="email"
                   label="DIU Email"
@@ -192,37 +221,40 @@ export default function RegisterPage() {
                   leftIcon={<Mail className="w-5 h-5" />}
                   error={errors.email?.message}
                   {...register('email')}
+                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
                 />
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    label="Password"
-                    placeholder="Min 6 characters"
-                    leftIcon={<Lock className="w-5 h-5" />}
-                    rightIcon={
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                      </button>
-                    }
-                    error={errors.password?.message}
-                    {...register('password')}
-                  />
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                label="Password"
+                placeholder="Min 6 characters"
+                leftIcon={<Lock className="w-5 h-5" />}
+                rightIcon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                }
+                error={errors.password?.message}
+                {...register('password')}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+              />
 
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    label="Confirm Password"
-                    placeholder="Repeat password"
-                    leftIcon={<Lock className="w-5 h-5" />}
-                    error={errors.confirmPassword?.message}
-                    {...register('confirmPassword')}
-                  />
-                </div>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                label="Confirm Password"
+                placeholder="Repeat password"
+                leftIcon={<Lock className="w-5 h-5" />}
+                error={errors.confirmPassword?.message}
+                {...register('confirmPassword')}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+              />
 
+              <div className="md:col-span-2">
                 <Input
                   type="tel"
                   label="Phone Number"
@@ -230,8 +262,11 @@ export default function RegisterPage() {
                   leftIcon={<Phone className="w-5 h-5" />}
                   error={errors.phone?.message}
                   {...register('phone')}
+                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
                 />
+              </div>
 
+              <div className="md:col-span-2">
                 <Input
                   type="text"
                   label="Student ID"
@@ -239,75 +274,76 @@ export default function RegisterPage() {
                   leftIcon={<GraduationCap className="w-5 h-5" />}
                   error={errors.studentId?.message}
                   {...register('studentId')}
+                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
                 />
-
-                <div className="grid grid-cols-2 gap-4">
-                  <Select
-                    label="Department"
-                    error={errors.department?.message}
-                    {...register('department')}
-                  >
-                    <option value="">Select Department</option>
-                    {departments.map((dept) => (
-                      <option key={dept.value} value={dept.value}>
-                        {dept.label}
-                      </option>
-                    ))}
-                  </Select>
-
-                  <Input
-                    type="text"
-                    label="Batch"
-                    placeholder="e.g., 54"
-                    leftIcon={<BookOpen className="w-5 h-5" />}
-                    error={errors.batch?.message}
-                    {...register('batch')}
-                  />
-                </div>
-
-                <div className="pt-2">
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      required
-                      className="w-4 h-4 mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-600">
-                      I agree to the{' '}
-                      <Link href="/terms" className="text-primary-600 hover:underline">
-                        Terms & Conditions
-                      </Link>{' '}
-                      and{' '}
-                      <Link href="/privacy" className="text-primary-600 hover:underline">
-                        Privacy Policy
-                      </Link>
-                    </span>
-                  </label>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full"
-                  isLoading={isLoading}
-                >
-                  <UserPlus className="w-5 h-5 mr-2" />
-                  Create Account
-                </Button>
-              </form>
-
-              <div className="mt-6 text-center">
-                <p className="text-gray-600">
-                  Already have an account?{' '}
-                  <Link href="/login" className="text-primary-600 font-medium hover:underline">
-                    Sign In
-                  </Link>
-                </p>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
+
+              <Select
+                label="Department"
+                error={errors.department?.message}
+                {...register('department')}
+                options={[
+                  { value: '', label: 'Select Department' },
+                  ...departments
+                ]}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all text-white"
+                style={{ backgroundColor: '#111118' }}
+              />
+
+              <Input
+                type="text"
+                label="Batch"
+                placeholder="e.g., 54"
+                leftIcon={<BookOpen className="w-5 h-5" />}
+                error={errors.batch?.message}
+                {...register('batch')}
+                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+              />
+            </div>
+
+            <div className="pt-2">
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  required
+                  className="w-4 h-4 mt-1 rounded border-white/20 bg-white/5 text-[#7B61FF] focus:ring-[#7B61FF] focus:ring-offset-0"
+                />
+                <span className="text-sm text-[#B5B5C3] group-hover:text-white transition-colors">
+                  I agree to the{' '}
+                  <Link href="/terms" className="text-[#7B61FF] hover:text-[#FF4FD8] hover:underline transition-colors">
+                    Terms & Conditions
+                  </Link>{' '}
+                  and{' '}
+                  <Link href="/privacy" className="text-[#7B61FF] hover:text-[#FF4FD8] hover:underline transition-colors">
+                    Privacy Policy
+                  </Link>
+                </span>
+              </label>
+            </div>
+
+            <Button
+              type="submit"
+              variant="ghost"
+              className="w-full h-12 text-base font-semibold border border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
+              isLoading={isLoading}
+            >
+              <span className="flex items-center gap-2">
+                <UserPlus className="w-5 h-5" />
+                Create Account
+              </span>
+            </Button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-white/10 text-center">
+            <p className="text-[#B5B5C3]">
+              Already have an account?{' '}
+              <Link href="/login" className="text-white hover:text-[#6EF3FF] font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
+                Sign In
+              </Link>
+            </p>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }

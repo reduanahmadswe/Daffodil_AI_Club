@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   Calendar,
   Clock,
@@ -94,8 +94,10 @@ This workshop series is designed for beginners who want to build a strong founda
   startDate: '2024-03-02',
   endDate: '2024-03-24',
   venue: 'DIU Computer Lab, Building 5',
+  mode: 'OFFLINE',
   capacity: 40,
   registrations: 28,
+  fee: 500,
   price: 500,
   status: 'UPCOMING',
   instructor: {
@@ -110,6 +112,7 @@ This workshop series is designed for beginners who want to build a strong founda
     'Practice datasets',
     'Reference guides',
   ],
+  hasCertificate: true,
   certificate: true,
   isPublished: true,
   isFeatured: true,
@@ -128,7 +131,7 @@ export default function WorkshopDetailPage() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuthStore();
   const { addNotification } = useNotificationStore();
-  
+
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [loading, setLoading] = useState(true);
   const [isRegistered, setIsRegistered] = useState(false);
@@ -161,17 +164,9 @@ export default function WorkshopDetailPage() {
     try {
       await workshopsApi.register(workshop!.id);
       setIsRegistered(true);
-      addNotification({
-        type: 'success',
-        title: 'Registration Successful',
-        message: 'You have been registered for this workshop.',
-      });
+      addNotification('You have been registered for this workshop.', 'success');
     } catch (error: any) {
-      addNotification({
-        type: 'error',
-        title: 'Registration Failed',
-        message: error.response?.data?.message || 'Failed to register for workshop.',
-      });
+      addNotification(error.response?.data?.message || 'Failed to register for workshop.', 'error');
     } finally {
       setIsRegistering(false);
     }
@@ -209,7 +204,7 @@ export default function WorkshopDetailPage() {
     );
   }
 
-  const isFull = workshop.registrations >= workshop.capacity;
+  const isFull = (workshop.registrations || 0) >= (workshop.capacity || 0);
   const isPast = new Date(workshop.startDate) < new Date();
 
   return (
@@ -218,7 +213,7 @@ export default function WorkshopDetailPage() {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 hero-gradient" />
         <div className="absolute inset-0 pattern-grid opacity-10" />
-        
+
         <div className="container-custom relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -253,7 +248,7 @@ export default function WorkshopDetailPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="flex items-center gap-2 text-white/80">
                 <Calendar className="w-5 h-5" />
-                <span>{formatDate(workshop.startDate)} - {formatDate(workshop.endDate)}</span>
+                <span>{formatDate(workshop.startDate || new Date())} - {workshop.endDate ? formatDate(workshop.endDate) : 'TBA'}</span>
               </div>
               <div className="flex items-center gap-2 text-white/80">
                 <Clock className="w-5 h-5" />
@@ -265,12 +260,12 @@ export default function WorkshopDetailPage() {
               </div>
               <div className="flex items-center gap-2 text-white/80">
                 <Users className="w-5 h-5" />
-                <span>{workshop.registrations}/{workshop.capacity} Seats</span>
+                <span>{workshop.registrations || 0}/{workshop.capacity || 0} Seats</span>
               </div>
             </div>
 
             {/* Instructor */}
-            {workshop.instructor && (
+            {workshop.instructor && typeof workshop.instructor !== 'string' && (
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 inline-flex">
                 <Avatar name={workshop.instructor.name} size="lg" />
                 <div>
@@ -304,7 +299,7 @@ export default function WorkshopDetailPage() {
               </Card>
 
               {/* Syllabus */}
-              {workshop.syllabus && workshop.syllabus.length > 0 && (
+              {workshop.syllabus && Array.isArray(workshop.syllabus) && workshop.syllabus.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -315,15 +310,14 @@ export default function WorkshopDetailPage() {
                   <CardContent>
                     {/* Week Tabs */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {workshop.syllabus.map((week) => (
+                      {workshop.syllabus.map((week: any) => (
                         <button
                           key={week.week}
                           onClick={() => setActiveWeek(week.week)}
-                          className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                            activeWeek === week.week
-                              ? 'bg-primary-500 text-white'
-                              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                          }`}
+                          className={`px-4 py-2 rounded-lg font-medium transition-all ${activeWeek === week.week
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                            }`}
                         >
                           Week {week.week}
                         </button>
@@ -331,13 +325,13 @@ export default function WorkshopDetailPage() {
                     </div>
 
                     {/* Week Content */}
-                    {workshop.syllabus.filter(w => w.week === activeWeek).map((week) => (
+                    {workshop.syllabus.filter((w: any) => w.week === activeWeek).map((week: any) => (
                       <div key={week.week}>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                           {week.title}
                         </h3>
                         <ul className="space-y-3">
-                          {week.topics.map((topic, index) => (
+                          {week.topics.map((topic: string, index: number) => (
                             <li key={index} className="flex items-start gap-3">
                               <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                               <span className="text-gray-600 dark:text-gray-400">{topic}</span>
@@ -351,7 +345,7 @@ export default function WorkshopDetailPage() {
               )}
 
               {/* Prerequisites */}
-              {workshop.prerequisites && workshop.prerequisites.length > 0 && (
+              {workshop.prerequisites && Array.isArray(workshop.prerequisites) && workshop.prerequisites.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -361,7 +355,7 @@ export default function WorkshopDetailPage() {
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
-                      {workshop.prerequisites.map((prereq, index) => (
+                      {workshop.prerequisites.map((prereq: string, index: number) => (
                         <li key={index} className="flex items-start gap-3">
                           <div className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0 mt-2" />
                           <span className="text-gray-600 dark:text-gray-400">{prereq}</span>
@@ -387,7 +381,7 @@ export default function WorkshopDetailPage() {
                     </p>
                     <div className="grid sm:grid-cols-2 gap-3">
                       {workshop.materials.map((material, index) => (
-                        <div 
+                        <div
                           key={index}
                           className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800"
                         >
@@ -421,13 +415,13 @@ export default function WorkshopDetailPage() {
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-gray-500">Seats Available</span>
                       <span className="font-medium">
-                        {workshop.capacity - workshop.registrations} left
+                        {(workshop.capacity || 0) - (workshop.registrations || 0)} left
                       </span>
                     </div>
                     <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className={`h-full rounded-full ${isFull ? 'bg-red-500' : 'bg-primary-500'}`}
-                        style={{ width: `${(workshop.registrations / workshop.capacity) * 100}%` }}
+                        style={{ width: `${((workshop.registrations || 0) / (workshop.capacity || 100)) * 100}%` }}
                       />
                     </div>
                   </div>
@@ -447,8 +441,8 @@ export default function WorkshopDetailPage() {
                           <p className="font-medium text-green-600">You're enrolled!</p>
                         </div>
                       ) : (
-                        <Button 
-                          className="w-full" 
+                        <Button
+                          className="w-full"
                           size="lg"
                           disabled={isFull}
                           onClick={handleRegister}

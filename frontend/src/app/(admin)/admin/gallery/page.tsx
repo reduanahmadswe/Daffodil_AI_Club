@@ -144,7 +144,7 @@ export default function AdminGalleryPage() {
                   Download ({selectedImages.length})
                 </Button>
                 <Button 
-                  variant="destructive" 
+                  variant="danger" 
                   size="sm"
                   onClick={() => setIsDeleteModalOpen(true)}
                 >
@@ -260,7 +260,7 @@ export default function AdminGalleryPage() {
 
       {/* Upload Modal */}
       <Modal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} size="lg">
-        <ModalHeader onClose={() => setIsUploadModalOpen(false)}>
+        <ModalHeader>
           Upload Images
         </ModalHeader>
         <ModalBody>
@@ -294,7 +294,7 @@ export default function AdminGalleryPage() {
 
       {/* Delete Confirmation Modal */}
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} size="sm">
-        <ModalHeader onClose={() => setIsDeleteModalOpen(false)}>
+        <ModalHeader>
           Confirm Delete
         </ModalHeader>
         <ModalBody>
@@ -305,7 +305,7 @@ export default function AdminGalleryPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-          <Button variant="destructive" onClick={() => {
+          <Button variant="danger" onClick={() => {
             setSelectedImages([]);
             setIsDeleteModalOpen(false);
           }}>Delete</Button>

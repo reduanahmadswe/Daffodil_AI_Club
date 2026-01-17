@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
+import FadeContent from '@/components/FadeContent';
 import { projectsApi } from '@/lib/api';
 import { Project } from '@/types';
 
@@ -111,8 +112,8 @@ export default function ProjectsPage() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === cat
-                      ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
-                      : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
+                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
                     }`}
                 >
                   {cat}
@@ -127,8 +128,8 @@ export default function ProjectsPage() {
                   key={stat}
                   onClick={() => setStatus(stat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${status === stat
-                      ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-white shadow-glow-pink'
-                      : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-white shadow-glow-pink'
+                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
                     }`}
                 >
                   {stat}
@@ -174,7 +175,7 @@ export default function ProjectsPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-pink transition-all duration-300 h-full flex flex-col">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300 h-full flex flex-col border border-white/5">
                     {/* Project Image */}
                     <div className="aspect-video bg-gradient-to-br from-[#FF4FD8] to-[#7B61FF] relative overflow-hidden">
                       {project.image && (
@@ -185,9 +186,11 @@ export default function ProjectsPage() {
                         />
                       )}
                       <div className="absolute top-4 left-4 flex gap-2">
-                        <Badge color={project.status === 'Completed' ? 'green' : 'blue'}>
-                          {project.status}
-                        </Badge>
+                        {project.status && (
+                          <Badge color={project.status === 'COMPLETED' ? 'green' : 'blue'}>
+                            {project.status}
+                          </Badge>
+                        )}
                       </div>
                       {project.featured && (
                         <div className="absolute top-4 right-4">
@@ -213,7 +216,7 @@ export default function ProjectsPage() {
                       <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
                         {project.technologies && (
                           <div className="flex flex-wrap gap-1">
-                            {project.technologies.slice(0, 3).map((tech, i) => (
+                            {Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech: string, i: number) => (
                               <span key={i} className="px-2 py-1 rounded bg-white/5 text-xs text-[#B5B5C3]">
                                 {tech}
                               </span>
@@ -235,17 +238,21 @@ export default function ProjectsPage() {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                            className="flex-1"
                           >
-                            <Github className="w-4 h-4" />
-                            Code
+                            <button className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm font-medium text-white transition-all hover:bg-white/10 hover:border-white/20 flex items-center justify-center gap-2">
+                              <Github className="w-4 h-4" />
+                              Code
+                            </button>
                           </a>
                         )}
                         <Link href={`/projects/${project.slug}`} className="flex-1">
-                          <button className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white text-sm font-medium flex items-center justify-center gap-2 hover:shadow-glow-purple transition-all">
-                            Details
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
+                          <FadeContent blur={true} duration={500} delay={200}>
+                            <button className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-transparent px-4 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] flex items-center justify-center gap-2">
+                              Details
+                              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </button>
+                          </FadeContent>
                         </Link>
                       </div>
                     </div>
@@ -274,14 +281,17 @@ export default function ProjectsPage() {
 const mockProjects: Project[] = [
   {
     id: '1',
+    authorId: '1',
     title: 'AI-Powered Plant Disease Detection',
     slug: 'plant-disease-detection',
     description: 'Mobile app that uses computer vision to identify plant diseases from leaf images.',
-    category: 'Computer Vision',
+    category: 'COMPUTER_VISION',
     image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=450&fit=crop',
     technologies: ['TensorFlow', 'Python', 'React Native', 'OpenCV'],
     githubUrl: 'https://github.com',
-    status: 'Completed',
+    status: 'COMPLETED',
+    isPublished: true,
+    isFeatured: true,
     featured: true,
     teamMembers: [
       { id: '1', name: 'Rafiqul Islam', email: '' },
@@ -292,6 +302,7 @@ const mockProjects: Project[] = [
   },
   {
     id: '2',
+    authorId: '2',
     title: 'Sentiment Analysis Dashboard',
     slug: 'sentiment-analysis',
     description: 'Real-time sentiment analysis tool for social media monitoring and brand reputation management.',
@@ -300,7 +311,9 @@ const mockProjects: Project[] = [
     technologies: ['BERT', 'Flask', 'React', 'MongoDB'],
     githubUrl: 'https://github.com',
     demoUrl: 'https://demo.com',
-    status: 'In Progress',
+    status: 'IN_PROGRESS',
+    isPublished: true,
+    isFeatured: false,
     teamMembers: [
       { id: '3', name: 'Kamal Hossain', email: '' },
     ],
@@ -309,14 +322,17 @@ const mockProjects: Project[] = [
   },
   {
     id: '3',
+    authorId: '3',
     title: 'Smart Traffic Management System',
     slug: 'smart-traffic',
     description: 'AI system for optimizing traffic flow using real-time vehicle detection and prediction.',
-    category: 'Computer Vision',
+    category: 'COMPUTER_VISION',
     image: 'https://images.unsplash.com/photo-1508614999368-9260051292e5?w=800&h=450&fit=crop',
     technologies: ['YOLO', 'Python', 'TensorFlow', 'OpenCV'],
     githubUrl: 'https://github.com',
-    status: 'Completed',
+    status: 'COMPLETED',
+    isPublished: true,
+    isFeatured: false,
     teamMembers: [
       { id: '4', name: 'Ahmed Khan', email: '' },
       { id: '5', name: 'Nusrat Jahan', email: '' },
@@ -326,6 +342,7 @@ const mockProjects: Project[] = [
   },
   {
     id: '4',
+    authorId: '4',
     title: 'AI Study Assistant Chatbot',
     slug: 'study-assistant',
     description: 'Intelligent chatbot to help students with study materials, Q&A, and personalized learning paths.',
@@ -334,7 +351,9 @@ const mockProjects: Project[] = [
     technologies: ['GPT-3', 'LangChain', 'Next.js', 'PostgreSQL'],
     githubUrl: 'https://github.com',
     demoUrl: 'https://demo.com',
-    status: 'In Progress',
+    status: 'IN_PROGRESS',
+    isPublished: true,
+    isFeatured: true,
     featured: true,
     teamMembers: [
       { id: '2', name: 'Fatima Akter', email: '' },
@@ -345,14 +364,17 @@ const mockProjects: Project[] = [
   },
   {
     id: '5',
+    authorId: '5',
     title: 'Predictive Maintenance ML Model',
     slug: 'predictive-maintenance',
     description: 'Machine learning model to predict equipment failure in manufacturing.',
-    category: 'Machine Learning',
+    category: 'AI_ML',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop',
     technologies: ['Scikit-learn', 'Pandas', 'Python', 'Docker'],
     githubUrl: 'https://github.com',
-    status: 'Completed',
+    status: 'COMPLETED',
+    isPublished: true,
+    isFeatured: false,
     teamMembers: [
       { id: '6', name: 'Mahmudul Hasan', email: '' },
     ],
@@ -361,14 +383,17 @@ const mockProjects: Project[] = [
   },
   {
     id: '6',
+    authorId: '6',
     title: 'Face Recognition Attendance System',
     slug: 'face-recognition-attendance',
     description: 'Automated attendance system using facial recognition for educational institutions.',
-    category: 'Computer Vision',
+    category: 'COMPUTER_VISION',
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop',
     technologies: ['Face Recognition', 'OpenCV', 'Flask', 'SQLite'],
     githubUrl: 'https://github.com',
-    status: 'Completed',
+    status: 'COMPLETED',
+    isPublished: true,
+    isFeatured: false,
     teamMembers: [
       { id: '1', name: 'Rafiqul Islam', email: '' },
       { id: '3', name: 'Kamal Hossain', email: '' },

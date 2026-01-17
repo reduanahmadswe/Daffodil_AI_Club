@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  GraduationCap, 
-  BookOpen, 
-  Camera, 
+import {
+  User,
+  Mail,
+  Phone,
+  GraduationCap,
+  BookOpen,
+  Camera,
   Save,
   Loader2
 } from 'lucide-react';
@@ -19,7 +19,7 @@ import { Input, Textarea, Select } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { useAuthStore } from '@/lib/store';
-import { membersApi } from '@/lib/api';
+import { authApi } from '@/lib/api';
 
 const departments = [
   { value: 'CSE', label: 'Computer Science & Engineering' },
@@ -32,7 +32,7 @@ const departments = [
 ];
 
 export default function ProfilePage() {
-  const { user, setUser } = useAuthStore();
+  const { user, updateUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -51,8 +51,8 @@ export default function ProfilePage() {
     setMessage({ type: '', text: '' });
 
     try {
-      const response = await membersApi.updateProfile(data);
-      setUser({ ...user, ...response.data });
+      const response = await authApi.updateProfile(data);
+      updateUser(response.data);
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });
@@ -81,10 +81,10 @@ export default function ProfilePage() {
           <CardContent className="p-8">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="relative">
-                <Avatar 
-                  src={user?.profileImage} 
-                  name={user?.name || ''} 
-                  size="xl" 
+                <Avatar
+                  src={user?.profileImage}
+                  name={user?.name || ''}
+                  size="xl"
                   className="w-32 h-32 text-4xl"
                 />
                 <button className="absolute bottom-0 right-0 w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary-700 transition-colors">
@@ -125,11 +125,10 @@ export default function ProfilePage() {
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {message.text && (
-                <div className={`p-4 rounded-lg ${
-                  message.type === 'success' 
-                    ? 'bg-green-50 text-green-600 dark:bg-green-900/20' 
-                    : 'bg-red-50 text-red-600 dark:bg-red-900/20'
-                }`}>
+                <div className={`p-4 rounded-lg ${message.type === 'success'
+                  ? 'bg-green-50 text-green-600 dark:bg-green-900/20'
+                  : 'bg-red-50 text-red-600 dark:bg-red-900/20'
+                  }`}>
                   {message.text}
                 </div>
               )}
@@ -245,9 +244,9 @@ export default function ProfilePage() {
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Member Since</p>
                 <p className="font-bold text-gray-900 dark:text-white">
-                  {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
-                    year: 'numeric', month: 'long', day: 'numeric' 
-                  }) : 'N/A'}
+                  {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                  } as const) : 'N/A'}
                 </p>
               </div>
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">

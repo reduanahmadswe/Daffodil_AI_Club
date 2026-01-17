@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardTitle } from '@/components/ui/Card';
 import { authApi } from '@/lib/api';
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -41,7 +41,7 @@ export default function VerifyEmailPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-primary-500 via-secondary-500 to-pink-500">
       <div className="absolute inset-0 pattern-grid opacity-10" />
-      
+
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -71,7 +71,7 @@ export default function VerifyEmailPage() {
                 </motion.div>
                 <CardTitle className="text-2xl mb-4 text-green-600">Email Verified!</CardTitle>
                 <p className="text-gray-600 mb-6">{message}</p>
-                
+
                 {uniqueId && (
                   <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl p-6 mb-8 text-white">
                     <p className="text-sm opacity-80 mb-2">Your Unique Member ID</p>
@@ -100,7 +100,7 @@ export default function VerifyEmailPage() {
                 </motion.div>
                 <CardTitle className="text-2xl mb-4 text-red-600">Verification Failed</CardTitle>
                 <p className="text-gray-600 mb-8">{message}</p>
-                
+
                 <div className="space-y-3">
                   <Link href="/register">
                     <Button variant="primary" className="w-full">
@@ -119,5 +119,19 @@ export default function VerifyEmailPage() {
         </Card>
       </motion.div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-primary-500 via-secondary-500 to-pink-500">
+        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
+          <Loader2 className="w-10 h-10 text-primary-600 animate-spin" />
+        </div>
+      </div>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

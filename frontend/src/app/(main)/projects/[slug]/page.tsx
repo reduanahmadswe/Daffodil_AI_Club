@@ -27,6 +27,7 @@ import { formatDate } from '@/lib/utils';
 // Mock data
 const mockProject: Project = {
   id: '1',
+  authorId: '1',
   title: 'AI-Powered Chatbot for University',
   slug: 'ai-chatbot-university',
   description: `
@@ -86,6 +87,8 @@ The system consists of three main components:
   ],
   startDate: '2023-09-01',
   endDate: '2024-02-28',
+  isPublished: true,
+  isFeatured: true,
   featured: true,
   createdAt: '2023-09-01',
   updatedAt: '2024-02-28',
@@ -191,9 +194,11 @@ export default function ProjectDetailPage() {
               <Badge color={categoryColors[project.category as keyof typeof categoryColors] || 'gray'}>
                 {project.category}
               </Badge>
-              <Badge color={statusColors[project.status as keyof typeof statusColors] || 'gray'}>
-                {project.status.replace('_', ' ')}
-              </Badge>
+              {project.status && (
+                <Badge color={statusColors[project.status as keyof typeof statusColors] || 'gray'}>
+                  {project.status.replace('_', ' ')}
+                </Badge>
+              )}
               {project.featured && <Badge color="yellow">Featured</Badge>}
             </div>
 
@@ -303,7 +308,7 @@ export default function ProjectDetailPage() {
                     <div>
                       <p className="text-sm text-[#8A8A9E]">Timeline</p>
                       <p className="font-medium text-white text-sm">
-                        {formatDate(project.startDate)} - {project.endDate ? formatDate(project.endDate) : 'Ongoing'}
+                        {project.startDate ? formatDate(project.startDate) : 'N/A'} - {project.endDate ? formatDate(project.endDate) : 'Ongoing'}
                       </p>
                     </div>
                   </div>
@@ -337,7 +342,7 @@ export default function ProjectDetailPage() {
                   Technologies
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
+                  {Array.isArray(project.technologies) && project.technologies.map((tech: string) => (
                     <Badge key={tech} color="purple" size="sm">
                       {tech}
                     </Badge>
@@ -353,7 +358,7 @@ export default function ProjectDetailPage() {
                     Team
                   </h3>
                   <div className="space-y-4">
-                    {project.teamMembers.map((member) => (
+                    {Array.isArray(project.teamMembers) && project.teamMembers.map((member: any) => (
                       <div key={member.id} className="flex items-center gap-3">
                         <Avatar name={member.name} size="sm" />
                         <div>

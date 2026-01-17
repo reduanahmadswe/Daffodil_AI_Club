@@ -149,7 +149,7 @@ export default function DashboardSettingsPage() {
                       <p className="text-sm text-gray-500">Permanently delete your account and all data</p>
                     </div>
                     <Button 
-                      variant="destructive"
+                      variant="danger"
                       onClick={() => setIsDeleteModalOpen(true)}
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
@@ -314,7 +314,7 @@ export default function DashboardSettingsPage() {
 
       {/* Delete Account Modal */}
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} size="sm">
-        <ModalHeader onClose={() => setIsDeleteModalOpen(false)}>
+        <ModalHeader>
           Delete Account
         </ModalHeader>
         <ModalBody>
@@ -336,7 +336,7 @@ export default function DashboardSettingsPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-          <Button variant="destructive">Delete My Account</Button>
+          <Button variant="danger">Delete My Account</Button>
         </ModalFooter>
       </Modal>
     </div>

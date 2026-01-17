@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
+import FadeContent from '@/components/FadeContent';
 import { blogsApi } from '@/lib/api';
 import { Blog } from '@/types';
 
@@ -96,8 +97,8 @@ export default function BlogPage() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === cat
-                      ? 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-white shadow-glow-blue'
-                      : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-white shadow-glow-blue'
+                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
                     }`}
                 >
                   {cat}
@@ -144,7 +145,7 @@ export default function BlogPage() {
                   transition={{ delay: index * 0.05 }}
                 >
                   <Link href={`/blog/${blog.slug}`}>
-                    <div className="glass rounded-2xl overflow-hidden hover:shadow-glow-blue transition-all duration-300 h-full flex flex-col cursor-pointer group">
+                    <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 h-full flex flex-col border border-white/5 group relative">
                       {/* Blog Image */}
                       <div className="aspect-video bg-gradient-to-br from-[#5B8CFF] to-[#6EF3FF] relative overflow-hidden">
                         {blog.image && (
@@ -181,7 +182,7 @@ export default function BlogPage() {
                             {blog.readTime && (
                               <div className="flex items-center gap-1">
                                 <Clock className="w-4 h-4 text-[#6EF3FF]" />
-                                <span>{blog.readTime}</span>
+                                <span className="truncate">{blog.readTime}</span>
                               </div>
                             )}
                           </div>
@@ -223,7 +224,7 @@ function formatDate(date: string): string {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
-  });
+  } as const);
 }
 
 // Mock data
@@ -236,8 +237,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'Learn the fundamentals of machine learning and start your journey into AI development.',
     image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=450&fit=crop',
     tags: ['Machine Learning', 'Beginners'],
+    authorId: '1',
     author: { id: '1', name: 'Rafiqul Islam', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 1542,
     readTime: '8 min',
     createdAt: '2024-03-15T00:00:00Z',
     updatedAt: '2024-03-15T00:00:00Z',
@@ -250,8 +253,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'A comprehensive guide to understanding different neural network architectures.',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop',
     tags: ['Deep Learning', 'Neural Networks'],
+    authorId: '2',
     author: { id: '2', name: 'Fatima Akter', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 890,
     readTime: '12 min',
     createdAt: '2024-03-08T00:00:00Z',
     updatedAt: '2024-03-08T00:00:00Z',
@@ -264,8 +269,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'Learn how to build a sentiment analysis model using Natural Language Processing techniques.',
     image: 'https://images.unsplash.com/photo-1516110833967-0b5716ca1387?w=800&h=450&fit=crop',
     tags: ['NLP', 'Sentiment Analysis'],
+    authorId: '3',
     author: { id: '3', name: 'Kamal Hossain', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 1205,
     readTime: '10 min',
     createdAt: '2024-03-01T00:00:00Z',
     updatedAt: '2024-03-01T00:00:00Z',
@@ -278,8 +285,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'Explore computer vision concepts and build real-world image recognition applications.',
     image: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=800&h=450&fit=crop',
     tags: ['Computer Vision', 'Image Processing'],
+    authorId: '4',
     author: { id: '4', name: 'Ahmed Khan', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 950,
     readTime: '15 min',
     createdAt: '2024-02-28T00:00:00Z',
     updatedAt: '2024-02-28T00:00:00Z',
@@ -292,8 +301,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'An introduction to reinforcement learning and how machines learn through trial and error.',
     image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop',
     tags: ['AI', 'Reinforcement Learning'],
+    authorId: '5',
     author: { id: '5', name: 'Nusrat Jahan', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 780,
     readTime: '7 min',
     createdAt: '2024-02-25T00:00:00Z',
     updatedAt: '2024-02-25T00:00:00Z',
@@ -306,8 +317,10 @@ const mockBlogs: Blog[] = [
     excerpt: 'Learn how to deploy your machine learning models as REST APIs using Flask and Docker.',
     image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&h=450&fit=crop',
     tags: ['Machine Learning', 'Deployment', 'Docker'],
+    authorId: '1',
     author: { id: '1', name: 'Rafiqul Islam', email: '' },
-    isPublished: true,
+    status: 'PUBLISHED',
+    views: 1100,
     readTime: '11 min',
     createdAt: '2024-02-20T00:00:00Z',
     updatedAt: '2024-02-20T00:00:00Z',

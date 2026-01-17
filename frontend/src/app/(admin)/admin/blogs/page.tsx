@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  FileText, 
-  Search, 
+import {
+  FileText,
+  Search,
   Plus,
   Eye,
   Edit,
@@ -185,7 +185,7 @@ export default function AdminBlogsPage() {
               />
             </div>
             <div className="flex gap-2">
-              <select 
+              <select
                 className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -195,7 +195,7 @@ export default function AdminBlogsPage() {
                 <option value="DRAFT">Draft</option>
                 <option value="REVIEW">Under Review</option>
               </select>
-              <select 
+              <select
                 className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
@@ -269,7 +269,7 @@ export default function AdminBlogsPage() {
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Calendar className="w-4 h-4" />
                   <span>
-                    {blog.publishedAt 
+                    {blog.publishedAt
                       ? new Date(blog.publishedAt).toLocaleDateString()
                       : 'Not published'
                     }
@@ -291,9 +291,9 @@ export default function AdminBlogsPage() {
                       <Edit className="w-4 h-4" />
                     </Button>
                   </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     className="p-2 text-red-500 hover:text-red-600"
                     onClick={() => {
                       setSelectedBlog(blog);
@@ -332,18 +332,18 @@ export default function AdminBlogsPage() {
 
       {/* Delete Confirmation Modal */}
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} size="sm">
-        <ModalHeader onClose={() => setIsDeleteModalOpen(false)}>
+        <ModalHeader>
           Confirm Delete
         </ModalHeader>
         <ModalBody>
           <p className="text-gray-600 dark:text-gray-400">
-            Are you sure you want to delete <strong>{selectedBlog?.title}</strong>? 
+            Are you sure you want to delete <strong>{selectedBlog?.title}</strong>?
             This action cannot be undone.
           </p>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-          <Button variant="destructive" onClick={() => setIsDeleteModalOpen(false)}>Delete</Button>
+          <Button variant="danger" onClick={() => setIsDeleteModalOpen(false)}>Delete</Button>
         </ModalFooter>
       </Modal>
     </div>

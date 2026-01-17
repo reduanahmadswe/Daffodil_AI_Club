@@ -70,9 +70,9 @@ export default function IDCardPage() {
 
               {/* Profile Section */}
               <div className="flex gap-4 mb-6">
-                <Avatar 
-                  src={user?.profileImage} 
-                  name={user?.name || ''} 
+                <Avatar
+                  src={user?.profileImage}
+                  name={user?.name || ''}
                   size="lg"
                   className="w-24 h-24 border-4 border-primary-500"
                 />
@@ -100,7 +100,7 @@ export default function IDCardPage() {
                     {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {
                       month: 'short',
                       year: 'numeric'
-                    }) : 'N/A'}
+                    } as const) : 'N/A'}
                   </p>
                 </div>
                 <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center">
@@ -147,7 +147,7 @@ export default function IDCardPage() {
         </CardHeader>
         <CardContent className="space-y-4 text-gray-600 dark:text-gray-400">
           <p>
-            Your Daffodil AI Club ID card serves as your official membership credential. 
+            Your Daffodil AI Club ID card serves as your official membership credential.
             The QR code on your card can be scanned at events for quick check-in.
           </p>
           <div className="grid md:grid-cols-2 gap-4">

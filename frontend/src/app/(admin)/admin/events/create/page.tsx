@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  Save, 
-  Calendar, 
-  Clock, 
-  MapPin, 
+import {
+  ArrowLeft,
+  Save,
+  Calendar,
+  Clock,
+  MapPin,
   Users,
   Image,
   Plus,
@@ -90,18 +90,10 @@ export default function CreateEventPage() {
       };
 
       await eventsApi.create(eventData);
-      addNotification({
-        type: 'success',
-        title: 'Event Created',
-        message: 'The event has been created successfully.',
-      });
+      addNotification('The event has been created successfully.', 'success');
       router.push('/admin/events');
     } catch (error: any) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Event',
-        message: error.response?.data?.message || 'Something went wrong.',
-      });
+      addNotification(error.response?.data?.message || 'Something went wrong.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -112,8 +104,8 @@ export default function CreateEventPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <Link 
-            href="/admin/events" 
+          <Link
+            href="/admin/events"
             className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
           >
             <ArrowLeft className="w-4 h-4" />

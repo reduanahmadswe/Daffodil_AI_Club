@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Bell, 
-  Calendar, 
+import {
+  Bell,
+  Calendar,
   MessageSquare,
   Award,
   Users,
@@ -79,12 +80,12 @@ export default function DashboardNotificationsPage() {
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  const filteredNotifications = notifications.filter(n => 
+  const filteredNotifications = notifications.filter(n =>
     filter === 'all' || n.type === filter
   );
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
+    setNotifications(prev =>
       prev.map(n => n.id === id ? { ...n, isRead: true } : n)
     );
   };
@@ -144,11 +145,10 @@ export default function DashboardNotificationsPage() {
           <button
             key={tab.value}
             onClick={() => setFilter(tab.value as NotificationType)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-              filter === tab.value
+            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${filter === tab.value
                 ? 'bg-primary-500 text-white'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
-            }`}
+              }`}
           >
             {tab.label}
           </button>
@@ -163,7 +163,7 @@ export default function DashboardNotificationsPage() {
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
                 {filteredNotifications.map((notification, index) => {
                   const IconComponent = notification.icon;
-                  
+
                   return (
                     <motion.div
                       key={notification.id}
@@ -171,9 +171,8 @@ export default function DashboardNotificationsPage() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ delay: index * 0.05 }}
-                      className={`flex items-start gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ${
-                        !notification.isRead ? 'bg-primary-50/50 dark:bg-primary-900/10' : ''
-                      }`}
+                      className={`flex items-start gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ${!notification.isRead ? 'bg-primary-50/50 dark:bg-primary-900/10' : ''
+                        }`}
                     >
                       {/* Icon */}
                       <div className={`flex-shrink-0 w-10 h-10 rounded-full ${notification.color} flex items-center justify-center`}>
@@ -199,18 +198,18 @@ export default function DashboardNotificationsPage() {
                       {/* Actions */}
                       <div className="flex items-center gap-1">
                         {!notification.isRead && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             className="p-2"
                             onClick={() => markAsRead(notification.id)}
                           >
                             <Check className="w-4 h-4" />
                           </Button>
                         )}
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="p-2 text-gray-400 hover:text-red-500"
                           onClick={() => deleteNotification(notification.id)}
                         >
@@ -229,8 +228,8 @@ export default function DashboardNotificationsPage() {
                 No notifications
               </h3>
               <p className="text-gray-500">
-                {filter !== 'all' 
-                  ? 'No notifications in this category' 
+                {filter !== 'all'
+                  ? 'No notifications in this category'
                   : "You're all caught up!"
                 }
               </p>
@@ -250,9 +249,9 @@ export default function DashboardNotificationsPage() {
                 <p className="text-sm text-gray-500">Configure what notifications you receive</p>
               </div>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <a href="/dashboard/settings">Manage</a>
-            </Button>
+            <Link href="/dashboard/settings">
+              <Button variant="outline" size="sm">Manage</Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
