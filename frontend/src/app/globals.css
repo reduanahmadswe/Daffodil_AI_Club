@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* NexusAI Color System - Strict Palette Only */
+    --nexus-black: #000000;
+    --nexus-dark-1: #0B0B12;
+    --nexus-dark-2: #111118;
+    
+    --nexus-purple: #7B61FF;
+    --nexus-pink: #FF4FD8;
+    --nexus-blue: #5B8CFF;
+    --nexus-cyan: #6EF3FF;
+    
+    --nexus-white: #FFFFFF;
+    --nexus-text-secondary: #B5B5C3;
+    --nexus-text-muted: #8A8A9E;
+    
+    /* Opacity Variants */
+    --nexus-purple-03: rgba(123, 97, 255, 0.03);
+    --nexus-purple-10: rgba(123, 97, 255, 0.1);
+    --nexus-purple-20: rgba(123, 97, 255, 0.2);
+    --nexus-purple-40: rgba(123, 97, 255, 0.4);
+    
+    --nexus-pink-30: rgba(255, 79, 216, 0.3);
+    --nexus-pink-40: rgba(255, 79, 216, 0.4);
+    --nexus-pink-50: rgba(255, 79, 216, 0.5);
+    --nexus-pink-60: rgba(255, 79, 216, 0.6);
+    
+    --nexus-cyan-25: rgba(110, 243, 255, 0.25);
+    --nexus-cyan-60: rgba(110, 243, 255, 0.6);
+    
+    --nexus-blue-60: rgba(91, 140, 255, 0.6);
+    
+    --nexus-white-05: rgba(255, 255, 255, 0.05);
+    --nexus-white-10: rgba(255, 255, 255, 0.1);
+    --nexus-white-30: rgba(255, 255, 255, 0.3);
+    --nexus-white-60: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    background: #000000;
+    background-image: linear-gradient(to bottom right, #0B0B12, #000000, #111118);
+    color: #FFFFFF;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7B61FF, #FF4FD8);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #7B61FF, #5B8CFF);
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(123, 97, 255, 0.4);
+    color: #FFFFFF;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #FF4FD8;
+  }
+}
+
+@layer components {
+  /* Gradient Text - Strict Palette */
+  .gradient-text {
+    background: linear-gradient(90deg, #7B61FF, #FF4FD8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Alternative Gradients */
+  .gradient-text-multi {
+    background: linear-gradient(#7B61FF, #5B8CFF, #FF4FD8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-cyan {
+    background: linear-gradient(#6EF3FF, #7B61FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* NexusAI Buttons */
+  .btn-nexus-primary {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.2), rgba(123, 97, 255, 0.2));
+    border: 1px solid #FF4FD8;
+    box-shadow: 0 0 20px rgba(255, 79, 216, 0.4), inset 0 0 20px rgba(255, 79, 216, 0.1);
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+  }
+
+  .btn-nexus-primary:hover {
+    box-shadow: 0 0 30px rgba(255, 79, 216, 0.6), inset 0 0 30px rgba(255, 79, 216, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-nexus-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+  }
+
+  .btn-nexus-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Glow Effects */
+  .glow-purple {
+    box-shadow: 0 0 40px rgba(123, 97, 255, 0.4), 0 0 80px rgba(123, 97, 255, 0.2);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 30px rgba(255, 79, 216, 0.5), 0 0 60px rgba(255, 79, 216, 0.3);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(110, 243, 255, 0.6);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 15px rgba(91, 140, 255, 0.6);
+  }
+
+  /* Grid Overlay */
+  .grid-overlay {
+    background-image: 
+      linear-gradient(rgba(123, 97, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123, 97, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Orb Elements */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .orb-purple {
+    background: radial-gradient(circle, rgba(123, 97, 255, 0.4) 0%, transparent 70%);
+  }
+
+  .orb-pink {
+    background: radial-gradient(circle, rgba(255, 79, 216, 0.3) 0%, transparent 70%);
+  }
+
+  .orb-cyan {
+    background: radial-gradient(circle, rgba(110, 243, 255, 0.25) 0%, transparent 70%);
+  }
+
+  /* Floating Node */
+  .node {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  /* Rotating Rings */
+  .ring {
+    animation: rotate 20s linear infinite;
+  }
+
+  .ring-reverse {
+    animation: rotate-reverse 25s linear infinite;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  @media (min-width: 768px) {
+    .section-title {
+      font-size: 3rem;
+    }
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: #B5B5C3;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Container */
+  .container-custom {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text balance for better readability */
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,352 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User/Member Model
+model User {
+  id              String   @id @default(uuid())
+  uniqueId        String   @unique // DAIC-SPRING-00001
+  email           String   @unique
+  password        String
+  name            String
+  phone           String?
+  department      String?
+  batch           String?
+  studentId       String?
+  profileImage    String?
+  role            Role     @default(MEMBER)
+  isVerified      Boolean  @default(false)
+  verifyToken     String?
+  resetToken      String?
+  resetTokenExpiry DateTime?
+  points          Int      @default(0)
+  
+  // Relations
+  blogs           Blog[]
+  eventRegistrations EventRegistration[]
+  workshopRegistrations WorkshopRegistration[]
+  projects        Project[]
+  certificates    Certificate[]
+  badges          UserBadge[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum Role {
+  VISITOR
+  MEMBER
+  EXECUTIVE
+  ADMIN
+}
+
+// Executive Panel
+model Executive {
+  id          String   @id @default(uuid())
+  userId      String?
+  name        String
+  position    String   // President, VP, GS, etc.
+  team        String?  // Technical, Design, Media
+  image       String?
+  email       String?
+  phone       String?
+  linkedin    String?
+  github      String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  tenure      String?  // 2025-2026
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Events
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String   @db.Text
+  content      String?  @db.LongText
+  image        String?
+  date         DateTime
+  endDate      DateTime?
+  time         String?
+  venue        String?
+  type         EventType @default(SEMINAR)
+  capacity     Int?
+  fee          Float    @default(0)
+  isPublished  Boolean  @default(false)
+  isFeatured   Boolean  @default(false)
+  
+  registrations EventRegistration[]
+  attendances   EventAttendance[]
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum EventType {
+  SEMINAR
+  WORKSHOP
+  COMPETITION
+  HACKATHON
+  MEETUP
+  WEBINAR
+  CONFERENCE
+}
+
+model EventRegistration {
+  id        String   @id @default(uuid())
+  userId    String
+  eventId   String
+  status    RegistrationStatus @default(PENDING)
+  qrCode    String?
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, eventId])
+}
+
+model EventAttendance {
+  id        String   @id @default(uuid())
+  eventId   String
+  uniqueId  String   // Member's unique ID
+  checkInAt DateTime @default(now())
+  
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([eventId, uniqueId])
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  ATTENDED
+}
+
+// Workshops & Courses
+model Workshop {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String   @db.Text
+  content      String?  @db.LongText
+  image        String?
+  instructor   String?
+  startDate    DateTime
+  endDate      DateTime?
+  duration     String?  // e.g., "3 days", "2 weeks"
+  schedule     String?  // e.g., "Sat-Thu, 6-8 PM"
+  venue        String?
+  mode         WorkshopMode @default(OFFLINE)
+  fee          Float    @default(0)
+  capacity     Int?
+  syllabus     String?  @db.Text
+  prerequisites String?
+  hasCertificate Boolean @default(true)
+  badgeId      String?
+  isPublished  Boolean  @default(false)
+  
+  registrations WorkshopRegistration[]
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum WorkshopMode {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
+
+model WorkshopRegistration {
+  id          String   @id @default(uuid())
+  userId      String
+  workshopId  String
+  status      RegistrationStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(UNPAID)
+  completionStatus CompletionStatus @default(NOT_STARTED)
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workshop    Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  
+  @@unique([userId, workshopId])
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum CompletionStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  DROPPED
+}
+
+// Projects & Research
+model Project {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String   @db.Text
+  content      String?  @db.LongText
+  image        String?
+  category     ProjectCategory @default(AI_ML)
+  technologies String?  // JSON array of tech used
+  githubUrl    String?
+  demoUrl      String?
+  paperUrl     String?
+  authorId     String
+  teamMembers  String?  // JSON array of team members
+  isPublished  Boolean  @default(false)
+  isFeatured   Boolean  @default(false)
+  
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum ProjectCategory {
+  AI_ML
+  DEEP_LEARNING
+  NLP
+  COMPUTER_VISION
+  DATA_SCIENCE
+  ROBOTICS
+  IOT
+  RESEARCH
+  OTHER
+}
+
+// Blog/Articles
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?  @db.Text
+  content     String   @db.LongText
+  coverImage  String?
+  category    String?
+  tags        String?  // JSON array
+  authorId    String
+  status      BlogStatus @default(DRAFT)
+  views       Int      @default(0)
+  
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum BlogStatus {
+  DRAFT
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
+// Gallery
+model Gallery {
+  id        String   @id @default(uuid())
+  title     String
+  image     String
+  eventId   String?
+  eventName String?
+  category  String?
+  year      Int?
+  order     Int      @default(0)
+  
+  createdAt DateTime @default(now())
+}
+
+// Certificates
+model Certificate {
+  id           String   @id @default(uuid())
+  uniqueCode   String   @unique
+  userId       String
+  title        String
+  description  String?
+  type         CertificateType
+  referenceId  String?  // Event or Workshop ID
+  issuedAt     DateTime @default(now())
+  
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum CertificateType {
+  EVENT_PARTICIPATION
+  WORKSHOP_COMPLETION
+  COMPETITION_WINNER
+  ACHIEVEMENT
+  MEMBERSHIP
+}
+
+// Badges
+model Badge {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  points      Int      @default(0)
+  
+  users       UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, badgeId])
+}
+
+// Contact Messages
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+}
+
+// Newsletter Subscribers
+model Newsletter {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+}
+
+// Site Settings (for About page, etc.)
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   @db.LongText
+  
+  updatedAt DateTime @updatedAt
+}
