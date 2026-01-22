@@ -373,4 +373,5 @@ This project is developed for Daffodil AI Club, Daffodil International Universit
 
 <p align="center">Made with ❤️ by Daffodil AI Club</p>
 #   C I / C D   P i p e l i n e   R e a d y  
+ #   V e r c e l   N a t i v e   I n t e g r a t i o n   A c t i v e  
  
