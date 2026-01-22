@@ -29,6 +29,10 @@ export const createApp = (): Express => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
+  app.get("/", (req, res) => {
+    res.json({ message: "Welcome to Daffodil AI Club Backend API" });
+  }); 
+
   // API Routes
   app.use('/api/auth', authRouter);
   app.use('/api/events', eventRouter);
