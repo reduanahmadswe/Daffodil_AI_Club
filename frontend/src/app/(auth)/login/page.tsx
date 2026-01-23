@@ -12,7 +12,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { authApi } from '@/lib/api';
-import { useAuthStore } from '@/lib/store';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { login as loginAction } from '@/lib/redux/slices/authSlice';
 
 const loginSchema = z.object({
   email: z
@@ -29,7 +30,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuthStore();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -48,7 +49,7 @@ export default function LoginPage() {
 
     try {
       const response = await authApi.login(data);
-      login(response.data.user, response.data.token);
+      dispatch(loginAction({ user: response.data.user, token: response.data.token }));
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');

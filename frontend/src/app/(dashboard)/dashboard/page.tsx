@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 const stats = [
   { icon: Calendar, label: 'Events Attended', value: '12', color: 'bg-blue-500' },
@@ -40,7 +40,7 @@ const recentActivity = [
 ];
 
 export default function DashboardPage() {
-  const { user } = useAuthStore();
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
     <div className="space-y-8">

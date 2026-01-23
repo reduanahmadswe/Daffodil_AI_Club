@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { store } from './redux/store';
+import { logout } from './redux/slices/authSlice';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -30,9 +32,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      // Dispatch logout action to Redux store
+      store.dispatch(logout());
+      
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
         window.location.href = '/login';
       }
     }

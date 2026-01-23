@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
+import { ReduxProvider } from '@/lib/redux/Provider';
 import './globals.css';
 
 const inter = Inter({
@@ -88,7 +89,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans`} style={{ background: '#000000', color: '#FFFFFF' }}>
-        <div id="root">{children}</div>
+        <ReduxProvider>
+          <div id="root">{children}</div>
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -6,7 +6,9 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuthStore, useThemeStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { logout as logoutAction } from '@/lib/redux/slices/authSlice';
+import { setTheme } from '@/lib/redux/slices/themeSlice';
 import { Button } from '@/components/ui/Button';
 import { Avatar } from '@/components/ui/Avatar';
 import FadeContent from '@/components/FadeContent';
@@ -24,9 +26,18 @@ const navLinks = [
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const { user, isAuthenticated, logout } = useAuthStore();
-  const { theme, setTheme } = useThemeStore();
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { theme } = useAppSelector((state) => state.theme);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
+
+  const handleSetTheme = (newTheme: 'light' | 'dark' | 'system') => {
+    dispatch(setTheme(newTheme));
+  };
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -50,7 +61,7 @@ export const Navbar = () => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    handleSetTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
@@ -172,7 +183,7 @@ export const Navbar = () => {
                         )}
                         <button
                           onClick={() => {
-                            logout();
+                            handleLogout();
                             setIsProfileOpen(false);
                           }}
                           className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"

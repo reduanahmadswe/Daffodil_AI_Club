@@ -18,7 +18,8 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea, Select } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { updateUser as updateUserAction } from '@/lib/redux/slices/authSlice';
 import { authApi } from '@/lib/api';
 
 const departments = [
@@ -32,7 +33,8 @@ const departments = [
 ];
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuthStore();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -52,7 +54,7 @@ export default function ProfilePage() {
 
     try {
       const response = await authApi.updateProfile(data);
-      updateUser(response.data);
+      dispatch(updateUserAction(response.data));
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });

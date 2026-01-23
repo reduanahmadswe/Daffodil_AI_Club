@@ -3,15 +3,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, GraduationCap } from 'lucide-react';
-import { useNotificationStore } from '@/lib/store';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Member } from '@/data/leadership';
 
 export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' | 'STUDENT' }) => {
-    const { addNotification } = useNotificationStore();
+    const dispatch = useAppDispatch();
 
     const handleCopyEmail = () => {
         navigator.clipboard.writeText(member.email);
-        addNotification('Email copied to clipboard', 'success');
+        dispatch(addNotification({ message: 'Email copied to clipboard', type: 'success' }));
     };
 
     return (

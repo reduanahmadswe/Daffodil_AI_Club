@@ -24,7 +24,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { blogsApi } from '@/lib/api';
-import { useNotificationStore } from '@/lib/store';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { slugify } from '@/lib/utils';
 
 const blogSchema = z.object({
@@ -54,7 +55,7 @@ const categories = [
 
 export default function CreateBlogPage() {
   const router = useRouter();
-  const { addNotification } = useNotificationStore();
+  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
@@ -97,18 +98,18 @@ export default function CreateBlogPage() {
       };
 
       await blogsApi.create(blogData);
-      addNotification(
-        data.status === 'PUBLISHED'
+      dispatch(addNotification({
+        message: data.status === 'PUBLISHED'
           ? 'Your blog post has been published.'
           : 'Your blog post has been saved as draft.',
-        'success'
-      );
+        type: 'success'
+      }));
       router.push('/admin/blogs');
     } catch (error: any) {
-      addNotification(
-        error.response?.data?.message || 'Failed to create post',
-        'error'
-      );
+      dispatch(addNotification({
+        message: error.response?.data?.message || 'Failed to create post',
+        type: 'error'
+      }));
     } finally {
       setIsSubmitting(false);
     }

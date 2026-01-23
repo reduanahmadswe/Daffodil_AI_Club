@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardSidebar } from '@/components/layout';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function DashboardLayout({
@@ -12,15 +12,21 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, hasHydrated } = useAppSelector((state) => state.auth);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated && !isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, hasHydrated, router]);
 
-  if (isLoading) {
+  // Wait for client-side hydration
+  if (!mounted || !hasHydrated) {
     return (
       <div className="flex min-h-screen" style={{ background: '#000000' }}>
         <div className="w-64 glass border-r border-[rgba(255,255,255,0.1)] p-4">

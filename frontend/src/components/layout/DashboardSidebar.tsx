@@ -16,7 +16,8 @@ import {
   LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { logout as logoutAction } from '@/lib/redux/slices/authSlice';
 import { Avatar } from '@/components/ui/Avatar';
 
 const sidebarLinks = [
@@ -32,7 +33,12 @@ const sidebarLinks = [
 
 export const DashboardSidebar = () => {
   const pathname = usePathname();
-  const { user, logout } = useAuthStore();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 glass border-r flex flex-col z-40" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
@@ -89,7 +95,7 @@ export const DashboardSidebar = () => {
       {/* Logout */}
       <div className="p-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3 w-full rounded-xl font-medium text-red-400 hover:bg-red-900/20 transition-colors"
         >
           <LogOut className="w-5 h-5" />

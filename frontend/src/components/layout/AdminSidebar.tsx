@@ -19,7 +19,8 @@ import {
   LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { logout as logoutAction } from '@/lib/redux/slices/authSlice';
 import { Avatar } from '@/components/ui/Avatar';
 
 const adminLinks = [
@@ -38,7 +39,12 @@ const adminLinks = [
 
 export const AdminSidebar = () => {
   const pathname = usePathname();
-  const { user, logout } = useAuthStore();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 flex flex-col z-40" style={{ background: '#0B0B12' }}>
@@ -104,7 +110,7 @@ export const AdminSidebar = () => {
           Back to Dashboard
         </Link>
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3 w-full rounded-xl font-medium text-red-400 hover:bg-red-900/20 transition-colors"
         >
           <LogOut className="w-5 h-5" />
