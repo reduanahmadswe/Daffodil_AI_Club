@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import {
   ArrowLeft,
   Save,
@@ -10,10 +10,9 @@ import {
   Clock,
   MapPin,
   Users,
-  Image as ImageIcon,
-  Plus,
+  Upload,
   X,
-  Upload
+  Loader2
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,28 +42,57 @@ const eventSchema = z.object({
 
 type EventFormData = z.infer<typeof eventSchema>;
 
-export default function CreateEventPage() {
+export default function EditEventPage() {
   const router = useRouter();
+  const params = useParams();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
-    defaultValues: {
-      type: 'WORKSHOP',
-      capacity: 50,
-      fee: 0,
-      isFeatured: false,
-      isPublished: false,
-    },
   });
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await eventsApi.getById(params.id as string);
+        const event = response.data.data || response.data;
+        const dateStr = event.date ? new Date(event.date).toISOString().split('T')[0] : '';
+        const endDateStr = event.endDate ? new Date(event.endDate).toISOString().split('T')[0] : '';
+        reset({
+          title: event.title,
+          description: event.description || '',
+          content: event.content || '',
+          image: event.image || '',
+          type: event.type || 'SEMINAR',
+          date: dateStr,
+          endDate: endDateStr,
+          time: event.time || '',
+          venue: event.venue || '',
+          capacity: event.capacity || 50,
+          fee: event.fee || 0,
+          isFeatured: event.isFeatured || false,
+          isPublished: event.isPublished || false,
+        });
+        if (event.image) setImagePreview(event.image);
+      } catch (error) {
+        dispatch(addNotification({ message: 'Failed to load event', type: 'error' }));
+        router.push('/admin/events');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (params.id) fetchEvent();
+  }, [params.id, reset, dispatch, router]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -88,62 +116,54 @@ export default function CreateEventPage() {
   const onSubmit = async (data: EventFormData) => {
     setIsSubmitting(true);
     try {
-      await eventsApi.create(data);
-      dispatch(addNotification({ message: 'The event has been created successfully.', type: 'success' }));
+      await eventsApi.update(params.id as string, data);
+      dispatch(addNotification({ message: 'Event updated successfully.', type: 'success' }));
       router.push('/admin/events');
     } catch (error: any) {
-      dispatch(addNotification({ message: error.response?.data?.message || 'Something went wrong.', type: 'error' }));
+      dispatch(addNotification({ message: error.response?.data?.message || 'Failed to update event.', type: 'error' }));
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <Link
-            href="/admin/events"
-            className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Events
-          </Link>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
-            Create New Event
-          </h1>
-        </div>
+      <div>
+        <Link
+          href="/admin/events"
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Events
+        </Link>
+        <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
+          Edit Event
+        </h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Basic Info */}
             <Card>
-              <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Event Title *
-                  </label>
-                  <Input
-                    {...register('title')}
-                    placeholder="Enter event title"
-                    error={errors.title?.message}
-                  />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Event Title *</label>
+                  <Input {...register('title')} placeholder="Enter event title" error={errors.title?.message} />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Event Type *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Event Type *</label>
                   <select
                     {...register('type')}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text focus:ring-2 focus:ring-primary-500"
                   >
                     <option value="WORKSHOP">Workshop</option>
                     <option value="SEMINAR">Seminar</option>
@@ -154,155 +174,98 @@ export default function CreateEventPage() {
                     <option value="CONFERENCE">Conference</option>
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Description *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description *</label>
                   <textarea
                     {...register('description')}
                     rows={6}
                     placeholder="Describe the event..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text focus:ring-2 focus:ring-primary-500 resize-none"
                   />
-                  {errors.description && (
-                    <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-                  )}
+                  {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Detailed Content (Optional, Markdown supported)
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Detailed Content (Optional)</label>
                   <textarea
                     {...register('content')}
                     rows={6}
                     placeholder="Detailed event content..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text focus:ring-2 focus:ring-primary-500 resize-none"
                   />
                 </div>
               </CardContent>
             </Card>
 
-            {/* Date & Location */}
             <Card>
-              <CardHeader>
-                <CardTitle>Date & Location</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Date & Location</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      <Calendar className="w-4 h-4 inline mr-1" />
-                      Start Date *
+                      <Calendar className="w-4 h-4 inline mr-1" />Start Date *
                     </label>
-                    <Input
-                      type="date"
-                      {...register('date')}
-                      error={errors.date?.message}
-                    />
+                    <Input type="date" {...register('date')} error={errors.date?.message} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      <Calendar className="w-4 h-4 inline mr-1" />
-                      End Date
+                      <Calendar className="w-4 h-4 inline mr-1" />End Date
                     </label>
-                    <Input
-                      type="date"
-                      {...register('endDate')}
-                    />
+                    <Input type="date" {...register('endDate')} />
                   </div>
                 </div>
-
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      <Clock className="w-4 h-4 inline mr-1" />
-                      Time
+                      <Clock className="w-4 h-4 inline mr-1" />Time
                     </label>
-                    <Input
-                      {...register('time')}
-                      placeholder="e.g., 10:00 AM - 4:00 PM"
-                    />
+                    <Input {...register('time')} placeholder="e.g., 10:00 AM - 4:00 PM" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      <Users className="w-4 h-4 inline mr-1" />
-                      Capacity
+                      <Users className="w-4 h-4 inline mr-1" />Capacity
                     </label>
-                    <Input
-                      type="number"
-                      {...register('capacity', { valueAsNumber: true })}
-                      error={errors.capacity?.message}
-                    />
+                    <Input type="number" {...register('capacity', { valueAsNumber: true })} error={errors.capacity?.message} />
                   </div>
                 </div>
-
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      <MapPin className="w-4 h-4 inline mr-1" />
-                      Venue
+                      <MapPin className="w-4 h-4 inline mr-1" />Venue
                     </label>
-                    <Input
-                      {...register('venue')}
-                      placeholder="Enter venue location"
-                    />
+                    <Input {...register('venue')} placeholder="Enter venue location" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Fee (BDT)
-                    </label>
-                    <Input
-                      type="number"
-                      {...register('fee', { valueAsNumber: true })}
-                      placeholder="0 for free"
-                    />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fee (BDT)</label>
+                    <Input type="number" {...register('fee', { valueAsNumber: true })} placeholder="0 for free" />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Publish Settings */}
             <Card>
-              <CardHeader>
-                <CardTitle>Publish Settings</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Publish Settings</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register('isPublished')}
-                    className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
-                  />
+                  <input type="checkbox" {...register('isPublished')} className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-nexus-text">Publish Event</p>
-                    <p className="text-sm text-gray-500">Make this event visible to public</p>
+                    <p className="text-sm text-gray-500">Make visible to public</p>
                   </div>
                 </label>
-
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register('isFeatured')}
-                    className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
-                  />
+                  <input type="checkbox" {...register('isFeatured')} className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-nexus-text">Featured Event</p>
-                    <p className="text-sm text-gray-500">Show on homepage and featured sections</p>
+                    <p className="text-sm text-gray-500">Show on homepage</p>
                   </div>
                 </label>
               </CardContent>
             </Card>
 
-            {/* Cover Image */}
             <Card>
-              <CardHeader>
-                <CardTitle>Cover Image</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Cover Image</CardTitle></CardHeader>
               <CardContent>
                 <input
                   type="file"
@@ -348,23 +311,11 @@ export default function CreateEventPage() {
               </CardContent>
             </Card>
 
-            {/* Actions */}
             <div className="flex gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1"
-                isLoading={isSubmitting}
-              >
+              <Button type="button" variant="outline" className="flex-1" onClick={() => router.back()}>Cancel</Button>
+              <Button type="submit" className="flex-1" isLoading={isSubmitting}>
                 <Save className="w-4 h-4 mr-2" />
-                Create Event
+                Update Event
               </Button>
             </div>
           </div>

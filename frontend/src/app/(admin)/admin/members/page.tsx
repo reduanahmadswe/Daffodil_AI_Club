@@ -1,121 +1,114 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { 
   Users, 
   Search, 
   Plus,
-  MoreVertical,
-  Filter,
   Download,
-  Mail,
   Edit,
   Trash2,
   Eye,
   CheckCircle,
   XCircle,
-  Clock
+  Clock,
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@/components/ui/Modal';
+import { adminApi } from '@/lib/api';
 
-const mockMembers = [
-  { 
-    id: '1', 
-    uniqueId: 'DAIC-SPRING-00142',
-    name: 'Abdullah Rahman', 
-    email: 'abdullah@diu.edu.bd', 
-    department: 'CSE',
-    batch: '48',
-    status: 'ACTIVE',
-    role: 'MEMBER',
-    joinedAt: '2024-01-15',
-    eventsAttended: 5
-  },
-  { 
-    id: '2', 
-    uniqueId: 'DAIC-SPRING-00143',
-    name: 'Fatima Begum', 
-    email: 'fatima@diu.edu.bd', 
-    department: 'SWE',
-    batch: '49',
-    status: 'ACTIVE',
-    role: 'EXECUTIVE',
-    joinedAt: '2024-01-18',
-    eventsAttended: 8
-  },
-  { 
-    id: '3', 
-    uniqueId: 'DAIC-FALL-00089',
-    name: 'Mahmudul Hasan', 
-    email: 'mahmud@diu.edu.bd', 
-    department: 'CSE',
-    batch: '47',
-    status: 'ACTIVE',
-    role: 'MEMBER',
-    joinedAt: '2023-09-10',
-    eventsAttended: 12
-  },
-  { 
-    id: '4', 
-    uniqueId: 'DAIC-SUMMER-00034',
-    name: 'Tasnim Akhter', 
-    email: 'tasnim@diu.edu.bd', 
-    department: 'EEE',
-    batch: '50',
-    status: 'PENDING',
-    role: 'MEMBER',
-    joinedAt: '2024-02-01',
-    eventsAttended: 0
-  },
-  { 
-    id: '5', 
-    uniqueId: 'DAIC-SPRING-00001',
-    name: 'Rafiqul Islam', 
-    email: 'rafiq@diu.edu.bd', 
-    department: 'CSE',
-    batch: '45',
-    status: 'ACTIVE',
-    role: 'ADMIN',
-    joinedAt: '2023-01-01',
-    eventsAttended: 25
-  },
-];
-
-const statusColors = {
-  ACTIVE: 'green',
-  PENDING: 'yellow',
-  SUSPENDED: 'red',
-} as const;
+interface Member {
+  id: string;
+  uniqueId: string;
+  name: string;
+  email: string;
+  department?: string;
+  batch?: string;
+  role: string;
+  isVerified: boolean;
+  points: number;
+  phone?: string;
+  studentId?: string;
+  createdAt: string;
+}
 
 const roleColors = {
   ADMIN: 'red',
   EXECUTIVE: 'purple',
   MEMBER: 'blue',
+  VISITOR: 'gray',
 } as const;
 
 export default function AdminMembersPage() {
+  const [members, setMembers] = useState<Member[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
   const [roleFilter, setRoleFilter] = useState('All');
-  const [selectedMember, setSelectedMember] = useState<typeof mockMembers[0] | null>(null);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [stats, setStats] = useState({ total: 0, verified: 0, pending: 0, executives: 0 });
 
-  const filteredMembers = mockMembers.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(search.toLowerCase()) ||
-      member.email.toLowerCase().includes(search.toLowerCase()) ||
-      member.uniqueId.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === 'All' || member.status === statusFilter;
-    const matchesRole = roleFilter === 'All' || member.role === roleFilter;
-    return matchesSearch && matchesStatus && matchesRole;
-  });
+  const fetchMembers = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await adminApi.getMembers({ search, role: roleFilter !== 'All' ? roleFilter : undefined });
+      const data = response.data;
+      const membersList = data.data || data.members || data;
+      if (Array.isArray(membersList)) {
+        setMembers(membersList);
+        // Calculate stats from data
+        const total = data.total || data.pagination?.total || membersList.length;
+        const verified = membersList.filter((m: Member) => m.isVerified).length;
+        const pending = membersList.filter((m: Member) => !m.isVerified).length;
+        const executives = membersList.filter((m: Member) => m.role === 'EXECUTIVE' || m.role === 'ADMIN').length;
+        setStats({ total, verified, pending, executives });
+      }
+    } catch (error) {
+      console.error('Failed to fetch members:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [search, roleFilter]);
+
+  useEffect(() => {
+    const debounce = setTimeout(() => fetchMembers(), 300);
+    return () => clearTimeout(debounce);
+  }, [fetchMembers]);
+
+  const handleDelete = async () => {
+    if (!selectedMember) return;
+    setIsDeleting(true);
+    try {
+      await adminApi.deleteMember(selectedMember.id);
+      setMembers((prev) => prev.filter((m) => m.id !== selectedMember.id));
+      setIsDeleteModalOpen(false);
+      setSelectedMember(null);
+    } catch (error) {
+      console.error('Failed to delete member:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleRoleChange = async (memberId: string, newRole: string) => {
+    try {
+      await adminApi.updateMemberRole(memberId, newRole);
+      setMembers((prev) =>
+        prev.map((m) => (m.id === memberId ? { ...m, role: newRole } : m))
+      );
+    } catch (error) {
+      console.error('Failed to update role:', error);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -153,7 +146,7 @@ export default function AdminMembersPage() {
                 <Users className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">523</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.total}</p>
                 <p className="text-sm text-gray-500">Total Members</p>
               </div>
             </div>
@@ -166,8 +159,8 @@ export default function AdminMembersPage() {
                 <CheckCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">498</p>
-                <p className="text-sm text-gray-500">Active</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.verified}</p>
+                <p className="text-sm text-gray-500">Verified</p>
               </div>
             </div>
           </CardContent>
@@ -179,7 +172,7 @@ export default function AdminMembersPage() {
                 <Clock className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">18</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.pending}</p>
                 <p className="text-sm text-gray-500">Pending</p>
               </div>
             </div>
@@ -192,7 +185,7 @@ export default function AdminMembersPage() {
                 <Users className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">12</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.executives}</p>
                 <p className="text-sm text-gray-500">Executives</p>
               </div>
             </div>
@@ -216,16 +209,6 @@ export default function AdminMembersPage() {
             <div className="flex gap-2">
               <select 
                 className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <option value="All">All Status</option>
-                <option value="ACTIVE">Active</option>
-                <option value="PENDING">Pending</option>
-                <option value="SUSPENDED">Suspended</option>
-              </select>
-              <select 
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
               >
@@ -234,6 +217,9 @@ export default function AdminMembersPage() {
                 <option value="EXECUTIVE">Executive</option>
                 <option value="MEMBER">Member</option>
               </select>
+              <Button variant="outline" size="sm" onClick={() => fetchMembers()}>
+                <RefreshCw className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -256,11 +242,23 @@ export default function AdminMembersPage() {
                 </tr>
               </thead>
               <tbody>
-                {filteredMembers.map((member) => (
-                  <motion.tr 
+                {loading ? (
+                  <tr>
+                    <td colSpan={7} className="p-8 text-center">
+                      <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto" />
+                      <p className="text-sm text-gray-500 mt-2">Loading members...</p>
+                    </td>
+                  </tr>
+                ) : members.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="p-8 text-center text-gray-500">
+                      No members found
+                    </td>
+                  </tr>
+                ) : (
+                  members.map((member) => (
+                  <tr 
                     key={member.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
                     className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                   >
                     <td className="p-4">
@@ -278,21 +276,27 @@ export default function AdminMembersPage() {
                       </code>
                     </td>
                     <td className="p-4">
-                      <span className="text-gray-900 dark:text-nexus-text">{member.department}</span>
-                      <span className="text-gray-500 ml-1">({member.batch})</span>
+                      <span className="text-gray-900 dark:text-nexus-text">{member.department || '-'}</span>
+                      {member.batch && <span className="text-gray-500 ml-1">({member.batch})</span>}
                     </td>
                     <td className="p-4">
-                      <Badge color={roleColors[member.role as keyof typeof roleColors]} size="sm">
-                        {member.role}
-                      </Badge>
+                      <select
+                        value={member.role}
+                        onChange={(e) => handleRoleChange(member.id, e.target.value)}
+                        className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-nexus-text"
+                      >
+                        <option value="MEMBER">MEMBER</option>
+                        <option value="EXECUTIVE">EXECUTIVE</option>
+                        <option value="ADMIN">ADMIN</option>
+                      </select>
                     </td>
                     <td className="p-4">
-                      <Badge color={statusColors[member.status as keyof typeof statusColors]} size="sm">
-                        {member.status}
+                      <Badge color={member.isVerified ? 'green' : 'yellow'} size="sm">
+                        {member.isVerified ? 'VERIFIED' : 'PENDING'}
                       </Badge>
                     </td>
                     <td className="p-4 text-gray-500">
-                      {new Date(member.joinedAt).toLocaleDateString()}
+                      {new Date(member.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-end gap-1">
@@ -307,11 +311,6 @@ export default function AdminMembersPage() {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Link href={`/admin/members/${member.id}/edit`}>
-                          <Button variant="ghost" size="sm" className="p-2">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                        </Link>
                         <Button 
                           variant="ghost" 
                           size="sm" 
@@ -325,8 +324,9 @@ export default function AdminMembersPage() {
                         </Button>
                       </div>
                     </td>
-                  </motion.tr>
-                ))}
+                  </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -334,7 +334,7 @@ export default function AdminMembersPage() {
           {/* Pagination */}
           <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
             <p className="text-sm text-gray-500">
-              Showing {filteredMembers.length} of {mockMembers.length} members
+              Showing {members.length} members
             </p>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled>Previous</Button>
@@ -366,34 +366,34 @@ export default function AdminMembersPage() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Department</p>
-                  <p className="font-medium">{selectedMember.department}</p>
+                  <p className="font-medium">{selectedMember.department || '-'}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Batch</p>
-                  <p className="font-medium">{selectedMember.batch}</p>
+                  <p className="font-medium">{selectedMember.batch || '-'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Events Attended</p>
-                  <p className="font-medium">{selectedMember.eventsAttended}</p>
+                  <p className="text-sm text-gray-500">Points</p>
+                  <p className="font-medium">{selectedMember.points}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Role</p>
-                  <Badge color={roleColors[selectedMember.role as keyof typeof roleColors]}>
+                  <Badge color={roleColors[selectedMember.role as keyof typeof roleColors] || 'gray'}>
                     {selectedMember.role}
                   </Badge>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Status</p>
-                  <Badge color={statusColors[selectedMember.status as keyof typeof statusColors]}>
-                    {selectedMember.status}
+                  <Badge color={selectedMember.isVerified ? 'green' : 'yellow'}>
+                    {selectedMember.isVerified ? 'VERIFIED' : 'PENDING'}
                   </Badge>
                 </div>
               </div>
             </ModalBody>
             <ModalFooter>
               <Button variant="outline" onClick={() => setIsViewModalOpen(false)}>Close</Button>
-              <Link href={`/admin/members/${selectedMember.id}/edit`}>
-                <Button>Edit Member</Button>
+              <Link href={`/admin/members/${selectedMember.id}`}>
+                <Button>View Full Profile</Button>
               </Link>
             </ModalFooter>
           </>
@@ -413,7 +413,7 @@ export default function AdminMembersPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-          <Button variant="danger" onClick={() => setIsDeleteModalOpen(false)}>Delete</Button>
+          <Button variant="danger" onClick={handleDelete} isLoading={isDeleting}>Delete</Button>
         </ModalFooter>
       </Modal>
     </div>

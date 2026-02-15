@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, LogIn, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, ArrowLeft, Shield, Info } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -38,10 +38,17 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+
+  const fillDemoCredentials = (email: string, password: string) => {
+    setValue('email', email);
+    setValue('password', password);
+    setError('');
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
@@ -49,8 +56,15 @@ export default function LoginPage() {
 
     try {
       const response = await authApi.login(data);
-      dispatch(loginAction({ user: response.data.user, token: response.data.token }));
-      router.push('/dashboard');
+      const { user, token } = response.data.data || response.data;
+      dispatch(loginAction({ user, token }));
+
+      // Role-based redirect
+      if (user.role === 'ADMIN' || user.role === 'EXECUTIVE') {
+        router.push('/admin');
+      } else {
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {
@@ -174,6 +188,67 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
+
+        {/* Demo Credentials Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-6 glass rounded-2xl p-5 border border-nexus-border bg-nexus-bg/40 backdrop-blur-xl"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <Shield className="w-4 h-4 text-nexus-purple" />
+            <h3 className="text-sm font-semibold text-nexus-text">Demo Credentials</h3>
+          </div>
+          <div className="space-y-2">
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('admin@diu.edu.bd', 'admin123456')}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-nexus-glass hover:bg-nexus-surface-2 border border-nexus-border hover:border-nexus-purple/30 transition-all group cursor-pointer"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">A</span>
+                <div className="text-left">
+                  <p className="text-xs font-medium text-nexus-text">Admin</p>
+                  <p className="text-[10px] text-nexus-text-secondary">admin@diu.edu.bd</p>
+                </div>
+              </div>
+              <span className="text-[10px] text-nexus-text-secondary group-hover:text-nexus-purple transition-colors">Click to fill</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('executive@diu.edu.bd', 'exec123456')}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-nexus-glass hover:bg-nexus-surface-2 border border-nexus-border hover:border-nexus-cyan/30 transition-all group cursor-pointer"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-xs font-bold">E</span>
+                <div className="text-left">
+                  <p className="text-xs font-medium text-nexus-text">Executive</p>
+                  <p className="text-[10px] text-nexus-text-secondary">executive@diu.edu.bd</p>
+                </div>
+              </div>
+              <span className="text-[10px] text-nexus-text-secondary group-hover:text-nexus-cyan transition-colors">Click to fill</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('member@diu.edu.bd', 'member123456')}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-nexus-glass hover:bg-nexus-surface-2 border border-nexus-border hover:border-green-500/30 transition-all group cursor-pointer"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-xs font-bold">M</span>
+                <div className="text-left">
+                  <p className="text-xs font-medium text-nexus-text">Member</p>
+                  <p className="text-[10px] text-nexus-text-secondary">member@diu.edu.bd</p>
+                </div>
+              </div>
+              <span className="text-[10px] text-nexus-text-secondary group-hover:text-green-400 transition-colors">Click to fill</span>
+            </button>
+          </div>
+          <p className="text-[10px] text-nexus-text-secondary mt-3 flex items-center gap-1">
+            <Info className="w-3 h-3" />
+            Run <code className="px-1 py-0.5 bg-nexus-glass rounded text-nexus-purple text-[10px]">npm run db:seed</code> in backend first
+          </p>
+        </motion.div>
       </motion.div>
     </div>
   );

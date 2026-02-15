@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { 
-  Plus, 
   Search, 
-  Filter, 
-  Edit, 
+  Plus,
+  Edit,
   Trash2, 
   Eye,
   Github,
@@ -15,141 +13,111 @@ import {
   Code,
   Users,
   Calendar,
-  MoreVertical
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@/components/ui/Modal';
-import { formatDate } from '@/lib/utils';
+import { adminApi } from '@/lib/api';
 
-// Mock data
-const mockProjects = [
-  {
-    id: '1',
-    title: 'AI-Powered Chatbot for University',
-    slug: 'ai-chatbot-university',
-    shortDescription: 'An intelligent chatbot for university queries',
-    category: 'NLP',
-    status: 'COMPLETED',
-    technologies: ['Python', 'TensorFlow', 'FastAPI', 'React'],
-    githubUrl: 'https://github.com/daic/chatbot',
-    liveUrl: 'https://chatbot.daic.edu.bd',
-    teamMembers: [
-      { id: '1', name: 'Abdullah Rahman', role: 'Lead' },
-      { id: '2', name: 'Fatima Akter', role: 'ML Engineer' },
-    ],
-    startDate: '2023-09-01',
-    endDate: '2024-02-28',
-    isFeatured: true,
-    isPublished: true,
-  },
-  {
-    id: '2',
-    title: 'Object Detection System',
-    slug: 'object-detection-system',
-    shortDescription: 'Real-time object detection using YOLO',
-    category: 'Computer Vision',
-    status: 'IN_PROGRESS',
-    technologies: ['Python', 'PyTorch', 'OpenCV', 'YOLO'],
-    githubUrl: 'https://github.com/daic/object-detection',
-    liveUrl: null,
-    teamMembers: [
-      { id: '3', name: 'Kamal Hossain', role: 'Lead' },
-      { id: '4', name: 'Rashida Khanom', role: 'Developer' },
-    ],
-    startDate: '2024-01-15',
-    endDate: null,
-    isFeatured: true,
-    isPublished: true,
-  },
-  {
-    id: '3',
-    title: 'Sentiment Analysis Dashboard',
-    slug: 'sentiment-analysis-dashboard',
-    shortDescription: 'Analyze social media sentiment in Bengali',
-    category: 'NLP',
-    status: 'PLANNING',
-    technologies: ['Python', 'BERT', 'Flask', 'Vue.js'],
-    githubUrl: null,
-    liveUrl: null,
-    teamMembers: [
-      { id: '5', name: 'Mohammad Ali', role: 'Lead' },
-    ],
-    startDate: '2024-03-01',
-    endDate: null,
-    isFeatured: false,
-    isPublished: false,
-  },
-  {
-    id: '4',
-    title: 'Predictive Analytics for Student Performance',
-    slug: 'student-performance-prediction',
-    shortDescription: 'ML model to predict student academic performance',
-    category: 'Machine Learning',
-    status: 'COMPLETED',
-    technologies: ['Python', 'Scikit-learn', 'Pandas', 'Streamlit'],
-    githubUrl: 'https://github.com/daic/student-prediction',
-    liveUrl: 'https://predict.daic.edu.bd',
-    teamMembers: [
-      { id: '6', name: 'Nusrat Jahan', role: 'Lead' },
-      { id: '7', name: 'Imran Hossain', role: 'Data Analyst' },
-    ],
-    startDate: '2023-06-01',
-    endDate: '2023-11-30',
-    isFeatured: false,
-    isPublished: true,
-  },
-];
+interface TeamMember {
+  id: string;
+  name: string;
+  role?: string;
+}
 
-type Project = typeof mockProjects[0];
+interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription?: string;
+  description?: string;
+  category?: string;
+  status?: string;
+  technologies?: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  teamMembers?: TeamMember[];
+  members?: TeamMember[];
+  startDate?: string;
+  endDate?: string;
+  isFeatured: boolean;
+  isPublished: boolean;
+  isApproved?: boolean;
+  createdAt: string;
+}
 
-const categoryColors = {
+const categoryColors: Record<string, string> = {
   'Machine Learning': 'blue',
   'Deep Learning': 'purple',
   'NLP': 'green',
   'Computer Vision': 'orange',
   'Web Application': 'pink',
-} as const;
+};
 
-const statusColors = {
+const statusColors: Record<string, string> = {
   PLANNING: 'yellow',
   IN_PROGRESS: 'blue',
   COMPLETED: 'green',
   ON_HOLD: 'orange',
-} as const;
+};
 
 export default function AdminProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  // Filter projects
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = !filterCategory || project.category === filterCategory;
-    const matchesStatus = !filterStatus || project.status === filterStatus;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const fetchProjects = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await adminApi.getProjects({ search: searchQuery, category: filterCategory || undefined, status: filterStatus || undefined });
+      const data = response.data;
+      const list = data.data || data.projects || data;
+      if (Array.isArray(list)) {
+        setProjects(list);
+      }
+    } catch (error) {
+      console.error('Failed to fetch projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchQuery, filterCategory, filterStatus]);
 
-  // Stats
+  useEffect(() => {
+    const debounce = setTimeout(() => fetchProjects(), 300);
+    return () => clearTimeout(debounce);
+  }, [fetchProjects]);
+
+  const getTeam = (p: Project) => p.teamMembers || p.members || [];
+
   const stats = {
     total: projects.length,
     inProgress: projects.filter(p => p.status === 'IN_PROGRESS').length,
     completed: projects.filter(p => p.status === 'COMPLETED').length,
-    totalMembers: new Set(projects.flatMap(p => p.teamMembers.map(m => m.id))).size,
+    totalMembers: new Set(projects.flatMap(p => getTeam(p).map(m => m.id))).size,
   };
 
-  const handleDelete = () => {
-    if (selectedProject) {
-      setProjects(projects.filter(p => p.id !== selectedProject.id));
+  const handleDelete = async () => {
+    if (!selectedProject) return;
+    setIsDeleting(true);
+    try {
+      await adminApi.deleteProject(selectedProject.id);
+      setProjects(prev => prev.filter(p => p.id !== selectedProject.id));
       setShowDeleteModal(false);
       setSelectedProject(null);
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -163,12 +131,18 @@ export default function AdminProjectsPage() {
           </h1>
           <p className="text-gray-500">Manage club projects and collaborations</p>
         </div>
-        <Link href="/admin/projects/create">
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            New Project
+        <div className="flex gap-3">
+          <Button variant="outline" onClick={() => fetchProjects()}>
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh
           </Button>
-        </Link>
+          <Link href="/admin/projects/create">
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              Create Project
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
@@ -268,153 +242,155 @@ export default function AdminProjectsPage() {
       </Card>
 
       {/* Projects Table */}
-      <Card>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-100 dark:border-gray-800">
-                  <th className="text-left p-4 font-medium text-gray-500">Project</th>
-                  <th className="text-left p-4 font-medium text-gray-500">Category</th>
-                  <th className="text-left p-4 font-medium text-gray-500">Status</th>
-                  <th className="text-left p-4 font-medium text-gray-500">Team</th>
-                  <th className="text-left p-4 font-medium text-gray-500">Links</th>
-                  <th className="text-left p-4 font-medium text-gray-500">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProjects.map((project) => (
-                  <tr 
-                    key={project.id}
-                    className="border-b border-gray-50 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50"
-                  >
-                    <td className="p-4">
-                      <div>
-                        <p className="font-medium text-gray-900 dark:text-nexus-text">
-                          {project.title}
-                        </p>
-                        <p className="text-sm text-gray-500 max-w-xs truncate">
-                          {project.shortDescription}
-                        </p>
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {project.technologies.slice(0, 3).map((tech) => (
-                            <span 
-                              key={tech}
-                              className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                          {project.technologies.length > 3 && (
-                            <span className="text-xs text-gray-500">
-                              +{project.technologies.length - 3}
-                            </span>
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+        </div>
+      ) : projects.length === 0 ? (
+        <Card>
+          <CardContent className="text-center py-12">
+            <Code className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">{searchQuery ? 'No projects found' : 'No projects yet'}</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-100 dark:border-gray-800">
+                    <th className="text-left p-4 font-medium text-gray-500">Project</th>
+                    <th className="text-left p-4 font-medium text-gray-500">Category</th>
+                    <th className="text-left p-4 font-medium text-gray-500">Status</th>
+                    <th className="text-left p-4 font-medium text-gray-500">Team</th>
+                    <th className="text-left p-4 font-medium text-gray-500">Links</th>
+                    <th className="text-left p-4 font-medium text-gray-500">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projects.map((project) => (
+                    <tr 
+                      key={project.id}
+                      className="border-b border-gray-50 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                    >
+                      <td className="p-4">
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-nexus-text">
+                            {project.title}
+                          </p>
+                          <p className="text-sm text-gray-500 max-w-xs truncate">
+                            {project.shortDescription || project.description}
+                          </p>
+                          {project.technologies && project.technologies.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {project.technologies.slice(0, 3).map((tech) => (
+                                <span 
+                                  key={tech}
+                                  className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                              {project.technologies.length > 3 && (
+                                <span className="text-xs text-gray-500">
+                                  +{project.technologies.length - 3}
+                                </span>
+                              )}
+                            </div>
                           )}
                         </div>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <Badge color={categoryColors[project.category as keyof typeof categoryColors] || 'gray'}>
-                        {project.category}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <Badge color={statusColors[project.status as keyof typeof statusColors] || 'gray'}>
-                        {project.status.replace('_', ' ')}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex -space-x-2">
-                        {project.teamMembers.slice(0, 3).map((member) => (
-                          <Avatar 
-                            key={member.id}
-                            name={member.name}
-                            size="sm"
-                            className="border-2 border-white dark:border-gray-900"
-                          />
-                        ))}
-                        {project.teamMembers.length > 3 && (
-                          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium border-2 border-white dark:border-gray-900">
-                            +{project.teamMembers.length - 3}
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex gap-2">
-                        {project.githubUrl && (
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      </td>
+                      <td className="p-4">
+                        <Badge color={(categoryColors[project.category || ''] || 'gray') as any}>
+                          {project.category || 'Uncategorized'}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <Badge color={(statusColors[project.status || ''] || 'gray') as any}>
+                          {(project.status || 'UNKNOWN').replace('_', ' ')}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex -space-x-2">
+                          {getTeam(project).slice(0, 3).map((member) => (
+                            <Avatar 
+                              key={member.id}
+                              name={member.name}
+                              size="sm"
+                              className="border-2 border-white dark:border-gray-900"
+                            />
+                          ))}
+                          {getTeam(project).length > 3 && (
+                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium border-2 border-white dark:border-gray-900">
+                              +{getTeam(project).length - 3}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex gap-2">
+                          {project.githubUrl && (
+                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                              <Button variant="ghost" size="sm" className="p-2">
+                                <Github className="w-4 h-4" />
+                              </Button>
+                            </a>
+                          )}
+                          {project.liveUrl && (
+                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                              <Button variant="ghost" size="sm" className="p-2">
+                                <ExternalLink className="w-4 h-4" />
+                              </Button>
+                            </a>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex gap-1">
+                          <Link href={`/projects/${project.slug}`}>
                             <Button variant="ghost" size="sm" className="p-2">
-                              <Github className="w-4 h-4" />
+                              <Eye className="w-4 h-4" />
                             </Button>
-                          </a>
-                        )}
-                        {project.liveUrl && (
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          </Link>
+                          <Link href={`/admin/projects/${project.id}/edit`}>
                             <Button variant="ghost" size="sm" className="p-2">
-                              <ExternalLink className="w-4 h-4" />
+                              <Edit className="w-4 h-4" />
                             </Button>
-                          </a>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex gap-1">
-                        <Link href={`/projects/${project.slug}`}>
-                          <Button variant="ghost" size="sm" className="p-2">
-                            <Eye className="w-4 h-4" />
+                          </Link>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="p-2 text-red-500 hover:text-red-600"
+                            onClick={() => {
+                              setSelectedProject(project);
+                              setShowDeleteModal(true);
+                            }}
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
-                        </Link>
-                        <Link href={`/admin/projects/${project.id}/edit`}>
-                          <Button variant="ghost" size="sm" className="p-2">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                        </Link>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="p-2 text-red-500 hover:text-red-600"
-                          onClick={() => {
-                            setSelectedProject(project);
-                            setShowDeleteModal(true);
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <Code className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">No projects found</p>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Delete Modal */}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)} size="sm">
-        <ModalHeader>
-          Delete Project
-        </ModalHeader>
+        <ModalHeader>Delete Project</ModalHeader>
         <ModalBody>
           <p className="text-gray-600 dark:text-gray-400">
-            Are you sure you want to delete "{selectedProject?.title}"? This action cannot be undone.
+            Are you sure you want to delete &quot;{selectedProject?.title}&quot;? This action cannot be undone.
           </p>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="outline" className="text-red-500 border-red-500" onClick={handleDelete}>
-            Delete Project
-          </Button>
+          <Button variant="outline" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+          <Button variant="danger" onClick={handleDelete} isLoading={isDeleting}>Delete Project</Button>
         </ModalFooter>
       </Modal>
     </div>

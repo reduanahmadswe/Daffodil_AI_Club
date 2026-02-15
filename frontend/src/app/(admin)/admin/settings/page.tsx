@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Settings, 
   Globe,
@@ -70,11 +69,7 @@ export default function AdminSettingsPage() {
         <div className="lg:col-span-3 space-y-6">
           {/* General Settings */}
           {activeTab === 'general' && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Site Information</CardTitle>
@@ -149,16 +144,12 @@ export default function AdminSettingsPage() {
                   Save Changes
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Notifications Settings */}
           {activeTab === 'notifications' && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Email Notifications</CardTitle>
@@ -191,16 +182,12 @@ export default function AdminSettingsPage() {
                   Save Changes
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Security Settings */}
           {activeTab === 'security' && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>API Keys</CardTitle>
@@ -259,16 +246,12 @@ export default function AdminSettingsPage() {
                   Save Changes
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Appearance Settings */}
           {activeTab === 'appearance' && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Theme</CardTitle>
@@ -323,16 +306,12 @@ export default function AdminSettingsPage() {
                   Save Changes
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Email Settings */}
           {activeTab === 'email' && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>SMTP Configuration</CardTitle>
@@ -379,7 +358,7 @@ export default function AdminSettingsPage() {
                   Save Changes
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

@@ -143,3 +143,54 @@ export const contactApi = {
   unsubscribeNewsletter: (email: string) => api.post('/contact/newsletter/unsubscribe', { email }),
   send: (data: any) => api.post('/contact/send', data), // Added alias for submit
 };
+
+// Admin API (aggregated endpoints)
+export const adminApi = {
+  // Dashboard stats
+  getDashboardStats: () => api.get('/admin/dashboard/stats'),
+
+  // Members management
+  getMembers: (params?: any) => api.get('/members', { params }),
+  getMemberStats: () => api.get('/members/stats'),
+  getMemberById: (id: string) => api.get(`/members/${id}`),
+  updateMemberRole: (id: string, role: string) => api.patch(`/members/${id}/role`, { role }),
+  deleteMember: (id: string) => api.delete(`/members/${id}`),
+
+  // Events management
+  getEvents: (params?: any) => api.get('/events', { params }),
+  createEvent: (data: any) => api.post('/events', data),
+  updateEvent: (id: string, data: any) => api.put(`/events/${id}`, data),
+  deleteEvent: (id: string) => api.delete(`/events/${id}`),
+
+  // Blogs management
+  getBlogs: (params?: any) => api.get('/blogs', { params }),
+  createBlog: (data: any) => api.post('/blogs', data),
+  updateBlog: (id: string, data: any) => api.put(`/blogs/${id}`, data),
+  deleteBlog: (id: string) => api.delete(`/blogs/${id}`),
+  approveBlog: (id: string) => api.post(`/blogs/${id}/approve`),
+  rejectBlog: (id: string) => api.post(`/blogs/${id}/reject`),
+
+  // Workshops management
+  getWorkshops: (params?: any) => api.get('/workshops', { params }),
+  createWorkshop: (data: any) => api.post('/workshops', data),
+  updateWorkshop: (id: string, data: any) => api.put(`/workshops/${id}`, data),
+  deleteWorkshop: (id: string) => api.delete(`/workshops/${id}`),
+
+  // Projects management
+  getProjects: (params?: any) => api.get('/projects', { params }),
+  createProject: (data: any) => api.post('/projects', data),
+  updateProject: (id: string, data: any) => api.put(`/projects/${id}`, data),
+  deleteProject: (id: string) => api.delete(`/projects/${id}`),
+  approveProject: (id: string) => api.post(`/projects/${id}/approve`),
+
+  // Gallery management
+  getGalleryImages: (params?: any) => api.get('/gallery', { params }),
+  uploadGalleryImage: (data: any) => api.post('/gallery', data),
+  uploadGalleryBulk: (images: any[]) => api.post('/gallery/bulk', { images }),
+  deleteGalleryImage: (id: string) => api.delete(`/gallery/${id}`),
+
+  // Messages/Contact management
+  getMessages: (params?: any) => api.get('/contact', { params }),
+  markMessageAsRead: (id: string) => api.patch(`/contact/${id}/read`),
+  deleteMessage: (id: string) => api.delete(`/contact/${id}`),
+};

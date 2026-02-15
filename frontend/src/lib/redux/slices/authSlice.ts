@@ -45,9 +45,11 @@ const authSlice = createSlice({
       state.token = token;
       state.isAuthenticated = true;
       state.isLoading = false;
-      // Store token in localStorage
+      // Store token in localStorage + cookie for middleware
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', token);
+        document.cookie = `auth-token=${token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
+        document.cookie = `auth-role=${user.role}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
       }
     },
     logout: (state) => {
@@ -55,9 +57,11 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       state.isLoading = false;
-      // Remove token from localStorage
+      // Remove token from localStorage + cookies
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
+        document.cookie = 'auth-token=; path=/; max-age=0';
+        document.cookie = 'auth-role=; path=/; max-age=0';
       }
     },
     updateUser: (state, action: PayloadAction<Partial<User>>) => {

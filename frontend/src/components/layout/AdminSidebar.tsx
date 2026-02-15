@@ -19,9 +19,8 @@ import {
   LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { useAppDispatch } from '@/lib/redux/hooks';
 import { logout as logoutAction } from '@/lib/redux/slices/authSlice';
-import { Avatar } from '@/components/ui/Avatar';
 
 const adminLinks = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
@@ -40,7 +39,6 @@ const adminLinks = [
 export const AdminSidebar = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -60,19 +58,6 @@ export const AdminSidebar = () => {
           </div>
         </Link>
       </div>
-
-      {/* User Info */}
-      {user && (
-        <div className="p-4 border-b border-nexus-border">
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-nexus-purple/10">
-            <Avatar src={user.profileImage} name={user.name} size="md" />
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold truncate text-nexus-text">{user.name}</p>
-              <p className="text-xs truncate text-nexus-purple">{user.role}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4">
@@ -98,15 +83,8 @@ export const AdminSidebar = () => {
         </div>
       </nav>
 
-      {/* Back to Dashboard & Logout */}
-      <div className="p-4 border-t border-nexus-border space-y-1">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-3 px-4 py-3 w-full rounded-xl font-medium transition-colors text-nexus-text-muted hover:bg-nexus-purple/10 hover:text-nexus-text"
-        >
-          <LayoutDashboard className="w-5 h-5" />
-          Back to Dashboard
-        </Link>
+      {/* Logout */}
+      <div className="p-4 border-t border-nexus-border">
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3 w-full rounded-xl font-medium text-red-400 hover:bg-red-500/10 transition-colors"

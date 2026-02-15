@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { DashboardSidebar } from '@/components/layout';
+import { DashboardSidebar } from '@/components/layout/DashboardSidebar';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Skeleton } from '@/components/ui/Skeleton';
 
