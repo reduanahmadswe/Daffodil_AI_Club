@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useThemeStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const { theme } = useThemeStore();
+  const { theme } = useAppSelector((state) => state.theme);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
