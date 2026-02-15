@@ -24,7 +24,8 @@ import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@/components/ui/Modal';
 import { eventsApi } from '@/lib/api';
-import { useAuthStore, useNotificationStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Event } from '@/types';
 import { formatDate } from '@/lib/utils';
 
@@ -95,8 +96,8 @@ const typeColors = {
 export default function EventDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { isAuthenticated, user } = useAuthStore();
-  const { addNotification } = useNotificationStore();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
@@ -139,10 +140,10 @@ export default function EventDetailPage() {
       await eventsApi.register(event!.id);
       setIsRegistered(true);
       setEvent(prev => prev ? { ...prev, registeredCount: (prev.registeredCount || 0) + 1 } : null);
-      addNotification('Successfully registered for the event!', 'success');
+      dispatch(addNotification({ message: 'Successfully registered for the event!', type: 'success' }));
       setShowRegisterModal(false);
     } catch (error) {
-      addNotification('Failed to register. Please try again.', 'error');
+      dispatch(addNotification({ message: 'Failed to register. Please try again.', type: 'error' }));
     } finally {
       setProcessing(false);
     }
@@ -158,10 +159,10 @@ export default function EventDetailPage() {
       await eventsApi.cancelRegistration(event!.id);
       setIsRegistered(false);
       setEvent(prev => prev ? { ...prev, registeredCount: Math.max(0, (prev.registeredCount || 0) - 1) } : null);
-      addNotification('Registration cancelled successfully.', 'success');
+      dispatch(addNotification({ message: 'Registration cancelled successfully.', type: 'success' }));
       setShowCancelModal(false);
     } catch (error) {
-      addNotification('Failed to cancel registration.', 'error');
+      dispatch(addNotification({ message: 'Failed to cancel registration.', type: 'error' }));
     } finally {
       setProcessing(false);
     }

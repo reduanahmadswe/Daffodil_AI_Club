@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminSidebar } from '@/components/layout';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function AdminLayout({
@@ -12,7 +12,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const { user, isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (!isLoading) {

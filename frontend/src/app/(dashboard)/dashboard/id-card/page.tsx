@@ -7,10 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/Button';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 export default function IDCardPage() {
-  const { user } = useAuthStore();
+  const { user } = useAppSelector((state) => state.auth);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = () => {

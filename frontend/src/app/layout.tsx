@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
+import { ReduxProvider } from '@/lib/redux/Provider';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
@@ -110,9 +111,11 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider>
-          <div id="root">{children}</div>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider>
+            <div id="root">{children}</div>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

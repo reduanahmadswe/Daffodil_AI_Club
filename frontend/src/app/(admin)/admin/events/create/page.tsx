@@ -23,7 +23,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { eventsApi } from '@/lib/api';
-import { useNotificationStore } from '@/lib/store';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { addNotification } from '@/lib/redux/slices/notificationSlice';
 
 const eventSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -45,7 +46,7 @@ type EventFormData = z.infer<typeof eventSchema>;
 
 export default function CreateEventPage() {
   const router = useRouter();
-  const { addNotification } = useNotificationStore();
+  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
@@ -90,10 +91,10 @@ export default function CreateEventPage() {
       };
 
       await eventsApi.create(eventData);
-      addNotification('The event has been created successfully.', 'success');
+      dispatch(addNotification({ message: 'The event has been created successfully.', type: 'success' }));
       router.push('/admin/events');
     } catch (error: any) {
-      addNotification(error.response?.data?.message || 'Something went wrong.', 'error');
+      dispatch(addNotification({ message: error.response?.data?.message || 'Something went wrong.', type: 'error' }));
     } finally {
       setIsSubmitting(false);
     }

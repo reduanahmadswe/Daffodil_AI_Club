@@ -22,7 +22,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { blogsApi } from '@/lib/api';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { Blog, Comment } from '@/types';
 import { formatDate, formatRelativeTime } from '@/lib/utils';
 
@@ -110,7 +110,7 @@ const relatedPosts = [
 
 export default function BlogDetailPage() {
   const params = useParams();
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
   const [blog, setBlog] = useState<Blog | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);

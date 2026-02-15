@@ -1,0 +1,8 @@
+# .vercelignore
+node_modules
+npm-debug.log
+dist
+.env
+.env.*
+*.md
+prisma/migrations/

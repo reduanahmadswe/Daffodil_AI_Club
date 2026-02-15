@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { CheckCircle, Users, Zap, Brain, Rocket, Trophy, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
-import { useAuthStore } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 const benefits = [
     {
@@ -41,7 +41,7 @@ const benefits = [
 ];
 
 export default function MembershipPage() {
-    const { isAuthenticated, user } = useAuthStore();
+    const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
     return (
         <>

@@ -24,7 +24,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { workshopsApi } from '@/lib/api';
-import { useAuthStore, useNotificationStore } from '@/lib/store';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Workshop } from '@/types';
 import { formatDate } from '@/lib/utils';
 
@@ -129,8 +130,8 @@ const levelColors = {
 export default function WorkshopDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { isAuthenticated, user } = useAuthStore();
-  const { addNotification } = useNotificationStore();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [loading, setLoading] = useState(true);
@@ -164,9 +165,9 @@ export default function WorkshopDetailPage() {
     try {
       await workshopsApi.register(workshop!.id);
       setIsRegistered(true);
-      addNotification('You have been registered for this workshop.', 'success');
+      dispatch(addNotification({ message: 'You have been registered for this workshop.', type: 'success' }));
     } catch (error: any) {
-      addNotification(error.response?.data?.message || 'Failed to register for workshop.', 'error');
+      dispatch(addNotification({ message: error.response?.data?.message || 'Failed to register for workshop.', type: 'error' }));
     } finally {
       setIsRegistering(false);
     }

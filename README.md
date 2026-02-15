@@ -319,6 +319,39 @@ NEXT_PUBLIC_API_URL=https://api.daic.diu.edu.bd/api
 NEXT_PUBLIC_SITE_URL=https://daic.diu.edu.bd
 ```
 
+## 🚀 CI/CD Pipeline
+
+This project includes automated deployment to Vercel using GitHub Actions.
+
+### ✨ Features
+- **Automatic Deployment**: Push to main → Auto-deploy to production
+- **Preview Deployments**: Pull requests get preview URLs
+- **Separate Workflows**: Backend and frontend deploy independently
+- **Smart Triggers**: Only deploys when relevant files change
+
+### 📚 Setup Guides
+- **[Quick Start](SETUP_COMPLETE.md)** - Get started in 5 minutes
+- **[Detailed Setup](CI_CD_SETUP.md)** - Complete step-by-step guide
+- **[Visual Guide](VISUAL_GUIDE.md)** - Architecture diagrams
+- **[GitHub Secrets](GITHUB_SECRETS.md)** - Quick reference
+
+### 🔗 Live URLs
+- **Backend**: https://aiclubbackend.vercel.app
+- **Frontend**: (Deployed on Vercel)
+
+### 🎯 How to Deploy
+```bash
+# Just push your code!
+git add .
+git commit -m "your changes"
+git push origin main
+
+# GitHub Actions handles the rest! 🎉
+```
+
+For detailed CI/CD setup instructions, see **[SETUP_COMPLETE.md](SETUP_COMPLETE.md)**
+
+
 ## 🤝 Contributing
 
 1. Fork the repository
