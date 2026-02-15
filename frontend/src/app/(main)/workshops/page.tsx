@@ -72,7 +72,7 @@ export default function WorkshopsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
@@ -89,10 +89,10 @@ export default function WorkshopsPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="cyan" className="mb-6">Workshops</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Learn AI Through <span className="gradient-text">Practice</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Hands-on workshops designed to build your AI skills from beginner to advanced
             </p>
           </motion.div>
@@ -100,7 +100,7 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+      <section className="py-8 bg-nexus-bg relative overflow-hidden border-b border-nexus-border">
         {/* Subtle Orb */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-64 h-64 top-1/2 right-1/4 opacity-30" />
@@ -124,8 +124,8 @@ export default function WorkshopsPage() {
                   key={lvl}
                   onClick={() => setLevel(lvl)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${level === lvl
-                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
-                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-nexus-purple to-nexus-pink text-nexus-text shadow-glow-purple'
+                    : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                     }`}
                 >
                   {lvl}
@@ -137,7 +137,7 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Workshops Grid */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/3 left-1/4" />
@@ -174,7 +174,7 @@ export default function WorkshopsPage() {
                     transition={{ delay: index * 0.05 }}
                   >
                     <Link href={`/workshops/${workshop.slug}`}>
-                      <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 h-full flex flex-col border border-white/5 group relative">
+                      <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border group relative">
                         {/* Workshop Image */}
                         <div className="aspect-video bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] relative overflow-hidden">
                           {workshop.image ? (
@@ -204,41 +204,41 @@ export default function WorkshopsPage() {
                         </div>
 
                         <div className="p-6 flex-1 flex flex-col">
-                          <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-[#6EF3FF] transition-colors">{workshop.title}</h3>
-                          <p className="text-[#B5B5C3] mb-4 line-clamp-2 flex-1">
+                          <h3 className="text-xl font-bold text-nexus-text mb-3 line-clamp-2 group-hover:text-nexus-cyan transition-colors">{workshop.title}</h3>
+                          <p className="text-nexus-text-secondary mb-4 line-clamp-2 flex-1">
                             {workshop.description}
                           </p>
 
                           {/* Workshop Details */}
-                          <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-[#8A8A9E] mb-4">
+                          <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-nexus-text-muted mb-4">
                             <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                              <Calendar className="w-4 h-4 text-nexus-cyan flex-shrink-0" />
                               <span className="truncate">{formatDate(workshop.startDate)}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                              <Clock className="w-4 h-4 text-nexus-cyan flex-shrink-0" />
                               <span className="truncate">{workshop.duration}</span>
                             </div>
                             {workshop.maxParticipants && (
                               <div className="flex items-center gap-2">
-                                <Users className="w-4 h-4 text-[#6EF3FF] flex-shrink-0" />
+                                <Users className="w-4 h-4 text-nexus-cyan flex-shrink-0" />
                                 <span className="truncate">{workshop.registeredCount || 0}/{workshop.maxParticipants} seats</span>
                               </div>
                             )}
                           </div>
 
                           {/* Instructor */}
-                          <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                          <div className="flex items-center justify-between border-t border-nexus-border pt-3">
                             <div className="flex items-center gap-3">
                               <Avatar name={typeof workshop.instructor === 'string' ? workshop.instructor : workshop.instructor?.name || 'Instructor'} size="sm" />
                               <div className="flex-1">
-                                <p className="text-sm font-medium text-white">
+                                <p className="text-sm font-medium text-nexus-text">
                                   {typeof workshop.instructor === 'string' ? workshop.instructor : workshop.instructor?.name || 'Club Instructor'}
                                 </p>
-                                <p className="text-xs text-[#8A8A9E]">Instructor</p>
+                                <p className="text-xs text-nexus-text-muted">Instructor</p>
                               </div>
                             </div>
-                            <ArrowRight className="w-5 h-5 text-[#6EF3FF] group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-5 h-5 text-nexus-cyan group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
                       </div>
@@ -249,11 +249,11 @@ export default function WorkshopsPage() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <BookOpen className="w-16 h-16 mx-auto text-[#6EF3FF] mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <BookOpen className="w-16 h-16 mx-auto text-nexus-cyan mb-4" />
+              <h3 className="text-xl font-semibold text-nexus-text mb-2">
                 No workshops found
               </h3>
-              <p className="text-[#B5B5C3]">
+              <p className="text-nexus-text-secondary">
                 {search ? 'Try a different search term' : 'Check back later for upcoming workshops'}
               </p>
             </div>
@@ -262,7 +262,7 @@ export default function WorkshopsPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-blue w-96 h-96 top-1/4 right-1/3" />
@@ -296,10 +296,10 @@ export default function WorkshopsPage() {
               >
                 <div className="glass rounded-2xl p-8 text-center h-full hover:shadow-glow-blue transition-all duration-300">
                   <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] flex items-center justify-center">
-                    <benefit.icon className="w-8 h-8 text-white" />
+                    <benefit.icon className="w-8 h-8 text-nexus-text" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
-                  <p className="text-[#B5B5C3]">{benefit.description}</p>
+                  <h3 className="text-xl font-bold text-nexus-text mb-2">{benefit.title}</h3>
+                  <p className="text-nexus-text-secondary">{benefit.description}</p>
                 </div>
               </motion.div>
             ))}

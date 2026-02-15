@@ -127,16 +127,16 @@ export default function Chatbot() {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="w-[90vw] md:w-[400px] h-[500px] bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 pointer-events-auto"
+                        className="w-[90vw] md:w-[400px] h-[500px] bg-nexus-surface-1/95 backdrop-blur-xl border border-nexus-border rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 pointer-events-auto"
                     >
                         {/* Header */}
-                        <div className="p-4 bg-gradient-to-r from-[#7B61FF]/20 to-[#FF4FD8]/20 border-b border-white/10 flex items-center justify-between">
+                        <div className="p-4 bg-gradient-to-r from-nexus-purple/20 to-nexus-pink/20 border-b border-nexus-border flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
-                                    <Sparkles className="w-4 h-4 text-white" />
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-nexus-purple to-nexus-pink flex items-center justify-center">
+                                    <Sparkles className="w-4 h-4 text-nexus-text" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-sm">DAIC Assistant</h3>
+                                    <h3 className="font-bold text-nexus-text text-sm">DAIC Assistant</h3>
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                                         <span className="text-[10px] text-white/50">Online</span>
@@ -145,7 +145,7 @@ export default function Chatbot() {
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
+                                className="p-2 hover:bg-nexus-glass rounded-lg transition-colors text-nexus-text/70 hover:text-nexus-text"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -162,8 +162,8 @@ export default function Chatbot() {
                                 >
                                     <div
                                         className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.type === 'user'
-                                            ? 'bg-[#7B61FF] text-white rounded-br-none'
-                                            : 'bg-white/10 text-white/90 rounded-bl-none border border-white/5'
+                                            ? 'bg-nexus-purple text-nexus-text rounded-br-none'
+                                            : 'bg-nexus-glass text-nexus-text/90 rounded-bl-none border border-nexus-border'
                                             }`}
                                     >
                                         {msg.text}
@@ -179,7 +179,7 @@ export default function Chatbot() {
                                         <button
                                             key={q.id}
                                             onClick={() => handleSendMessage(q.question)}
-                                            className="text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#7B61FF]/30 transition-all text-xs text-white/80 hover:text-[#7B61FF]"
+                                            className="text-left p-2.5 rounded-xl bg-nexus-glass hover:bg-nexus-glass border border-nexus-border hover:border-nexus-purple/30 transition-all text-xs text-nexus-text/80 hover:text-nexus-purple"
                                         >
                                             {q.question}
                                         </button>
@@ -190,7 +190,7 @@ export default function Chatbot() {
                         </div>
 
                         {/* Input Area */}
-                        <div className="p-4 bg-white/5 border-t border-white/10">
+                        <div className="p-4 bg-nexus-glass border-t border-nexus-border">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
@@ -203,12 +203,12 @@ export default function Chatbot() {
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder="Ask about DAIC..."
-                                    className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#7B61FF]/50 placeholder:text-white/20"
+                                    className="flex-1 bg-black/50 border border-nexus-border rounded-xl px-4 py-2.5 text-sm text-nexus-text focus:outline-none focus:border-nexus-purple/50 placeholder:text-white/20"
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim()}
-                                    className="p-2.5 bg-[#7B61FF] hover:bg-[#6042FF] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="p-2.5 bg-nexus-purple hover:bg-nexus-purple/80 text-nexus-text rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     <Send className="w-4 h-4" />
                                 </button>
@@ -230,8 +230,8 @@ export default function Chatbot() {
                         <Lottie animationData={animationData} loop={true} />
                     </div>
                 ) : (
-                    <div className="w-14 h-14 rounded-full bg-[#7B61FF] flex items-center justify-center shadow-lg">
-                        <MessageSquare className="w-7 h-7 text-white" />
+                    <div className="w-14 h-14 rounded-full bg-nexus-purple flex items-center justify-center shadow-lg">
+                        <MessageSquare className="w-7 h-7 text-nexus-text" />
                     </div>
                 )}
             </motion.button>

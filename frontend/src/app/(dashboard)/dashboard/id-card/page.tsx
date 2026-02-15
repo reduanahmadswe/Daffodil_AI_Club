@@ -35,7 +35,7 @@ export default function IDCardPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white">
+        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text">
           My ID Card
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -57,11 +57,11 @@ export default function IDCardPage() {
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center text-nexus-text font-bold text-xl">
                     AI
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">Daffodil AI Club</h3>
+                    <h3 className="text-nexus-text font-bold">Daffodil AI Club</h3>
                     <p className="text-xs text-gray-400">Daffodil International University</p>
                   </div>
                 </div>
@@ -77,7 +77,7 @@ export default function IDCardPage() {
                   className="w-24 h-24 border-4 border-primary-500"
                 />
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold text-white">{user?.name}</h2>
+                  <h2 className="text-xl font-bold text-nexus-text">{user?.name}</h2>
                   <p className="text-gray-400 text-sm">{user?.department}</p>
                   <p className="text-gray-400 text-sm">Batch: {user?.batch}</p>
                   <p className="text-gray-400 text-sm">ID: {user?.studentId}</p>
@@ -87,7 +87,7 @@ export default function IDCardPage() {
               {/* Member ID */}
               <div className="bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-xl p-4 mb-4">
                 <p className="text-xs text-gray-400 mb-1">MEMBER ID</p>
-                <p className="text-2xl font-mono font-bold text-white tracking-wider">
+                <p className="text-2xl font-mono font-bold text-nexus-text tracking-wider">
                   {user?.uniqueId || 'DAIC-SPRING-00001'}
                 </p>
               </div>
@@ -96,7 +96,7 @@ export default function IDCardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs text-gray-400">Valid Since</p>
-                  <p className="text-sm text-white">
+                  <p className="text-sm text-nexus-text">
                     {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {
                       month: 'short',
                       year: 'numeric'

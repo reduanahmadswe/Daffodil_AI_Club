@@ -32,21 +32,21 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer style={{ background: '#0B0B12', color: '#B5B5C3' }}>
+    <footer className="bg-nexus-surface-1 text-nexus-text-secondary">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg bg-nexus-gradient">
                 AI
               </div>
-              <span className="font-display font-bold text-xl" style={{ color: '#FFFFFF' }}>
+              <span className="font-display font-bold text-xl text-nexus-text">
                 Daffodil AI Club
               </span>
             </Link>
-            <p style={{ color: '#8A8A9E' }} className="mb-6">
+            <p className="text-nexus-text-muted mb-6">
               Empowering students with AI knowledge and skills through hands-on learning, workshops, and collaborative projects.
             </p>
             <div className="flex gap-3">
@@ -56,16 +56,7 @@ export const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300"
-                  style={{ background: 'rgba(255, 255, 255, 0.05)', color: '#8A8A9E' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #7B61FF, #FF4FD8)';
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                    e.currentTarget.style.color = '#8A8A9E';
-                  }}
+                  className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 bg-nexus-glass text-nexus-text-muted hover:bg-nexus-gradient hover:text-white"
                   aria-label={social.label}
                 >
                   <social.icon className="w-5 h-5" />
@@ -76,16 +67,13 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Quick Links</h3>
+            <h3 className="font-semibold mb-4 text-nexus-text">Quick Links</h3>
             <ul className="space-y-3">
               {footerLinks.quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="transition-colors"
-                    style={{ color: '#8A8A9E' }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}
+                    className="text-nexus-text-muted hover:text-nexus-purple transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -96,16 +84,13 @@ export const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Resources</h3>
+            <h3 className="font-semibold mb-4 text-nexus-text">Resources</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="transition-colors"
-                    style={{ color: '#8A8A9E' }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}
+                    className="text-nexus-text-muted hover:text-nexus-purple transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -116,28 +101,24 @@ export const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-semibold mb-4" style={{ color: '#FFFFFF' }}>Contact Us</h3>
+            <h3 className="font-semibold mb-4 text-nexus-text">Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#7B61FF' }} />
-                <span style={{ color: '#8A8A9E' }}>
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-nexus-purple" />
+                <span className="text-nexus-text-muted">
                   Daffodil International University<br />
                   Ashulia, Savar, Dhaka-1341
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
-                <a href="mailto:aiclub@diu.edu.bd" className="transition-colors" style={{ color: '#8A8A9E' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                <Mail className="w-5 h-5 flex-shrink-0 text-nexus-purple" />
+                <a href="mailto:aiclub@diu.edu.bd" className="text-nexus-text-muted hover:text-nexus-purple transition-colors">
                   aiclub@diu.edu.bd
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 flex-shrink-0" style={{ color: '#7B61FF' }} />
-                <a href="tel:+8801234567890" className="transition-colors" style={{ color: '#8A8A9E' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#7B61FF'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+                <Phone className="w-5 h-5 flex-shrink-0 text-nexus-purple" />
+                <a href="tel:+8801234567890" className="text-nexus-text-muted hover:text-nexus-purple transition-colors">
                   +880 1234-567890
                 </a>
               </li>
@@ -147,21 +128,21 @@ export const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+      <div className="border-t border-nexus-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
             <div className="flex flex-col md:flex-row items-center gap-4">
-              <p className="text-sm" style={{ color: '#8A8A9E' }}>
+              <p className="text-sm text-nexus-text-muted">
                 © {new Date().getFullYear()} Daffodil AI Club. All rights reserved.
               </p>
-              <span className="hidden md:inline text-white/10">|</span>
-              <p className="text-sm" style={{ color: '#8A8A9E' }}>
+              <span className="hidden md:inline text-nexus-border">|</span>
+              <p className="text-sm text-nexus-text-muted">
                 Developed by{' '}
                 <a
                   href="https://reduanahmadswe.site"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                  className="font-medium gradient-text hover:opacity-80 transition-opacity"
                 >
                   Reduan Ahmad
                 </a>
@@ -169,14 +150,10 @@ export const Footer = () => {
             </div>
 
             <div className="flex items-center gap-6 text-sm">
-              <Link href="/privacy" className="transition-colors" style={{ color: '#8A8A9E' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+              <Link href="/privacy" className="text-nexus-text-muted hover:text-nexus-text-secondary transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="transition-colors" style={{ color: '#8A8A9E' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#B5B5C3'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#8A8A9E'}>
+              <Link href="/terms" className="text-nexus-text-muted hover:text-nexus-text-secondary transition-colors">
                 Terms of Service
               </Link>
             </div>

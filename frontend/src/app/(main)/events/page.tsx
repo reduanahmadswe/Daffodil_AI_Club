@@ -49,7 +49,7 @@ export default function EventsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
@@ -66,10 +66,10 @@ export default function EventsPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="purple" className="mb-6">Events</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Explore Our <span className="gradient-text">Events</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Discover workshops, seminars, hackathons, and more to enhance your AI journey
             </p>
           </motion.div>
@@ -77,7 +77,7 @@ export default function EventsPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+      <section className="py-8 bg-nexus-bg relative overflow-hidden border-b border-nexus-border">
         {/* Subtle Orb */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-64 h-64 top-1/2 right-1/4 opacity-30" />
@@ -103,8 +103,8 @@ export default function EventsPage() {
                   key={type}
                   onClick={() => setFilter(type)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === type
-                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
-                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-nexus-purple to-nexus-pink text-nexus-text shadow-glow-purple'
+                    : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                     }`}
                 >
                   {type}
@@ -116,7 +116,7 @@ export default function EventsPage() {
       </section>
 
       {/* Events Grid */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-blue w-96 h-96 top-1/3 left-1/4" />
@@ -150,9 +150,9 @@ export default function EventsPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full flex flex-col border border-white/5">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border">
                     {/* Event Image */}
-                    <div className="aspect-video bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] relative overflow-hidden">
+                    <div className="aspect-video bg-gradient-to-br from-nexus-purple to-nexus-pink relative overflow-hidden">
                       {event.image && (
                         <img
                           src={event.image}
@@ -174,36 +174,36 @@ export default function EventsPage() {
                     </div>
 
                     <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{event.title}</h3>
-                      <p className="text-[#B5B5C3] mb-4 line-clamp-2">
+                      <h3 className="text-xl font-bold text-nexus-text mb-3 line-clamp-2">{event.title}</h3>
+                      <p className="text-nexus-text-secondary mb-4 line-clamp-2">
                         {event.description}
                       </p>
 
-                      <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-[#8A8A9E] mb-4">
+                      <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-nexus-text-muted mb-4">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <Calendar className="w-4 h-4 text-nexus-purple flex-shrink-0" />
                           <span className="truncate">{formatDate(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <Clock className="w-4 h-4 text-nexus-purple flex-shrink-0" />
                           <span className="truncate">{formatTime(event.startDate)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                          <MapPin className="w-4 h-4 text-nexus-purple flex-shrink-0" />
                           <span className="truncate">{event.venue}</span>
                         </div>
                         {event.maxParticipants && (
                           <div className="flex items-center gap-2">
-                            <Users className="w-4 h-4 text-[#7B61FF] flex-shrink-0" />
+                            <Users className="w-4 h-4 text-nexus-purple flex-shrink-0" />
                             <span className="truncate">{event.registeredCount || 0}/{event.maxParticipants} Reg.</span>
                           </div>
                         )}
                       </div>
 
-                      <div className="mt-auto pt-4 border-t border-white/10">
+                      <div className="mt-auto pt-4 border-t border-nexus-border">
                         <Link href={`/events/${event.id}`} className="block w-full">
                           <FadeContent blur={true} duration={500} delay={200}>
-                            <button className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-transparent px-6 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40 hover:scale-[1.01]">
+                            <button className="group relative w-full overflow-hidden rounded-xl border border-nexus-border bg-transparent px-6 py-3 font-semibold text-nexus-text transition-all hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01]">
                               <span className="flex items-center justify-center gap-2">
                                 View Details
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -219,11 +219,11 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <Calendar className="w-16 h-16 mx-auto text-[#7B61FF] mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <Calendar className="w-16 h-16 mx-auto text-nexus-purple mb-4" />
+              <h3 className="text-xl font-semibold text-nexus-text mb-2">
                 No events found
               </h3>
-              <p className="text-[#B5B5C3]">
+              <p className="text-nexus-text-secondary">
                 {search ? 'Try a different search term' : 'Check back later for upcoming events'}
               </p>
             </div>

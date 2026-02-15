@@ -64,7 +64,7 @@ export default function ProfilePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white">
+        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text">
           My Profile
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -87,21 +87,21 @@ export default function ProfilePage() {
                   size="xl"
                   className="w-32 h-32 text-4xl"
                 />
-                <button className="absolute bottom-0 right-0 w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary-700 transition-colors">
+                <button className="absolute bottom-0 right-0 w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-nexus-text shadow-lg hover:bg-primary-700 transition-colors">
                   <Camera className="w-5 h-5" />
                 </button>
               </div>
-              <div className="text-center md:text-left text-white">
+              <div className="text-center md:text-left text-nexus-text">
                 <h2 className="text-2xl font-bold">{user?.name}</h2>
-                <p className="text-white/80">{user?.email}</p>
+                <p className="text-nexus-text/80">{user?.email}</p>
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-3">
-                  <Badge color="white" className="bg-white/20 text-white">
+                  <Badge color="white" className="bg-white/20 text-nexus-text">
                     {user?.uniqueId}
                   </Badge>
-                  <Badge color="green" className="bg-white/20 text-white">
+                  <Badge color="green" className="bg-white/20 text-nexus-text">
                     {user?.membershipStatus || 'Active'}
                   </Badge>
-                  <Badge color="blue" className="bg-white/20 text-white">
+                  <Badge color="blue" className="bg-white/20 text-nexus-text">
                     {user?.role}
                   </Badge>
                 </div>
@@ -243,7 +243,7 @@ export default function ProfilePage() {
               </div>
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Member Since</p>
-                <p className="font-bold text-gray-900 dark:text-white">
+                <p className="font-bold text-gray-900 dark:text-nexus-text">
                   {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric', month: 'long', day: 'numeric'
                   } as const) : 'N/A'}
@@ -251,7 +251,7 @@ export default function ProfilePage() {
               </div>
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Role</p>
-                <p className="font-bold text-gray-900 dark:text-white">{user?.role}</p>
+                <p className="font-bold text-gray-900 dark:text-nexus-text">{user?.role}</p>
               </div>
             </div>
           </CardContent>

@@ -58,7 +58,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-nexus-bg relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
       {/* Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="orb orb-purple w-[600px] h-[600px] top-[-10%] left-[-10%] opacity-40 blur-[100px] animate-pulse-slow" />
@@ -75,19 +75,19 @@ export default function LoginPage() {
       >
         <Link
           href="/"
-          className="inline-flex items-center mb-8 text-[#B5B5C3] hover:text-[#7B61FF] transition-colors"
+          className="inline-flex items-center mb-8 text-nexus-text-secondary hover:text-nexus-purple transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
         </Link>
 
-        <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-black/40">
+        <div className="glass rounded-3xl p-8 border border-nexus-border shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-nexus-bg/40">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20 bg-nexus-gradient">
               AI
             </div>
-            <h2 className="text-3xl font-display font-bold text-white mb-2">Welcome Back!</h2>
-            <p className="text-[#B5B5C3]">
+            <h2 className="text-3xl font-display font-bold text-nexus-text mb-2">Welcome Back!</h2>
+            <p className="text-nexus-text-secondary">
               Sign in to your Daffodil AI Club account
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function LoginPage() {
                 leftIcon={<Mail className="w-5 h-5" />}
                 error={errors.email?.message}
                 {...register('email')}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
               />
 
               <Input
@@ -124,14 +124,14 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-nexus-text transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 }
                 error={errors.password?.message}
                 {...register('password')}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
               />
             </div>
 
@@ -139,13 +139,13 @@ export default function LoginPage() {
               <label className="flex items-center gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-[#7B61FF] focus:ring-[#7B61FF] focus:ring-offset-0"
+                  className="w-4 h-4 rounded border-nexus-border bg-nexus-glass text-nexus-purple focus:ring-[#7B61FF] focus:ring-offset-0"
                 />
-                <span className="text-sm text-[#B5B5C3] group-hover:text-white transition-colors">Remember me</span>
+                <span className="text-sm text-nexus-text-secondary group-hover:text-nexus-text transition-colors">Remember me</span>
               </label>
               <Link
                 href="/forgot-password"
-                className="text-sm text-[#7B61FF] hover:text-[#FF4FD8] transition-colors font-medium"
+                className="text-sm text-nexus-purple hover:text-nexus-pink transition-colors font-medium"
               >
                 Forgot password?
               </Link>
@@ -154,7 +154,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               variant="ghost"
-              className="w-full h-12 text-base font-semibold border border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
+              className="w-full h-12 text-base font-semibold border border-nexus-border bg-transparent text-nexus-text hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
               isLoading={isLoading}
             >
               <span className="flex items-center gap-2">
@@ -164,10 +164,10 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <p className="text-[#B5B5C3]">
+          <div className="mt-8 pt-6 border-t border-nexus-border text-center">
+            <p className="text-nexus-text-secondary">
               Don't have an account?{' '}
-              <Link href="/register" className="text-white hover:text-[#6EF3FF] font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
+              <Link href="/register" className="text-nexus-text hover:text-nexus-cyan font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
                 Join the Club
               </Link>
             </p>

@@ -7,7 +7,7 @@ import { Home, AlertTriangle } from 'lucide-react';
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="min-h-screen w-full bg-nexus-bg flex flex-col items-center justify-center relative overflow-hidden">
             {/* Background Orbs */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="orb orb-purple w-[30rem] h-[30rem] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-20" />
@@ -25,10 +25,10 @@ export default function NotFound() {
                     transition={{ duration: 0.5 }}
                 >
                     <div className="relative inline-block">
-                        <h1 className="text-[10rem] md:text-[12rem] font-display font-bold leading-none select-none mix-blend-screen bg-clip-text text-transparent bg-gradient-to-r from-[#7B61FF] via-[#FF4FD8] to-[#6EF3FF] blur-sm absolute inset-0 animate-pulse">
+                        <h1 className="text-[10rem] md:text-[12rem] font-display font-bold leading-none select-none mix-blend-screen bg-clip-text text-transparent bg-gradient-to-r from-nexus-purple via-[#FF4FD8] to-[#6EF3FF] blur-sm absolute inset-0 animate-pulse">
                             404
                         </h1>
-                        <h1 className="text-[10rem] md:text-[12rem] font-display font-bold text-white relative leading-none select-none">
+                        <h1 className="text-[10rem] md:text-[12rem] font-display font-bold text-nexus-text relative leading-none select-none">
                             404
                         </h1>
                     </div>
@@ -39,15 +39,15 @@ export default function NotFound() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#FF4FD8] mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-nexus-glass border border-nexus-border text-nexus-pink mb-6">
                         <AlertTriangle className="w-5 h-5" />
                         <span className="font-bold tracking-wide">SYSTEM ERROR</span>
                     </div>
 
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold text-nexus-text mb-4">
                         Reality Not Found
                     </h2>
-                    <p className="text-xl text-[#B5B5C3] mb-8 leading-relaxed">
+                    <p className="text-xl text-nexus-text-secondary mb-8 leading-relaxed">
                         The page you are looking for seems to have been lost in a neural network hallucination or does not exist in this timeline.
                     </p>
 
@@ -62,7 +62,7 @@ export default function NotFound() {
             </div>
 
             {/* Footer Text */}
-            <div className="absolute bottom-8 text-[#8A8A9E] text-sm">
+            <div className="absolute bottom-8 text-nexus-text-muted text-sm">
                 Daffodil AI Club • Error Code: 404_PAGE_MISSING
             </div>
         </div>

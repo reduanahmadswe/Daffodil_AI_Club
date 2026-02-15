@@ -118,7 +118,7 @@ export default function ResourcesPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+            <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
                 {/* Background Orbs */}
                 <div className="absolute inset-0">
                     <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
@@ -135,10 +135,10 @@ export default function ResourcesPage() {
                         className="max-w-3xl mx-auto"
                     >
                         <Badge color="cyan" className="mb-6">Learning Hub</Badge>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
                             Master <span className="gradient-text">Artificial Intelligence</span>
                         </h1>
-                        <p className="text-xl text-[#B5B5C3]">
+                        <p className="text-xl text-nexus-text-secondary">
                             Curated resources to help you start your journey or advance your skills in AI, Machine Learning, and Data Science.
                         </p>
                     </motion.div>
@@ -146,7 +146,7 @@ export default function ResourcesPage() {
             </section>
 
             {/* Filters */}
-            <section className="bg-black py-4 sticky top-20 z-40 border-b border-white/5 backdrop-blur-md bg-black/80">
+            <section className="bg-nexus-bg py-4 sticky top-20 z-40 border-b border-nexus-border backdrop-blur-md bg-black/80">
                 <div className="container-custom">
                     <div className="flex flex-wrap justify-center gap-2">
                         {categories.map((cat) => (
@@ -155,7 +155,7 @@ export default function ResourcesPage() {
                                 onClick={() => setActiveCategory(cat)}
                                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === cat
                                         ? 'bg-gradient-to-r from-[#6EF3FF] to-[#5B8CFF] text-black shadow-glow-cyan'
-                                        : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white border border-white/5'
+                                        : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text border border-nexus-border'
                                     }`}
                             >
                                 {cat === 'All' ? 'All Resources' : cat.charAt(0) + cat.slice(1).toLowerCase() + 's'}
@@ -166,7 +166,7 @@ export default function ResourcesPage() {
             </section>
 
             {/* Resources Grid */}
-            <section className="py-20 bg-black relative min-h-screen">
+            <section className="py-20 bg-nexus-bg relative min-h-screen">
                 <div className="container-custom relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredResources.map((resource, index) => (
@@ -175,7 +175,7 @@ export default function ResourcesPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="group glass rounded-2xl overflow-hidden border border-white/10 hover:border-[#6EF3FF]/30 transition-all hover:transform hover:-translate-y-1"
+                                className="group glass rounded-2xl overflow-hidden border border-nexus-border hover:border-[#6EF3FF]/30 transition-all hover:transform hover:-translate-y-1"
                             >
                                 <div className="relative h-48 overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
@@ -193,25 +193,25 @@ export default function ResourcesPage() {
 
                                 <div className="p-6">
                                     <div className="flex justify-between items-start mb-4">
-                                        <div className="flex items-center gap-2 text-[#5B8CFF] text-xs font-bold uppercase tracking-wider">
+                                        <div className="flex items-center gap-2 text-nexus-blue text-xs font-bold uppercase tracking-wider">
                                             {getTypeIcon(resource.type)}
                                             <span>{resource.type}</span>
                                         </div>
-                                        <span className="text-[#8A8A9E] text-xs">{resource.provider}</span>
+                                        <span className="text-nexus-text-muted text-xs">{resource.provider}</span>
                                     </div>
 
-                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#6EF3FF] transition-colors leading-tight">
+                                    <h3 className="text-xl font-bold text-nexus-text mb-3 group-hover:text-nexus-cyan transition-colors leading-tight">
                                         {resource.title}
                                     </h3>
 
-                                    <p className="text-[#B5B5C3] text-sm mb-6 line-clamp-2 leading-relaxed">
+                                    <p className="text-nexus-text-secondary text-sm mb-6 line-clamp-2 leading-relaxed">
                                         {resource.description}
                                     </p>
 
                                     {/* Tags */}
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         {resource.tags.map(tag => (
-                                            <span key={tag} className="px-2 py-1 rounded bg-white/5 text-[#8A8A9E] text-xs border border-white/5">
+                                            <span key={tag} className="px-2 py-1 rounded bg-nexus-glass text-nexus-text-muted text-xs border border-nexus-border">
                                                 #{tag}
                                             </span>
                                         ))}
@@ -221,7 +221,7 @@ export default function ResourcesPage() {
                                         href={resource.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-[#6EF3FF]/10 hover:text-[#6EF3FF] text-white transition-all group/btn border border-white/5 hover:border-[#6EF3FF]/30"
+                                        className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-nexus-glass hover:bg-nexus-cyan/10 hover:text-nexus-cyan text-nexus-text transition-all group/btn border border-nexus-border hover:border-[#6EF3FF]/30"
                                     >
                                         <span className="font-medium text-sm">Start Learning</span>
                                         <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -233,11 +233,11 @@ export default function ResourcesPage() {
 
                     {filteredResources.length === 0 && (
                         <div className="text-center py-20">
-                            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Bookmark className="w-8 h-8 text-[#B5B5C3]" />
+                            <div className="w-16 h-16 bg-nexus-glass rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Bookmark className="w-8 h-8 text-nexus-text-secondary" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">No resources found</h3>
-                            <p className="text-[#B5B5C3]">Try adjusting your filters to find what you're looking for.</p>
+                            <h3 className="text-xl font-bold text-nexus-text mb-2">No resources found</h3>
+                            <p className="text-nexus-text-secondary">Try adjusting your filters to find what you're looking for.</p>
                         </div>
                     )}
                 </div>

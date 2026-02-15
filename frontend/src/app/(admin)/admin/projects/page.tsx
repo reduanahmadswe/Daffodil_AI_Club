@@ -158,7 +158,7 @@ export default function AdminProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Projects Management
           </h1>
           <p className="text-gray-500">Manage club projects and collaborations</p>
@@ -180,7 +180,7 @@ export default function AdminProjectsPage() {
                 <Code className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.total}</p>
                 <p className="text-sm text-gray-500">Total Projects</p>
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function AdminProjectsPage() {
                 <Calendar className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.inProgress}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.inProgress}</p>
                 <p className="text-sm text-gray-500">In Progress</p>
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function AdminProjectsPage() {
                 <Code className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.completed}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.completed}</p>
                 <p className="text-sm text-gray-500">Completed</p>
               </div>
             </div>
@@ -219,7 +219,7 @@ export default function AdminProjectsPage() {
                 <Users className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalMembers}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.totalMembers}</p>
                 <p className="text-sm text-gray-500">Contributors</p>
               </div>
             </div>
@@ -290,7 +290,7 @@ export default function AdminProjectsPage() {
                   >
                     <td className="p-4">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">
                           {project.title}
                         </p>
                         <p className="text-sm text-gray-500 max-w-xs truncate">

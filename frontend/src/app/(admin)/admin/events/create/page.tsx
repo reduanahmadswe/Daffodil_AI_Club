@@ -111,7 +111,7 @@ export default function CreateEventPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Events
           </Link>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Create New Event
           </h1>
         </div>
@@ -325,7 +325,7 @@ export default function CreateEventPage() {
                     className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                   />
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">Publish Event</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">Publish Event</p>
                     <p className="text-sm text-gray-500">Make this event visible to public</p>
                   </div>
                 </label>
@@ -337,7 +337,7 @@ export default function CreateEventPage() {
                     className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                   />
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">Featured Event</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">Featured Event</p>
                     <p className="text-sm text-gray-500">Show on homepage and featured sections</p>
                   </div>
                 </label>

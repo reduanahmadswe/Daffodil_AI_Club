@@ -39,16 +39,6 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Apply theme
-  useEffect(() => {
-    const root = window.document.documentElement;
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const activeTheme = theme === 'system' ? systemTheme : theme;
-
-    root.classList.remove('light', 'dark');
-    root.classList.add(activeTheme);
-  }, [theme]);
-
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
@@ -58,8 +48,8 @@ export const Navbar = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'glass shadow-glow-purple bg-black/95 backdrop-blur-xl'
-          : 'bg-black/80 backdrop-blur-md'
+          ? 'glass shadow-glow-purple backdrop-blur-xl bg-nexus-bg/95'
+          : 'bg-nexus-bg/80 backdrop-blur-md'
       )}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,8 +64,7 @@ export const Navbar = () => {
               />
             </div>
             <span className={cn(
-              'font-display font-bold text-xl transition-colors',
-              isScrolled ? 'text-white' : 'text-white'
+              'font-display font-bold text-xl transition-colors text-nexus-text'
             )}>
               Daffodil AI Club
             </span>
@@ -91,9 +80,7 @@ export const Navbar = () => {
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                   pathname === link.href
                     ? 'gradient-text font-bold'
-                    : isScrolled
-                      ? 'text-[#B5B5C3] hover:text-[#7B61FF]'
-                      : 'text-white/90 hover:text-white hover:bg-[rgba(255,255,255,0.1)]'
+                    : 'text-nexus-text-secondary hover:text-nexus-purple hover:bg-nexus-glass'
                 )}
               >
                 {link.label}
@@ -106,12 +93,7 @@ export const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={cn(
-                'p-2 rounded-lg transition-colors',
-                isScrolled
-                  ? 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
-                  : 'text-white/90 hover:bg-white/10'
-              )}
+              className="p-2 rounded-lg transition-colors text-nexus-text-secondary hover:text-nexus-purple hover:bg-nexus-glass"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -121,13 +103,12 @@ export const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-nexus-glass transition-colors"
                 >
                   <Avatar src={user.profileImage} name={user.name} size="sm" />
                   <ChevronDown className={cn(
-                    'w-4 h-4 transition-transform',
-                    isProfileOpen && 'rotate-180',
-                    isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
+                    'w-4 h-4 transition-transform text-nexus-text-secondary',
+                    isProfileOpen && 'rotate-180'
                   )} />
                 </button>
 
@@ -137,17 +118,17 @@ export const Navbar = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+                      className="absolute right-0 mt-2 w-56 bg-nexus-surface-1 rounded-xl shadow-xl border border-nexus-border overflow-hidden"
                     >
-                      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                        <p className="font-semibold text-gray-900 dark:text-white">{user.name}</p>
-                        <p className="text-sm text-primary-600">{user.uniqueId}</p>
+                      <div className="p-4 border-b border-nexus-border">
+                        <p className="font-semibold text-nexus-text">{user.name}</p>
+                        <p className="text-sm text-nexus-purple">{user.uniqueId}</p>
                       </div>
                       <div className="p-2">
                         <Link
                           href="/dashboard"
                           onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-nexus-text-secondary hover:bg-nexus-glass transition-colors"
                         >
                           <LayoutDashboard className="w-4 h-4" />
                           Dashboard
@@ -155,7 +136,7 @@ export const Navbar = () => {
                         <Link
                           href="/dashboard/profile"
                           onClick={() => setIsProfileOpen(false)}
-                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-nexus-text-secondary hover:bg-nexus-glass transition-colors"
                         >
                           <User className="w-4 h-4" />
                           Profile
@@ -164,7 +145,7 @@ export const Navbar = () => {
                           <Link
                             href="/admin"
                             onClick={() => setIsProfileOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            className="flex items-center gap-3 px-3 py-2 rounded-lg text-nexus-text-secondary hover:bg-nexus-glass transition-colors"
                           >
                             <LayoutDashboard className="w-4 h-4" />
                             Admin Panel
@@ -175,7 +156,7 @@ export const Navbar = () => {
                             logout();
                             setIsProfileOpen(false);
                           }}
-                          className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-red-500 hover:bg-red-500/10 transition-colors"
                         >
                           <LogOut className="w-4 h-4" />
                           Logout
@@ -207,12 +188,7 @@ export const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={cn(
-                'lg:hidden p-2 rounded-lg transition-colors',
-                isScrolled
-                  ? 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
-                  : 'text-white hover:bg-white/10'
-              )}
+              className="lg:hidden p-2 rounded-lg transition-colors text-nexus-text hover:bg-nexus-glass"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -227,7 +203,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+            className="lg:hidden bg-nexus-surface-1 border-t border-nexus-border"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => (
@@ -238,8 +214,8 @@ export const Navbar = () => {
                   className={cn(
                     'block px-4 py-3 rounded-lg font-medium transition-colors',
                     pathname === link.href
-                      ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                      ? 'bg-nexus-purple/10 text-nexus-purple'
+                      : 'text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-purple'
                   )}
                 >
                   {link.label}

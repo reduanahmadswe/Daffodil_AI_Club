@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+            <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
                 {/* Background Orbs */}
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
@@ -54,13 +54,13 @@ export default function PrivacyPolicyPage() {
                         className="max-w-3xl mx-auto"
                     >
                         <Badge color="green" className="mb-6">Legal</Badge>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
                             Privacy <span className="gradient-text">Policy</span>
                         </h1>
-                        <p className="text-xl text-[#B5B5C3] mb-8">
+                        <p className="text-xl text-nexus-text-secondary mb-8">
                             We are committed to protecting your privacy and ensuring transparency in how we handle your data.
                         </p>
-                        <div className="text-sm text-[#8A8A9E]">
+                        <div className="text-sm text-nexus-text-muted">
                             Last Updated: January 18, 2026
                         </div>
                     </motion.div>
@@ -68,7 +68,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             {/* Content Section */}
-            <section className="py-20 bg-black relative">
+            <section className="py-20 bg-nexus-bg relative">
                 <div className="max-w-4xl mx-auto px-4 relative z-10">
                     <div className="space-y-8">
                         {sections.map((section, index) => (
@@ -78,15 +78,15 @@ export default function PrivacyPolicyPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="glass rounded-2xl p-8 border border-white/10 hover:border-[#7B61FF]/30 transition-all duration-300"
+                                className="glass rounded-2xl p-8 border border-nexus-border hover:border-nexus-purple/30 transition-all duration-300"
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className="p-3 rounded-lg bg-[#7B61FF]/10 text-[#7B61FF]">
+                                    <div className="p-3 rounded-lg bg-nexus-purple/10 text-nexus-purple">
                                         <section.icon className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h2 className="text-2xl font-bold text-white mb-4">{section.title}</h2>
-                                        <div className="text-[#B5B5C3] leading-relaxed whitespace-pre-line">
+                                        <h2 className="text-2xl font-bold text-nexus-text mb-4">{section.title}</h2>
+                                        <div className="text-nexus-text-secondary leading-relaxed whitespace-pre-line">
                                             {section.content}
                                         </div>
                                     </div>
@@ -99,13 +99,13 @@ export default function PrivacyPolicyPage() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="glass rounded-2xl p-8 border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/10 to-transparent flex items-center justify-between gap-6"
+                            className="glass rounded-2xl p-8 border border-nexus-purple/30 bg-gradient-to-br from-nexus-purple/10 to-transparent flex items-center justify-between gap-6"
                         >
                             <div>
-                                <h2 className="text-xl font-bold text-white mb-2">Have questions about our data practices?</h2>
-                                <p className="text-[#B5B5C3]">Contact our support team for clarification.</p>
+                                <h2 className="text-xl font-bold text-nexus-text mb-2">Have questions about our data practices?</h2>
+                                <p className="text-nexus-text-secondary">Contact our support team for clarification.</p>
                             </div>
-                            <a href="mailto:support@daffodil.ai" className="p-4 rounded-full bg-[#7B61FF] text-white hover:bg-[#6edcff] hover:text-black transition-all">
+                            <a href="mailto:support@daffodil.ai" className="p-4 rounded-full bg-nexus-purple text-nexus-text hover:bg-nexus-cyan/80 hover:text-black transition-all">
                                 <Mail className="w-6 h-6" />
                             </a>
                         </motion.div>

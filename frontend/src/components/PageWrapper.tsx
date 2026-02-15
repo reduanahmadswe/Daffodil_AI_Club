@@ -17,7 +17,7 @@ export default function PageWrapper({
     gridOpacity = 20
 }: PageWrapperProps) {
     return (
-        <div className="min-h-screen bg-black relative overflow-hidden">
+        <div className="min-h-screen bg-nexus-bg relative overflow-hidden">
             {/* Background Orbs */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className={`orb orb-${orbColors.orb1} w-96 h-96 top-1/4 left-1/4`} />

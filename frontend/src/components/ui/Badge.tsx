@@ -9,13 +9,13 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = 'default', size = 'md', ...props }, ref) => {
     const variants = {
-      default: 'bg-[rgba(181,181,195,0.1)] text-[#B5B5C3]',
-      primary: 'bg-gradient-to-r from-[rgba(123,97,255,0.2)] to-[rgba(255,79,216,0.2)] text-[#7B61FF] border border-[rgba(123,97,255,0.3)]',
-      secondary: 'bg-gradient-to-r from-[rgba(91,140,255,0.2)] to-[rgba(110,243,255,0.2)] text-[#5B8CFF] border border-[rgba(91,140,255,0.3)]',
-      success: 'bg-green-900/20 text-green-400 border border-green-500/30',
-      warning: 'bg-yellow-900/20 text-yellow-400 border border-yellow-500/30',
-      danger: 'bg-red-900/20 text-red-400 border border-red-500/30',
-      outline: 'border-2 border-[#7B61FF] bg-transparent text-[#7B61FF]',
+      default: 'bg-nexus-text-secondary/10 text-nexus-text-secondary',
+      primary: 'bg-gradient-to-r from-nexus-purple/20 to-nexus-pink/20 text-nexus-purple border border-nexus-purple/30',
+      secondary: 'bg-gradient-to-r from-nexus-blue/20 to-nexus-cyan/20 text-nexus-blue border border-nexus-blue/30',
+      success: 'bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/30',
+      warning: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30',
+      danger: 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/30',
+      outline: 'border-2 border-nexus-purple bg-transparent text-nexus-purple',
     };
 
     const sizes = {

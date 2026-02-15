@@ -77,7 +77,7 @@ export default function DashboardCertificatesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             My Certificates
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -90,7 +90,7 @@ export default function DashboardCertificatesPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">{mockCertificates.length}</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">{mockCertificates.length}</p>
             <p className="text-sm text-gray-500">Total Certificates</p>
           </CardContent>
         </Card>
@@ -145,7 +145,7 @@ export default function DashboardCertificatesPage() {
                   <div className="relative text-center">
                     <Award className="w-12 h-12 mx-auto text-primary-500 mb-3" />
                     <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Certificate of Completion</p>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-nexus-text mb-2 line-clamp-2">
                       {cert.title}
                     </h3>
                     <p className="text-sm text-gray-500">
@@ -177,12 +177,12 @@ export default function DashboardCertificatesPage() {
                   <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                     <div>
                       <p className="text-gray-500">Duration</p>
-                      <p className="font-medium text-gray-900 dark:text-white">{cert.hours} hours</p>
+                      <p className="font-medium text-gray-900 dark:text-nexus-text">{cert.hours} hours</p>
                     </div>
                     {cert.instructor && (
                       <div>
                         <p className="text-gray-500">Instructor</p>
-                        <p className="font-medium text-gray-900 dark:text-white">{cert.instructor}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{cert.instructor}</p>
                       </div>
                     )}
                   </div>
@@ -208,7 +208,7 @@ export default function DashboardCertificatesPage() {
           <Card className="md:col-span-2">
             <CardContent className="p-12 text-center">
               <Award className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
                 No certificates yet
               </h3>
               <p className="text-gray-500 mb-6">

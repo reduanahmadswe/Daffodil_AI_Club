@@ -122,7 +122,7 @@ export default function AdminMembersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-3">
             <Users className="w-8 h-8 text-primary-500" />
             Members Management
           </h1>
@@ -153,7 +153,7 @@ export default function AdminMembersPage() {
                 <Users className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">523</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">523</p>
                 <p className="text-sm text-gray-500">Total Members</p>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function AdminMembersPage() {
                 <CheckCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">498</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">498</p>
                 <p className="text-sm text-gray-500">Active</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function AdminMembersPage() {
                 <Clock className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">18</p>
                 <p className="text-sm text-gray-500">Pending</p>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function AdminMembersPage() {
                 <Users className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">12</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">12</p>
                 <p className="text-sm text-gray-500">Executives</p>
               </div>
             </div>
@@ -215,7 +215,7 @@ export default function AdminMembersPage() {
             </div>
             <div className="flex gap-2">
               <select 
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
@@ -225,7 +225,7 @@ export default function AdminMembersPage() {
                 <option value="SUSPENDED">Suspended</option>
               </select>
               <select 
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
               >
@@ -267,7 +267,7 @@ export default function AdminMembersPage() {
                       <div className="flex items-center gap-3">
                         <Avatar name={member.name} size="sm" />
                         <div>
-                          <p className="font-medium text-gray-900 dark:text-white">{member.name}</p>
+                          <p className="font-medium text-gray-900 dark:text-nexus-text">{member.name}</p>
                           <p className="text-sm text-gray-500">{member.email}</p>
                         </div>
                       </div>
@@ -278,7 +278,7 @@ export default function AdminMembersPage() {
                       </code>
                     </td>
                     <td className="p-4">
-                      <span className="text-gray-900 dark:text-white">{member.department}</span>
+                      <span className="text-gray-900 dark:text-nexus-text">{member.department}</span>
                       <span className="text-gray-500 ml-1">({member.batch})</span>
                     </td>
                     <td className="p-4">
@@ -354,7 +354,7 @@ export default function AdminMembersPage() {
             <ModalBody>
               <div className="text-center mb-6">
                 <Avatar name={selectedMember.name} size="xl" className="mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{selectedMember.name}</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-nexus-text">{selectedMember.name}</h3>
                 <code className="text-sm text-primary-600 bg-primary-50 dark:bg-primary-900/30 px-2 py-1 rounded">
                   {selectedMember.uniqueId}
                 </code>

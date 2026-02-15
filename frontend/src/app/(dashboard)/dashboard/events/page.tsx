@@ -106,7 +106,7 @@ export default function DashboardEventsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             My Events
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -125,7 +125,7 @@ export default function DashboardEventsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">{mockEvents.length}</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">{mockEvents.length}</p>
             <p className="text-sm text-gray-500">Total Registered</p>
           </CardContent>
         </Card>
@@ -157,7 +157,7 @@ export default function DashboardEventsPage() {
             onClick={() => setFilter(tab)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
               filter === tab
-                ? 'bg-primary-500 text-white'
+                ? 'bg-primary-500 text-nexus-text'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
             }`}
           >
@@ -183,7 +183,7 @@ export default function DashboardEventsPage() {
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                       {/* Date Box */}
-                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex flex-col items-center justify-center text-white">
+                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex flex-col items-center justify-center text-nexus-text">
                         <span className="text-xl font-bold">
                           {new Date(event.date).getDate()}
                         </span>
@@ -205,7 +205,7 @@ export default function DashboardEventsPage() {
                             </div>
                           )}
                         </div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                        <h3 className="font-semibold text-gray-900 dark:text-nexus-text mb-2">
                           {event.title}
                         </h3>
                         <div className="flex flex-wrap gap-4 text-sm text-gray-500">
@@ -241,7 +241,7 @@ export default function DashboardEventsPage() {
           <Card>
             <CardContent className="p-12 text-center">
               <Calendar className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
                 No events found
               </h3>
               <p className="text-gray-500 mb-6">

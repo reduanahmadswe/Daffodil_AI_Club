@@ -98,7 +98,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
@@ -115,10 +115,10 @@ export default function ContactPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="purple" className="mb-6">Contact</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Get in <span className="gradient-text">Touch</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Have questions or want to collaborate? We'd love to hear from you!
             </p>
           </motion.div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/4 right-1/3" />
@@ -146,19 +146,19 @@ export default function ContactPage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <div className="glass rounded-2xl p-6 text-center h-full hover:shadow-glow-purple transition-all duration-300">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
-                    <info.icon className="w-7 h-7 text-white" />
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-nexus-purple to-nexus-pink flex items-center justify-center">
+                    <info.icon className="w-7 h-7 text-nexus-text" />
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{info.title}</h3>
+                  <h3 className="text-lg font-bold text-nexus-text mb-2">{info.title}</h3>
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-[#B5B5C3] hover:text-[#7B61FF] transition-colors text-sm"
+                      className="text-nexus-text-secondary hover:text-nexus-purple transition-colors text-sm"
                     >
                       {info.details}
                     </a>
                   ) : (
-                    <p className="text-[#B5B5C3] text-sm">{info.details}</p>
+                    <p className="text-nexus-text-secondary text-sm">{info.details}</p>
                   )}
                 </div>
               </motion.div>
@@ -168,7 +168,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Map */}
-      <section className="py-16 bg-black relative overflow-hidden">
+      <section className="py-16 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/3 left-1/4" />
@@ -187,12 +187,12 @@ export default function ContactPage() {
               viewport={{ once: true }}
             >
               <div className="glass rounded-2xl overflow-hidden">
-                <div className="p-6 border-b border-white/10">
-                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                    <MessageSquare className="w-6 h-6 text-[#7B61FF]" />
+                <div className="p-6 border-b border-nexus-border">
+                  <h2 className="text-2xl font-bold text-nexus-text flex items-center gap-2">
+                    <MessageSquare className="w-6 h-6 text-nexus-purple" />
                     Send us a Message
                   </h2>
-                  <p className="text-[#B5B5C3] mt-2">
+                  <p className="text-nexus-text-secondary mt-2">
                     Fill out the form below and we'll get back to you soon
                   </p>
                 </div>
@@ -203,13 +203,13 @@ export default function ContactPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="text-center py-8"
                     >
-                      <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-10 h-10 text-white" />
+                      <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-nexus-purple to-nexus-pink rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-10 h-10 text-nexus-text" />
                       </div>
-                      <h3 className="text-xl font-semibold text-white mb-2">
+                      <h3 className="text-xl font-semibold text-nexus-text mb-2">
                         Message Sent!
                       </h3>
-                      <p className="text-[#B5B5C3] mb-6">
+                      <p className="text-nexus-text-secondary mb-6">
                         Thank you for reaching out. We'll respond within 24-48 hours.
                       </p>
                       <button className="btn-nexus-secondary px-6 py-3 rounded-xl" onClick={() => setIsSuccess(false)}>
@@ -280,13 +280,13 @@ export default function ContactPage() {
               <div className="glass rounded-2xl overflow-hidden">
                 <div className="aspect-video bg-black/50 flex items-center justify-center">
                   <div className="text-center">
-                    <MapPin className="w-12 h-12 text-[#7B61FF] mx-auto mb-2" />
-                    <p className="text-white font-medium">Interactive Map</p>
+                    <MapPin className="w-12 h-12 text-nexus-purple mx-auto mb-2" />
+                    <p className="text-nexus-text font-medium">Interactive Map</p>
                     <a
                       href="https://maps.google.com/?q=Daffodil+International+University"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#7B61FF] hover:text-[#FF4FD8] text-sm transition-colors"
+                      className="text-nexus-purple hover:text-nexus-pink text-sm transition-colors"
                     >
                       Open in Google Maps
                     </a>
@@ -296,8 +296,8 @@ export default function ContactPage() {
 
               {/* Social Links */}
               <div className="glass rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Follow Us</h3>
-                <p className="text-[#B5B5C3] mb-4">
+                <h3 className="text-xl font-bold text-nexus-text mb-2">Follow Us</h3>
+                <p className="text-nexus-text-secondary mb-4">
                   Connect with us on social media
                 </p>
                 <div className="flex gap-4">
@@ -307,7 +307,7 @@ export default function ContactPage() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-xl bg-white/5 hover:bg-gradient-to-br hover:from-[#7B61FF] hover:to-[#FF4FD8] flex items-center justify-center text-[#B5B5C3] hover:text-white transition-all duration-300"
+                      className="w-12 h-12 rounded-xl bg-nexus-glass hover:bg-gradient-to-br hover:from-nexus-purple hover:to-nexus-pink flex items-center justify-center text-nexus-text-secondary hover:text-nexus-text transition-all duration-300"
                       aria-label={social.label}
                     >
                       <social.icon className="w-5 h-5" />
@@ -317,9 +317,9 @@ export default function ContactPage() {
               </div>
 
               {/* FAQ Prompt */}
-              <div className="glass rounded-2xl p-6 bg-gradient-to-br from-[#7B61FF]/20 to-[#FF4FD8]/20 border-[#7B61FF]/30">
-                <h3 className="text-xl font-semibold text-white mb-2">Have Questions?</h3>
-                <p className="text-[#B5B5C3] mb-4">
+              <div className="glass rounded-2xl p-6 bg-gradient-to-br from-nexus-purple/20 to-nexus-pink/20 border-nexus-purple/30">
+                <h3 className="text-xl font-semibold text-nexus-text mb-2">Have Questions?</h3>
+                <p className="text-nexus-text-secondary mb-4">
                   Check out our FAQ section for quick answers to common questions.
                 </p>
                 <button className="btn-nexus-secondary px-6 py-3 rounded-xl">

@@ -78,7 +78,7 @@ export default function GalleryPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/4 left-1/4" />
@@ -95,10 +95,10 @@ export default function GalleryPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="pink" className="mb-6">Gallery</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Our <span className="gradient-text">Memories</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Capturing the best moments from our events, workshops, and community gatherings
             </p>
           </motion.div>
@@ -106,7 +106,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+      <section className="py-8 bg-nexus-bg relative overflow-hidden border-b border-nexus-border">
         <div className="container-custom relative z-10">
           <div className="flex flex-wrap justify-center gap-2">
             {categories.map((cat) => (
@@ -114,8 +114,8 @@ export default function GalleryPage() {
                 key={cat}
                 onClick={() => setCategory(cat)}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${category === cat
-                  ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-white shadow-glow-pink'
-                  : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white border border-white/5'
+                  ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-nexus-text shadow-glow-pink'
+                  : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text border border-nexus-border'
                   }`}
               >
                 {cat}
@@ -126,7 +126,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-20 bg-black relative min-h-screen">
+      <section className="py-20 bg-nexus-bg relative min-h-screen">
         {/* Background Orbs */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-cyan w-full h-96 bottom-0 left-0 opacity-10" />
@@ -136,8 +136,8 @@ export default function GalleryPage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(9)].map((_, i) => (
-                <div key={i} className="aspect-square rounded-2xl overflow-hidden bg-white/5">
-                  <Skeleton className="w-full h-full bg-white/10" />
+                <div key={i} className="aspect-square rounded-2xl overflow-hidden bg-nexus-glass">
+                  <Skeleton className="w-full h-full bg-nexus-glass" />
                 </div>
               ))}
             </div>
@@ -155,7 +155,7 @@ export default function GalleryPage() {
                     className="group relative cursor-pointer break-inside-avoid"
                     onClick={() => setSelectedImageIndex(index)}
                   >
-                    <div className="aspect-square relative rounded-2xl overflow-hidden glass border border-white/10">
+                    <div className="aspect-square relative rounded-2xl overflow-hidden glass border border-nexus-border">
                       <img
                         src={image.imageUrl}
                         alt={image.title}
@@ -165,8 +165,8 @@ export default function GalleryPage() {
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <Badge color="pink" size="sm" className="mb-2 self-start">{image.category}</Badge>
-                        <h3 className="text-white font-bold text-lg leading-tight mb-1">{image.title}</h3>
-                        {image.eventName && <p className="text-white/70 text-sm mb-2">{image.eventName}</p>}
+                        <h3 className="text-nexus-text font-bold text-lg leading-tight mb-1">{image.title}</h3>
+                        {image.eventName && <p className="text-nexus-text/70 text-sm mb-2">{image.eventName}</p>}
                         <div className="flex items-center gap-2 text-white/50 text-xs mt-auto">
                           <Calendar className="w-3 h-3" />
                           <span>{image.date}</span>
@@ -175,7 +175,7 @@ export default function GalleryPage() {
 
                       {/* Zoom Icon */}
                       <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        <ZoomIn className="w-5 h-5 text-white" />
+                        <ZoomIn className="w-5 h-5 text-nexus-text" />
                       </div>
                     </div>
                   </motion.div>
@@ -198,7 +198,7 @@ export default function GalleryPage() {
           >
             {/* Close Button */}
             <button
-              className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-colors"
+              className="absolute top-6 right-6 p-2 rounded-full bg-nexus-glass hover:bg-white/20 text-nexus-text z-50 transition-colors"
               onClick={() => setSelectedImageIndex(null)}
             >
               <X className="w-8 h-8" />
@@ -206,14 +206,14 @@ export default function GalleryPage() {
 
             {/* Navigation Buttons */}
             <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-colors hidden md:block"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-nexus-glass hover:bg-white/20 text-nexus-text z-50 transition-colors hidden md:block"
               onClick={handlePrevious}
             >
               <ChevronLeft className="w-8 h-8" />
             </button>
 
             <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-colors hidden md:block"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-nexus-glass hover:bg-white/20 text-nexus-text z-50 transition-colors hidden md:block"
               onClick={handleNext}
             >
               <ChevronRight className="w-8 h-8" />
@@ -231,7 +231,7 @@ export default function GalleryPage() {
                 className="w-auto h-auto max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
               />
 
-              <div className="mt-6 text-center text-white">
+              <div className="mt-6 text-center text-nexus-text">
                 <div className="flex items-center justify-center gap-3 mb-2">
                   <Badge color="pink">{filteredImages[selectedImageIndex].category}</Badge>
                   <span className="text-white/50 text-sm flex items-center gap-1">
@@ -241,7 +241,7 @@ export default function GalleryPage() {
                 </div>
                 <h2 className="text-2xl font-bold mb-1">{filteredImages[selectedImageIndex].title}</h2>
                 {filteredImages[selectedImageIndex].eventName && (
-                  <p className="text-lg text-white/70">{filteredImages[selectedImageIndex].eventName}</p>
+                  <p className="text-lg text-nexus-text/70">{filteredImages[selectedImageIndex].eventName}</p>
                 )}
               </div>
             </motion.div>

@@ -107,7 +107,7 @@ export default function DashboardBookmarksPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             My Bookmarks
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -126,7 +126,7 @@ export default function DashboardBookmarksPage() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{bookmarks.length}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{bookmarks.length}</p>
             <p className="text-sm text-gray-500">Total Saved</p>
           </CardContent>
         </Card>
@@ -174,7 +174,7 @@ export default function DashboardBookmarksPage() {
               onClick={() => setFilter(type)}
               className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                 filter === type
-                  ? 'bg-primary-500 text-white'
+                  ? 'bg-primary-500 text-nexus-text'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
@@ -204,7 +204,7 @@ export default function DashboardBookmarksPage() {
                       <div className="flex gap-4">
                         {/* Icon */}
                         <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${bookmark.color} flex items-center justify-center`}>
-                          <IconComponent className="w-6 h-6 text-white" />
+                          <IconComponent className="w-6 h-6 text-nexus-text" />
                         </div>
 
                         {/* Content */}
@@ -213,7 +213,7 @@ export default function DashboardBookmarksPage() {
                             <Badge color="gray" size="sm" className="capitalize">{bookmark.type}</Badge>
                           </div>
                           <Link href={bookmark.url}>
-                            <h3 className="font-semibold text-gray-900 dark:text-white hover:text-primary-600 transition-colors line-clamp-1">
+                            <h3 className="font-semibold text-gray-900 dark:text-nexus-text hover:text-primary-600 transition-colors line-clamp-1">
                               {bookmark.title}
                             </h3>
                           </Link>
@@ -253,7 +253,7 @@ export default function DashboardBookmarksPage() {
         <Card>
           <CardContent className="p-12 text-center">
             <Bookmark className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
               {search ? 'No bookmarks found' : 'No bookmarks yet'}
             </h3>
             <p className="text-gray-500 mb-6">

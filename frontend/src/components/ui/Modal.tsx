@@ -49,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-nexus-bg/80 backdrop-blur-sm"
           />
 
           {/* Modal Container to ensure centering */}
@@ -61,18 +61,18 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
               className={cn(
-                'w-full bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden flex flex-col max-h-[90vh]',
+                'w-full bg-nexus-surface-1 border border-nexus-border rounded-2xl shadow-2xl pointer-events-auto overflow-hidden flex flex-col max-h-[90vh]',
                 sizes[size]
               )}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               {(title) && (
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
-                  <h2 className="text-xl font-bold text-white">{title}</h2>
+                <div className="flex items-center justify-between px-6 py-4 border-b border-nexus-border bg-nexus-glass">
+                  <h2 className="text-xl font-bold text-nexus-text">{title}</h2>
                   <button
                     onClick={onClose}
-                    className="p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                    className="p-1 rounded-lg text-nexus-text-muted hover:text-nexus-text hover:bg-nexus-glass transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -83,7 +83,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, 
               {!title && (
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors z-10"
+                  className="absolute top-4 right-4 p-1 rounded-lg text-nexus-text-muted hover:text-nexus-text hover:bg-nexus-glass transition-colors z-10"
                 >
                   <X className="w-5 h-5" />
                 </button>

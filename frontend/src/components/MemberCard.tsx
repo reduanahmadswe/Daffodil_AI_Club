@@ -66,7 +66,7 @@ export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' |
                     </h3>
 
                     {type === 'STUDENT' && (
-                        <div className="flex items-center gap-2 text-sm text-[#8A8A9E] mb-4 bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                        <div className="flex items-center gap-2 text-sm text-[#8A8A9E] mb-4 bg-white/5 px-3 py-1 rounded-full border border-nexus-border">
                             <GraduationCap className="w-3.5 h-3.5" />
                             <span>{member.department} {member.id ? `• ${member.id}` : ''}</span>
                         </div>
@@ -79,11 +79,11 @@ export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' |
                     <div className="flex items-center gap-3 mt-auto">
                         <button
                             onClick={handleCopyEmail}
-                            className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-white/20 transition-all group/btn relative"
+                            className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-nexus-border transition-all group/btn relative"
                             title={member.email}
                         >
                             <Mail className="w-4 h-4" />
-                            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black border border-white/20 rounded opacity-0 group-hover/btn:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">
+                            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black border border-nexus-border rounded opacity-0 group-hover/btn:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">
                                 {member.email}
                             </span>
                         </button>
@@ -91,7 +91,7 @@ export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' |
                         {member.phone && (
                             <a
                                 href={`tel:${member.phone}`}
-                                className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-white/20 transition-all"
+                                className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-nexus-border transition-all"
                                 title={member.phone}
                             >
                                 <Phone className="w-4 h-4" />

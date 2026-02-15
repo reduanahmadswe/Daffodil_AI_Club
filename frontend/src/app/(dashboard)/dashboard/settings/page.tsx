@@ -35,7 +35,7 @@ export default function DashboardSettingsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
           Settings
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -145,7 +145,7 @@ export default function DashboardSettingsPage() {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Delete Account</p>
+                      <p className="font-medium text-gray-900 dark:text-nexus-text">Delete Account</p>
                       <p className="text-sm text-gray-500">Permanently delete your account and all data</p>
                     </div>
                     <Button 
@@ -190,7 +190,7 @@ export default function DashboardSettingsPage() {
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{item.label}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{item.label}</p>
                         <p className="text-sm text-gray-500">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
@@ -232,7 +232,7 @@ export default function DashboardSettingsPage() {
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{item.label}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{item.label}</p>
                         <p className="text-sm text-gray-500">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">

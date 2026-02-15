@@ -118,7 +118,7 @@ export default function FAQPage() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+            <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
                 {/* Background Orbs */}
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
@@ -135,10 +135,10 @@ export default function FAQPage() {
                         className="max-w-3xl mx-auto"
                     >
                         <Badge color="purple" className="mb-6">FAQ</Badge>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
                             Frequently Asked <span className="gradient-text">Questions</span>
                         </h1>
-                        <p className="text-xl text-[#B5B5C3]">
+                        <p className="text-xl text-nexus-text-secondary">
                             Everything you need to know about the club, membership, and our activities.
                         </p>
                     </motion.div>
@@ -146,13 +146,13 @@ export default function FAQPage() {
             </section>
 
             {/* Main Content */}
-            <section className="py-20 bg-black relative min-h-screen">
+            <section className="py-20 bg-nexus-bg relative min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-12">
 
                         {/* Sidebar Categories */}
                         <div className="lg:w-1/3 space-y-4 flex-shrink-0">
-                            <h3 className="text-white font-bold mb-6 px-4">Categories</h3>
+                            <h3 className="text-nexus-text font-bold mb-6 px-4">Categories</h3>
                             <div className="space-y-2 flex flex-col">
                                 {categories.map((cat) => (
                                     <button
@@ -162,11 +162,11 @@ export default function FAQPage() {
                                             setOpenIndex(null);
                                         }}
                                         className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all ${activeCategory === cat.id
-                                            ? 'bg-gradient-to-r from-[#7B61FF]/20 to-[#FF4FD8]/20 border border-[#7B61FF]/50 text-white'
-                                            : 'bg-white/5 border border-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                                            ? 'bg-gradient-to-r from-nexus-purple/20 to-nexus-pink/20 border border-nexus-purple/50 text-nexus-text'
+                                            : 'bg-nexus-glass border border-nexus-border text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                                             }`}
                                     >
-                                        <div className={`p-2 rounded-lg flex-shrink-0 ${activeCategory === cat.id ? 'bg-[#7B61FF] text-white' : 'bg-white/10 text-[#8A8A9E]'}`}>
+                                        <div className={`p-2 rounded-lg flex-shrink-0 ${activeCategory === cat.id ? 'bg-nexus-purple text-nexus-text' : 'bg-nexus-glass text-nexus-text-muted'}`}>
                                             <cat.icon className="w-5 h-5" />
                                         </div>
                                         <span className="font-medium text-lg text-left">{cat.label}</span>
@@ -175,10 +175,10 @@ export default function FAQPage() {
                             </div>
 
                             {/* Contact Card */}
-                            <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#7B61FF]/10 to-[#FF4FD8]/10 border border-[#7B61FF]/20 text-center sticky top-24">
-                                <MessageCircle className="w-10 h-10 text-[#7B61FF] mx-auto mb-4" />
-                                <h4 className="text-white font-bold mb-2">Still have questions?</h4>
-                                <p className="text-[#B5B5C3] text-sm mb-6">Can't find the answer you're looking for? Please check with our support team.</p>
+                            <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-nexus-purple/10 to-nexus-pink/10 border border-nexus-purple/20 text-center sticky top-24">
+                                <MessageCircle className="w-10 h-10 text-nexus-purple mx-auto mb-4" />
+                                <h4 className="text-nexus-text font-bold mb-2">Still have questions?</h4>
+                                <p className="text-nexus-text-secondary text-sm mb-6">Can't find the answer you're looking for? Please check with our support team.</p>
                                 <Link href="/contact" className="btn-nexus-primary w-full py-3 rounded-xl flex items-center justify-center gap-2">
                                     <Mail className="w-4 h-4" />
                                     Contact Support
@@ -189,9 +189,9 @@ export default function FAQPage() {
                         {/* Questions Accordion */}
                         <div className="lg:w-2/3 flex-grow min-w-0">
                             <div className="sticky top-24">
-                                <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                                <h3 className="text-2xl font-bold text-nexus-text mb-8 flex items-center gap-3">
                                     {categories.find(c => c.id === activeCategory)?.icon &&
-                                        React.createElement(categories.find(c => c.id === activeCategory)!.icon, { className: "w-6 h-6 text-[#7B61FF]" })}
+                                        React.createElement(categories.find(c => c.id === activeCategory)!.icon, { className: "w-6 h-6 text-nexus-purple" })}
                                     {categories.find(c => c.id === activeCategory)?.label}
                                 </h3>
 
@@ -203,19 +203,19 @@ export default function FAQPage() {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: index * 0.05 }}
                                             className={`group rounded-2xl border transition-all duration-300 overflow-hidden ${openIndex === index
-                                                ? 'bg-white/5 border-[#7B61FF]/50 shadow-glow-purple'
-                                                : 'bg-white/5 border-white/5 hover:border-white/20'
+                                                ? 'bg-nexus-glass border-nexus-purple/50 shadow-glow-purple'
+                                                : 'bg-nexus-glass border-nexus-border hover:border-nexus-border'
                                                 }`}
                                         >
                                             <button
                                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                                                 className="w-full px-6 md:px-8 py-6 flex items-center justify-between gap-6 text-left"
                                             >
-                                                <span className={`text-lg font-medium transition-colors ${openIndex === index ? 'text-white' : 'text-[#B5B5C3] group-hover:text-white'
+                                                <span className={`text-lg font-medium transition-colors ${openIndex === index ? 'text-nexus-text' : 'text-nexus-text-secondary group-hover:text-nexus-text'
                                                     }`}>
                                                     {faq.question}
                                                 </span>
-                                                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openIndex === index ? 'bg-[#7B61FF] text-white rotate-180' : 'bg-white/10 text-[#8A8A9E] group-hover:text-white'
+                                                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openIndex === index ? 'bg-nexus-purple text-nexus-text rotate-180' : 'bg-nexus-glass text-nexus-text-muted group-hover:text-nexus-text'
                                                     }`}>
                                                     {openIndex === index ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                                                 </div>
@@ -229,7 +229,7 @@ export default function FAQPage() {
                                                         exit={{ height: 0, opacity: 0 }}
                                                         transition={{ duration: 0.3 }}
                                                     >
-                                                        <div className="px-6 md:px-8 pb-8 pt-0 text-[#B5B5C3] leading-relaxed border-t border-white/5 mt-2">
+                                                        <div className="px-6 md:px-8 pb-8 pt-0 text-nexus-text-secondary leading-relaxed border-t border-nexus-border mt-2">
                                                             {faq.answer}
                                                         </div>
                                                     </motion.div>

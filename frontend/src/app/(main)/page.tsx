@@ -99,7 +99,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* About Section */}
-      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+      <section className="py-20 lg:py-32 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/4 right-1/4" />
@@ -122,26 +122,26 @@ export default function HomePage() {
                 Empowering Students with{' '}
                 <span className="gradient-text">AI Knowledge</span>
               </h2>
-              <p className="text-[#B5B5C3] mb-6 text-lg">
+              <p className="text-nexus-text-secondary mb-6 text-lg">
                 Daffodil AI Club is the premier artificial intelligence community at Daffodil International University.
                 We are dedicated to fostering a culture of innovation and learning in the field of AI and Machine Learning.
               </p>
-              <p className="text-[#B5B5C3] mb-8 text-lg">
+              <p className="text-nexus-text-secondary mb-8 text-lg">
                 Our mission is to bridge the gap between academic learning and industry requirements by providing
                 hands-on experience through workshops, projects, and competitions.
               </p>
               <div className="flex flex-wrap gap-4">
-                <div className="flex items-center gap-2 text-[#7B61FF]">
+                <div className="flex items-center gap-2 text-nexus-purple">
                   <Target className="w-5 h-5" />
-                  <span className="font-medium text-white">Hands-on Learning</span>
+                  <span className="font-medium text-nexus-text">Hands-on Learning</span>
                 </div>
-                <div className="flex items-center gap-2 text-[#FF4FD8]">
+                <div className="flex items-center gap-2 text-nexus-pink">
                   <Star className="w-5 h-5" />
-                  <span className="font-medium text-white">Industry Experts</span>
+                  <span className="font-medium text-nexus-text">Industry Experts</span>
                 </div>
-                <div className="flex items-center gap-2 text-[#6EF3FF]">
+                <div className="flex items-center gap-2 text-nexus-cyan">
                   <Rocket className="w-5 h-5" />
-                  <span className="font-medium text-white">Real Projects</span>
+                  <span className="font-medium text-nexus-text">Real Projects</span>
                 </div>
               </div>
               <div className="mt-8">
@@ -163,7 +163,7 @@ export default function HomePage() {
             >
               <div className="relative w-full flex items-center justify-center">
                 {/* Subtle background glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/10 to-[#FF4FD8]/10 blur-3xl rounded-full opacity-40 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-nexus-purple/10 to-nexus-pink/10 blur-3xl rounded-full opacity-40 pointer-events-none" />
 
                 {/* Animation Container - Larger and Seamless */}
                 <div className="relative w-full max-w-[120%] h-auto -my-10 scale-110 md:scale-125 z-10">
@@ -176,7 +176,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+      <section className="py-20 lg:py-32 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/3 left-1/3" />
@@ -205,11 +205,11 @@ export default function HomePage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <div className="glass rounded-2xl p-6 text-center h-full hover:shadow-glow-purple transition-all duration-300">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
-                    <feature.icon className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-nexus-purple to-nexus-pink flex items-center justify-center">
+                    <feature.icon className="w-8 h-8 text-nexus-text" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-[#B5B5C3]">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-nexus-text mb-2">{feature.title}</h3>
+                  <p className="text-nexus-text-secondary">{feature.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -218,7 +218,7 @@ export default function HomePage() {
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+      <section className="py-20 lg:py-32 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
@@ -236,9 +236,9 @@ export default function HomePage() {
             </div>
             <FadeContent blur={true} duration={1000} delay={200} className="mt-4 md:mt-0">
               <Link href="/events">
-                <button className="group relative px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
+                <button className="group relative px-6 py-2.5 rounded-full bg-nexus-glass border border-nexus-border hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  <span className="relative flex items-center gap-2 font-medium text-sm text-white group-hover:text-purple-300 transition-colors">
+                  <span className="relative flex items-center gap-2 font-medium text-sm text-nexus-text group-hover:text-purple-300 transition-colors">
                     View All Events
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -272,8 +272,8 @@ export default function HomePage() {
                     </Badge>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3">{event.title}</h3>
-                    <div className="flex items-center gap-4 text-sm text-[#B5B5C3]">
+                    <h3 className="text-xl font-bold text-nexus-text mb-3">{event.title}</h3>
+                    <div className="flex items-center gap-4 text-sm text-nexus-text-secondary">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         {event.date}
@@ -282,7 +282,7 @@ export default function HomePage() {
                       <span>{event.time}</span>
                     </div>
                     <Link href={`/events/${event.id}`} className="mt-4 inline-block">
-                      <button className="text-[#7B61FF] hover:text-[#FF4FD8] font-medium flex items-center gap-1 transition-colors">
+                      <button className="text-nexus-purple hover:text-nexus-pink font-medium flex items-center gap-1 transition-colors">
                         Learn More
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -296,7 +296,7 @@ export default function HomePage() {
       </section>
 
       {/* Executive Panel Section */}
-      <section className="py-20 lg:py-32 bg-black relative overflow-hidden">
+      <section className="py-20 lg:py-32 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/3 right-1/4" />
@@ -333,8 +333,8 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
 
                   <div className="absolute bottom-0 left-0 w-full p-6 text-center transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-xl font-bold text-white mb-1 leading-tight">{member.name}</h3>
-                    <p className="text-[#B5B5C3] text-sm font-medium">{member.role}</p>
+                    <h3 className="text-xl font-bold text-nexus-text mb-1 leading-tight">{member.name}</h3>
+                    <p className="text-nexus-text-secondary text-sm font-medium">{member.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -343,9 +343,9 @@ export default function HomePage() {
 
           <FadeContent blur={true} duration={1000} className="text-center mt-12 flex justify-center">
             <Link href="/executives">
-              <button className="group relative px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
+              <button className="group relative px-8 py-3 rounded-full bg-nexus-glass border border-nexus-border hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <span className="relative flex items-center gap-2 font-medium text-white group-hover:text-purple-300 transition-colors">
+                <span className="relative flex items-center gap-2 font-medium text-nexus-text group-hover:text-purple-300 transition-colors">
                   View Full Executive Panel
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -356,9 +356,9 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section - Themed Simple Layout */}
-      <section className="py-20 lg:py-32 relative overflow-hidden bg-black">
+      <section className="py-20 lg:py-32 relative overflow-hidden bg-nexus-bg">
         {/* Gradient Background - Subtle */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/10 via-black to-[#6EF3FF]/10 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-nexus-purple/10 via-black to-[#6EF3FF]/10 opacity-60" />
 
         {/* Background Orbs */}
         <div className="absolute inset-0 pointer-events-none">
@@ -375,16 +375,16 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-nexus-text mb-6">
               Ready to Start Your <span className="gradient-text">AI Journey?</span>
             </h2>
-            <p className="text-lg text-[#B5B5C3] mb-10 leading-relaxed">
+            <p className="text-lg text-nexus-text-secondary mb-10 leading-relaxed">
               Join Daffodil AI Club today and become part of a thriving community of AI enthusiasts.
               Get your unique membership ID and access exclusive resources.
             </p>
             <FadeContent blur={true} duration={1000} delay={200} className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link href="/register">
-                <button className="group relative px-8 py-4 rounded-xl bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white font-bold text-lg shadow-lg shadow-purple-500/25 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
+                <button className="group relative px-8 py-4 rounded-xl bg-gradient-to-r from-nexus-purple to-nexus-pink text-nexus-text font-bold text-lg shadow-lg shadow-purple-500/25 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
                   <span className="relative z-10 flex items-center gap-2">
                     Register Now
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -393,7 +393,7 @@ export default function HomePage() {
                 </button>
               </Link>
               <Link href="/contact">
-                <button className="group px-8 py-4 rounded-xl font-bold text-lg text-white border border-white/10 hover:bg-white/5 hover:border-white/30 transition-all flex items-center gap-2">
+                <button className="group px-8 py-4 rounded-xl font-bold text-lg text-nexus-text border border-nexus-border hover:bg-nexus-glass hover:border-white/30 transition-all flex items-center gap-2">
                   Contact Us
                 </button>
               </Link>

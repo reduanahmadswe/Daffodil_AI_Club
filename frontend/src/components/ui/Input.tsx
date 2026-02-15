@@ -32,16 +32,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'focus:outline-none focus:ring-2 focus:border-transparent',
               error
                 ? 'border-red-500 focus:ring-red-500'
-                : 'border-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
+                : 'border-nexus-border focus:ring-nexus-purple',
               leftIcon && 'pl-10',
               rightIcon && 'pr-10',
+              'bg-nexus-surface-2 text-nexus-text',
               className
             )}
-            style={{
-              background: '#111118',
-              color: '#FFFFFF',
-              ...props.style
-            }}
             {...props}
           />
           {rightIcon && (
@@ -72,7 +68,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium mb-1.5" style={{ color: '#B5B5C3' }}>
+          <label className="block text-sm font-medium mb-1.5 text-nexus-text-secondary">
             {label}
           </label>
         )}
@@ -83,14 +79,10 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             'focus:outline-none focus:ring-2 focus:border-transparent',
             error
               ? 'border-red-500 focus:ring-red-500'
-              : 'border-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
+              : 'border-nexus-border focus:ring-nexus-purple',
+            'bg-nexus-surface-2 text-nexus-text',
             className
           )}
-          style={{
-            background: '#111118',
-            color: '#FFFFFF',
-            ...props.style
-          }}
           {...props}
         />
         {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
@@ -115,7 +107,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium mb-1.5" style={{ color: '#B5B5C3' }}>
+          <label className="block text-sm font-medium mb-1.5 text-nexus-text-secondary">
             {label}
           </label>
         )}
@@ -126,14 +118,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             'focus:outline-none focus:ring-2 focus:border-transparent',
             error
               ? 'border-red-500 focus:ring-red-500'
-              : 'border-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
+              : 'border-nexus-border focus:ring-nexus-purple',
+            'bg-nexus-surface-2 text-nexus-text',
             className
           )}
-          style={{
-            background: '#111118',
-            color: '#FFFFFF',
-            ...props.style
-          }}
           {...props}
         >
           {options.map((option) => (

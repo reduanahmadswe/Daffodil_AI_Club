@@ -120,7 +120,7 @@ export default function AdminEventsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-3">
             <Calendar className="w-8 h-8 text-primary-500" />
             Events Management
           </h1>
@@ -140,7 +140,7 @@ export default function AdminEventsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">12</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">12</p>
             <p className="text-sm text-gray-500">Total Events</p>
           </CardContent>
         </Card>
@@ -179,7 +179,7 @@ export default function AdminEventsPage() {
             </div>
             <div className="flex gap-2">
               <select 
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
@@ -190,7 +190,7 @@ export default function AdminEventsPage() {
                 <option value="DRAFT">Draft</option>
               </select>
               <select 
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
               >
@@ -231,7 +231,7 @@ export default function AdminEventsPage() {
                   >
                     <td className="p-4">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{event.title}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{event.title}</p>
                         {!event.isPublished && (
                           <Badge color="yellow" size="sm" className="mt-1">Unpublished</Badge>
                         )}

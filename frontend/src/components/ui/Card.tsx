@@ -9,8 +9,8 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', hover = false, children, ...props }, ref) => {
     const variants = {
-      default: 'bg-[#111118] border border-[rgba(255,255,255,0.1)]',
-      gradient: 'bg-gradient-to-br from-[rgba(123,97,255,0.1)] via-transparent to-[rgba(255,79,216,0.1)] border border-[rgba(123,97,255,0.2)]',
+      default: 'bg-nexus-surface-2 border border-nexus-border',
+      gradient: 'bg-gradient-to-br from-nexus-purple/10 via-transparent to-nexus-pink/10 border border-nexus-purple/20',
       glass: 'glass',
     };
 
@@ -59,7 +59,7 @@ CardFooter.displayName = 'CardFooter';
 
 export const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('text-xl font-semibold', className)} style={{ color: '#FFFFFF', ...props.style }} {...props} />
+    <h3 ref={ref} className={cn('text-xl font-semibold text-nexus-text', className)} {...props} />
   )
 );
 
@@ -67,7 +67,7 @@ CardTitle.displayName = 'CardTitle';
 
 export const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('', className)} style={{ color: '#B5B5C3', ...props.style }} {...props} />
+    <p ref={ref} className={cn('text-nexus-text-secondary', className)} {...props} />
   )
 );
 

@@ -44,7 +44,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/4 left-1/4" />
@@ -61,10 +61,10 @@ export default function AboutPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="purple" className="mb-6">About Us</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Daffodil <span className="gradient-text">AI Club</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               The premier artificial intelligence community at Daffodil International University,
               dedicated to fostering innovation, learning, and collaboration in AI.
             </p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/3 right-1/4" />
@@ -91,11 +91,11 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <div className="glass rounded-2xl p-8 h-full hover:shadow-glow-purple transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center mb-6">
-                  <Target className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-nexus-purple to-nexus-pink flex items-center justify-center mb-6">
+                  <Target className="w-8 h-8 text-nexus-text" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
-                <p className="text-[#B5B5C3] text-lg">
+                <h3 className="text-2xl font-bold text-nexus-text mb-4">Our Mission</h3>
+                <p className="text-nexus-text-secondary text-lg">
                   To empower DIU students with cutting-edge AI knowledge and skills through
                   hands-on learning, collaborative projects, and industry exposure, preparing
                   them to become leaders in the AI revolution.
@@ -110,10 +110,10 @@ export default function AboutPage() {
             >
               <div className="glass rounded-2xl p-8 h-full hover:shadow-glow-pink transition-all duration-300">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] flex items-center justify-center mb-6">
-                  <Eye className="w-8 h-8 text-white" />
+                  <Eye className="w-8 h-8 text-nexus-text" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Our Vision</h3>
-                <p className="text-[#B5B5C3] text-lg">
+                <h3 className="text-2xl font-bold text-nexus-text mb-4">Our Vision</h3>
+                <p className="text-nexus-text-secondary text-lg">
                   To become Bangladesh's leading student AI community, recognized for
                   producing skilled AI practitioners who contribute to solving real-world
                   problems and driving technological innovation.
@@ -125,7 +125,7 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/4 left-1/3" />
@@ -154,11 +154,11 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <div className="glass rounded-2xl p-6 text-center h-full hover:shadow-glow-purple transition-all duration-300">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] flex items-center justify-center">
-                    <value.icon className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-nexus-purple to-nexus-pink flex items-center justify-center">
+                    <value.icon className="w-8 h-8 text-nexus-text" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
-                  <p className="text-[#B5B5C3]">{value.description}</p>
+                  <h3 className="text-xl font-bold text-nexus-text mb-2">{value.title}</h3>
+                  <p className="text-nexus-text-secondary">{value.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -167,7 +167,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/4" />
@@ -189,7 +189,7 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto">
             <div className="relative">
               {/* Timeline Line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-[#7B61FF] to-[#FF4FD8]" />
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-nexus-purple to-nexus-pink" />
 
               {milestones.map((milestone, index) => (
                 <motion.div
@@ -202,14 +202,14 @@ export default function AboutPage() {
                 >
                   <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8 order-2'}`}>
                     <div className="glass rounded-xl p-4 inline-block">
-                      <span className="text-[#7B61FF] font-bold">{milestone.year}</span>
-                      <h4 className="font-semibold text-white">{milestone.title}</h4>
-                      <p className="text-sm text-[#B5B5C3]">{milestone.description}</p>
+                      <span className="text-nexus-purple font-bold">{milestone.year}</span>
+                      <h4 className="font-semibold text-nexus-text">{milestone.title}</h4>
+                      <p className="text-sm text-nexus-text-secondary">{milestone.description}</p>
                     </div>
                   </div>
 
                   {/* Center Dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF4FD8] border-4 border-black shadow-glow-purple" />
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-nexus-purple to-nexus-pink border-4 border-black shadow-glow-purple" />
                 </motion.div>
               ))}
             </div>
@@ -218,7 +218,7 @@ export default function AboutPage() {
       </section>
 
       {/* Advisors */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/3 right-1/4" />
@@ -246,7 +246,7 @@ export default function AboutPage() {
       </section>
 
       {/* Executive Panel */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/4 left-1/3" />
@@ -274,7 +274,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -299,7 +299,7 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 transition-all hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/20">
+                <div className="group relative overflow-hidden rounded-2xl border border-nexus-border bg-nexus-glass p-8 transition-all hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/20">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 transition-opacity group-hover:opacity-100" />
 
                   <div className="relative z-10">

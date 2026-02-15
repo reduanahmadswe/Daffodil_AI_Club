@@ -26,8 +26,8 @@ export default function AdminLayout({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen" style={{ background: '#000000' }}>
-        <div className="w-64 p-4" style={{ background: '#0B0B12' }}>
+      <div className="flex min-h-screen bg-nexus-bg">
+        <div className="w-64 p-4 bg-nexus-surface-1">
           <Skeleton className="h-10 w-10 rounded-xl mb-8" style={{ background: 'rgba(123, 97, 255, 0.2)' }} />
           <div className="space-y-4">
             {[...Array(8)].map((_, i) => (
@@ -35,7 +35,7 @@ export default function AdminLayout({
             ))}
           </div>
         </div>
-        <div className="flex-1 p-8" style={{ background: '#0B0B12' }}>
+        <div className="flex-1 p-8 bg-nexus-surface-1">
           <Skeleton className="h-8 w-48 mb-8" style={{ background: 'rgba(123, 97, 255, 0.2)' }} />
           <div className="grid grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
@@ -52,7 +52,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: '#0B0B12' }}>
+    <div className="flex min-h-screen bg-nexus-surface-1">
       <AdminSidebar />
       <main className="flex-1 ml-64 p-8">{children}</main>
     </div>

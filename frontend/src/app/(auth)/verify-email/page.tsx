@@ -73,7 +73,7 @@ function VerifyEmailContent() {
                 <p className="text-gray-600 mb-6">{message}</p>
 
                 {uniqueId && (
-                  <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl p-6 mb-8 text-white">
+                  <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl p-6 mb-8 text-nexus-text">
                     <p className="text-sm opacity-80 mb-2">Your Unique Member ID</p>
                     <p className="text-2xl font-mono font-bold">{uniqueId}</p>
                     <p className="text-sm opacity-80 mt-2">Save this ID for future reference</p>

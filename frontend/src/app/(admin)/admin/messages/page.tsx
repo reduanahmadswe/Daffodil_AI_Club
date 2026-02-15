@@ -146,7 +146,7 @@ export default function AdminMessagesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Messages
           </h1>
           <p className="text-gray-500">Contact form submissions and inquiries</p>
@@ -166,7 +166,7 @@ export default function AdminMessagesPage() {
                 <Mail className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.total}</p>
                 <p className="text-sm text-gray-500">Total</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function AdminMessagesPage() {
                 <Clock className="w-5 h-5 text-red-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.unread}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.unread}</p>
                 <p className="text-sm text-gray-500">Unread</p>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function AdminMessagesPage() {
                 <Star className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.starred}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.starred}</p>
                 <p className="text-sm text-gray-500">Starred</p>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function AdminMessagesPage() {
                 <Archive className="w-5 h-5 text-gray-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.archived}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.archived}</p>
                 <p className="text-sm text-gray-500">Archived</p>
               </div>
             </div>
@@ -258,7 +258,7 @@ export default function AdminMessagesPage() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`font-medium truncate ${!message.isRead ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                      <span className={`font-medium truncate ${!message.isRead ? 'text-gray-900 dark:text-nexus-text' : 'text-gray-600 dark:text-gray-400'}`}>
                         {message.name}
                       </span>
                       {!message.isRead && (

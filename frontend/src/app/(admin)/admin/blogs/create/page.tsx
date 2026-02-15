@@ -126,7 +126,7 @@ export default function CreateBlogPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Blog Posts
           </Link>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Create New Blog Post
           </h1>
         </div>
@@ -148,7 +148,7 @@ export default function CreateBlogPage() {
               /* Preview Mode */
               <Card>
                 <CardContent className="p-8">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-nexus-text mb-4">
                     {watchedTitle || 'Untitled Post'}
                   </h1>
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -307,7 +307,7 @@ export default function CreateBlogPage() {
                     className="w-5 h-5 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                   />
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">Featured Post</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">Featured Post</p>
                     <p className="text-sm text-gray-500">Show on homepage</p>
                   </div>
                 </label>

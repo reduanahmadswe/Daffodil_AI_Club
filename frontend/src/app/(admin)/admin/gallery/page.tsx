@@ -65,7 +65,7 @@ export default function AdminGalleryPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-3">
             <Image className="w-8 h-8 text-primary-500" />
             Gallery Management
           </h1>
@@ -83,7 +83,7 @@ export default function AdminGalleryPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">256</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">256</p>
             <p className="text-sm text-gray-500">Total Images</p>
           </CardContent>
         </Card>
@@ -128,7 +128,7 @@ export default function AdminGalleryPage() {
                     onClick={() => setCategory(cat)}
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                       category === cat
-                        ? 'bg-primary-500 text-white'
+                        ? 'bg-primary-500 text-nexus-text'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
                     }`}
                   >
@@ -210,7 +210,7 @@ export default function AdminGalleryPage() {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="bg-red-500/90 hover:bg-red-500 text-white p-2"
+                    className="bg-red-500/90 hover:bg-red-500 text-nexus-text p-2"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImages([image.id]);
@@ -226,7 +226,7 @@ export default function AdminGalleryPage() {
               <div className={`absolute top-2 left-2 transition-opacity ${selectedImages.includes(image.id) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                 <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
                   selectedImages.includes(image.id) 
-                    ? 'bg-primary-500 border-primary-500 text-white' 
+                    ? 'bg-primary-500 border-primary-500 text-nexus-text' 
                     : 'bg-white/80 border-gray-300'
                 }`}>
                   {selectedImages.includes(image.id) && (
@@ -245,7 +245,7 @@ export default function AdminGalleryPage() {
 
             {/* Image Info */}
             <div className="mt-2">
-              <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{image.title}</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-nexus-text truncate">{image.title}</p>
               <div className="flex items-center gap-2 text-xs text-gray-500">
                 <Eye className="w-3 h-3" />
                 <span>{image.views}</span>
@@ -266,7 +266,7 @@ export default function AdminGalleryPage() {
         <ModalBody>
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-12 text-center">
             <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
               Drop files here or click to upload
             </h3>
             <p className="text-gray-500 mb-4">

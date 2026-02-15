@@ -9,7 +9,7 @@ export default function MainLayout({
   return (
     <>
       <Navbar />
-      <main className="min-h-screen" style={{ background: '#000000' }}>{children}</main>
+      <main className="min-h-screen bg-nexus-bg">{children}</main>
       <Footer />
       <Chatbot />
     </>

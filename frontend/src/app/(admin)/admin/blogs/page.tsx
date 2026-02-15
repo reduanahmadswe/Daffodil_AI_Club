@@ -127,7 +127,7 @@ export default function AdminBlogsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-3">
             <FileText className="w-8 h-8 text-primary-500" />
             Blog Management
           </h1>
@@ -147,7 +147,7 @@ export default function AdminBlogsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">45</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">45</p>
             <p className="text-sm text-gray-500">Total Posts</p>
           </CardContent>
         </Card>
@@ -186,7 +186,7 @@ export default function AdminBlogsPage() {
             </div>
             <div className="flex gap-2">
               <select
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
@@ -196,7 +196,7 @@ export default function AdminBlogsPage() {
                 <option value="REVIEW">Under Review</option>
               </select>
               <select
-                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
               >
@@ -237,7 +237,7 @@ export default function AdminBlogsPage() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-3 line-clamp-2">
                   {blog.title}
                 </h3>
 
@@ -314,7 +314,7 @@ export default function AdminBlogsPage() {
         <Card>
           <CardContent className="p-12 text-center">
             <FileText className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
               No posts found
             </h3>
             <p className="text-gray-500 mb-6">

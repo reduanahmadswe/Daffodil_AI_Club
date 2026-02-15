@@ -193,7 +193,7 @@ export default function WorkshopDetailPage() {
   if (!workshop) {
     return (
       <div className="container-custom py-32 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-nexus-text mb-4">
           Workshop Not Found
         </h1>
         <p className="text-gray-500 mb-8">The workshop you're looking for doesn't exist.</p>
@@ -220,7 +220,7 @@ export default function WorkshopDetailPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/workshops" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6">
+            <Link href="/workshops" className="inline-flex items-center gap-2 text-nexus-text/80 hover:text-nexus-text mb-6">
               <ArrowLeft className="w-4 h-4" />
               Back to Workshops
             </Link>
@@ -240,25 +240,25 @@ export default function WorkshopDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6">
               {workshop.title}
             </h1>
 
             {/* Meta Info */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <div className="flex items-center gap-2 text-white/80">
+              <div className="flex items-center gap-2 text-nexus-text/80">
                 <Calendar className="w-5 h-5" />
                 <span>{formatDate(workshop.startDate || new Date())} - {workshop.endDate ? formatDate(workshop.endDate) : 'TBA'}</span>
               </div>
-              <div className="flex items-center gap-2 text-white/80">
+              <div className="flex items-center gap-2 text-nexus-text/80">
                 <Clock className="w-5 h-5" />
                 <span>{workshop.totalHours} hours • {workshop.sessions} sessions</span>
               </div>
-              <div className="flex items-center gap-2 text-white/80">
+              <div className="flex items-center gap-2 text-nexus-text/80">
                 <MapPin className="w-5 h-5" />
                 <span>{workshop.venue}</span>
               </div>
-              <div className="flex items-center gap-2 text-white/80">
+              <div className="flex items-center gap-2 text-nexus-text/80">
                 <Users className="w-5 h-5" />
                 <span>{workshop.registrations || 0}/{workshop.capacity || 0} Seats</span>
               </div>
@@ -266,11 +266,11 @@ export default function WorkshopDetailPage() {
 
             {/* Instructor */}
             {workshop.instructor && typeof workshop.instructor !== 'string' && (
-              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 inline-flex">
+              <div className="flex items-center gap-3 bg-nexus-glass backdrop-blur-sm rounded-xl p-4 inline-flex">
                 <Avatar name={workshop.instructor.name} size="lg" />
                 <div>
-                  <p className="font-medium text-white">{workshop.instructor.name}</p>
-                  <p className="text-white/70 text-sm">{workshop.instructor.title}</p>
+                  <p className="font-medium text-nexus-text">{workshop.instructor.name}</p>
+                  <p className="text-nexus-text/70 text-sm">{workshop.instructor.title}</p>
                 </div>
               </div>
             )}
@@ -315,7 +315,7 @@ export default function WorkshopDetailPage() {
                           key={week.week}
                           onClick={() => setActiveWeek(week.week)}
                           className={`px-4 py-2 rounded-lg font-medium transition-all ${activeWeek === week.week
-                            ? 'bg-primary-500 text-white'
+                            ? 'bg-primary-500 text-nexus-text'
                             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
                             }`}
                         >
@@ -327,7 +327,7 @@ export default function WorkshopDetailPage() {
                     {/* Week Content */}
                     {workshop.syllabus.filter((w: any) => w.week === activeWeek).map((week: any) => (
                       <div key={week.week}>
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-4">
                           {week.title}
                         </h3>
                         <ul className="space-y-3">
@@ -402,7 +402,7 @@ export default function WorkshopDetailPage() {
                 <CardContent className="p-6">
                   {/* Price */}
                   <div className="text-center mb-6">
-                    <p className="text-4xl font-bold text-gray-900 dark:text-white">
+                    <p className="text-4xl font-bold text-gray-900 dark:text-nexus-text">
                       {workshop.price === 0 ? 'Free' : `৳${workshop.price}`}
                     </p>
                     <p className="text-gray-500">
@@ -428,7 +428,7 @@ export default function WorkshopDetailPage() {
 
                   {/* Schedule */}
                   <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <p className="font-medium text-gray-900 dark:text-white mb-2">Schedule</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text mb-2">Schedule</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">{workshop.schedule}</p>
                   </div>
 

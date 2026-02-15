@@ -43,7 +43,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-blue w-96 h-96 top-1/4 left-1/4" />
@@ -60,10 +60,10 @@ export default function BlogPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="blue" className="mb-6">Blog</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               AI <span className="gradient-text">Insights</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Explore articles, tutorials, and insights about AI and machine learning
             </p>
           </motion.div>
@@ -71,7 +71,7 @@ export default function BlogPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+      <section className="py-8 bg-nexus-bg relative overflow-hidden border-b border-nexus-border">
         {/* Subtle Orb */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-64 h-64 top-1/2 right-1/4 opacity-30" />
@@ -97,8 +97,8 @@ export default function BlogPage() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === cat
-                    ? 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-white shadow-glow-blue'
-                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-nexus-text shadow-glow-blue'
+                    : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                     }`}
                 >
                   {cat}
@@ -110,7 +110,7 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Grid */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-cyan w-96 h-96 top-1/3 left-1/4" />
@@ -145,7 +145,7 @@ export default function BlogPage() {
                   transition={{ delay: index * 0.05 }}
                 >
                   <Link href={`/blog/${blog.slug}`}>
-                    <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 h-full flex flex-col border border-white/5 group relative">
+                    <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border group relative">
                       {/* Blog Image */}
                       <div className="aspect-video bg-gradient-to-br from-[#5B8CFF] to-[#6EF3FF] relative overflow-hidden">
                         {blog.image && (
@@ -165,23 +165,23 @@ export default function BlogPage() {
                       </div>
 
                       <div className="p-6 flex-1 flex flex-col">
-                        <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-[#6EF3FF] transition-colors">
+                        <h3 className="text-xl font-bold text-nexus-text mb-3 line-clamp-2 group-hover:text-nexus-cyan transition-colors">
                           {blog.title}
                         </h3>
-                        <p className="text-[#B5B5C3] mb-4 line-clamp-3 flex-1">
+                        <p className="text-nexus-text-secondary mb-4 line-clamp-3 flex-1">
                           {blog.excerpt}
                         </p>
 
                         {/* Blog Meta */}
-                        <div className="space-y-3 pt-4 border-t border-white/10">
-                          <div className="flex items-center gap-4 text-sm text-[#8A8A9E]">
+                        <div className="space-y-3 pt-4 border-t border-nexus-border">
+                          <div className="flex items-center gap-4 text-sm text-nexus-text-muted">
                             <div className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4 text-[#6EF3FF]" />
+                              <Calendar className="w-4 h-4 text-nexus-cyan" />
                               <span>{formatDate(blog.createdAt)}</span>
                             </div>
                             {blog.readTime && (
                               <div className="flex items-center gap-1">
-                                <Clock className="w-4 h-4 text-[#6EF3FF]" />
+                                <Clock className="w-4 h-4 text-nexus-cyan" />
                                 <span className="truncate">{blog.readTime}</span>
                               </div>
                             )}
@@ -191,9 +191,9 @@ export default function BlogPage() {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <Avatar name={blog.author?.name || 'Author'} size="sm" />
-                              <span className="text-sm text-white">{blog.author?.name || 'Anonymous'}</span>
+                              <span className="text-sm text-nexus-text">{blog.author?.name || 'Anonymous'}</span>
                             </div>
-                            <ArrowRight className="w-5 h-5 text-[#6EF3FF] group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-5 h-5 text-nexus-cyan group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
                       </div>
@@ -204,11 +204,11 @@ export default function BlogPage() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <Tag className="w-16 h-16 mx-auto text-[#6EF3FF] mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <Tag className="w-16 h-16 mx-auto text-nexus-cyan mb-4" />
+              <h3 className="text-xl font-semibold text-nexus-text mb-2">
                 No articles found
               </h3>
-              <p className="text-[#B5B5C3]">
+              <p className="text-nexus-text-secondary">
                 {search ? 'Try a different search term' : 'Check back later for new articles'}
               </p>
             </div>

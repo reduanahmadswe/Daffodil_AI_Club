@@ -135,14 +135,14 @@ export default function ProjectDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom">
-          <Skeleton className="h-8 w-32 mb-8 bg-white/10" />
-          <Skeleton className="h-12 w-3/4 mb-4 bg-white/10" />
-          <Skeleton className="h-6 w-1/4 mb-8 bg-white/10" />
-          <Skeleton className="h-[300px] w-full mb-8 bg-white/10" />
+          <Skeleton className="h-8 w-32 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-12 w-3/4 mb-4 bg-nexus-glass" />
+          <Skeleton className="h-6 w-1/4 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-[300px] w-full mb-8 bg-nexus-glass" />
           <div className="space-y-4">
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-3/4 bg-white/10" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-3/4 bg-nexus-glass" />
           </div>
         </div>
       </div>
@@ -153,10 +153,10 @@ export default function ProjectDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">
+          <h1 className="text-2xl font-bold text-nexus-text mb-4">
             Project Not Found
           </h1>
-          <p className="text-[#B5B5C3] mb-8">The project you're looking for doesn't exist.</p>
+          <p className="text-nexus-text-secondary mb-8">The project you're looking for doesn't exist.</p>
           <Link href="/projects">
             <button className="btn-nexus-primary px-6 py-3 rounded-xl">Browse Projects</button>
           </Link>
@@ -184,7 +184,7 @@ export default function ProjectDetailPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/projects" className="inline-flex items-center gap-2 text-[#B5B5C3] hover:text-white mb-6 transition-colors">
+            <Link href="/projects" className="inline-flex items-center gap-2 text-nexus-text-secondary hover:text-nexus-text mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Projects
             </Link>
@@ -203,12 +203,12 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6">
               {project.title}
             </h1>
 
             {/* Short Description */}
-            <p className="text-lg text-[#B5B5C3] mb-8 max-w-3xl">
+            <p className="text-lg text-nexus-text-secondary mb-8 max-w-3xl">
               {project.shortDescription}
             </p>
 
@@ -216,7 +216,7 @@ export default function ProjectDetailPage() {
             <div className="flex flex-wrap gap-4">
               {project.githubUrl && (
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all flex items-center gap-2">
+                  <button className="px-6 py-3 rounded-xl bg-nexus-glass border border-nexus-border text-nexus-text hover:bg-nexus-glass transition-all flex items-center gap-2">
                     <Github className="w-5 h-5" />
                     View on GitHub
                   </button>
@@ -232,7 +232,7 @@ export default function ProjectDetailPage() {
               )}
               {project.demoUrl && (
                 <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all flex items-center gap-2">
+                  <button className="px-6 py-3 rounded-xl bg-nexus-glass border border-nexus-border text-nexus-text hover:bg-nexus-glass transition-all flex items-center gap-2">
                     <Play className="w-5 h-5" />
                     Demo
                   </button>
@@ -275,19 +275,19 @@ export default function ProjectDetailPage() {
             <div className="lg:col-span-2 space-y-8">
               {/* Project Description */}
               <div className="glass rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-white mb-6">About This Project</h2>
+                <h2 className="text-2xl font-bold text-nexus-text mb-6">About This Project</h2>
                 <article className="prose prose-invert prose-lg max-w-none">
                   {project.description?.split('\n').map((line, index) => {
                     if (line.startsWith('# ')) {
-                      return <h1 key={index} className="text-white">{line.slice(2)}</h1>;
+                      return <h1 key={index} className="text-nexus-text">{line.slice(2)}</h1>;
                     } else if (line.startsWith('## ')) {
-                      return <h2 key={index} className="text-white">{line.slice(3)}</h2>;
+                      return <h2 key={index} className="text-nexus-text">{line.slice(3)}</h2>;
                     } else if (line.startsWith('### ')) {
-                      return <h3 key={index} className="text-white">{line.slice(4)}</h3>;
+                      return <h3 key={index} className="text-nexus-text">{line.slice(4)}</h3>;
                     } else if (line.startsWith('- ')) {
-                      return <li key={index} className="text-[#B5B5C3]">{line.slice(2)}</li>;
+                      return <li key={index} className="text-nexus-text-secondary">{line.slice(2)}</li>;
                     } else if (line.trim()) {
-                      return <p key={index} className="text-[#B5B5C3]">{line}</p>;
+                      return <p key={index} className="text-nexus-text-secondary">{line}</p>;
                     }
                     return null;
                   })}
@@ -299,37 +299,37 @@ export default function ProjectDetailPage() {
             <div className="space-y-6">
               {/* Project Info */}
               <div className="glass rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-white mb-6">Project Info</h3>
+                <h3 className="text-xl font-bold text-nexus-text mb-6">Project Info</h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-[#7B61FF]/20">
-                      <Calendar className="w-5 h-5 text-[#7B61FF]" />
+                    <div className="p-2 rounded-lg bg-nexus-purple/20">
+                      <Calendar className="w-5 h-5 text-nexus-purple" />
                     </div>
                     <div>
-                      <p className="text-sm text-[#8A8A9E]">Timeline</p>
-                      <p className="font-medium text-white text-sm">
+                      <p className="text-sm text-nexus-text-muted">Timeline</p>
+                      <p className="font-medium text-nexus-text text-sm">
                         {project.startDate ? formatDate(project.startDate) : 'N/A'} - {project.endDate ? formatDate(project.endDate) : 'Ongoing'}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-[#6EF3FF]/20">
-                      <Tag className="w-5 h-5 text-[#6EF3FF]" />
+                    <div className="p-2 rounded-lg bg-nexus-cyan/20">
+                      <Tag className="w-5 h-5 text-nexus-cyan" />
                     </div>
                     <div>
-                      <p className="text-sm text-[#8A8A9E]">Category</p>
-                      <p className="font-medium text-white">{project.category}</p>
+                      <p className="text-sm text-nexus-text-muted">Category</p>
+                      <p className="font-medium text-nexus-text">{project.category}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-[#FF4FD8]/20">
-                      <Users className="w-5 h-5 text-[#FF4FD8]" />
+                    <div className="p-2 rounded-lg bg-nexus-pink/20">
+                      <Users className="w-5 h-5 text-nexus-pink" />
                     </div>
                     <div>
-                      <p className="text-sm text-[#8A8A9E]">Team Size</p>
-                      <p className="font-medium text-white">{project.teamMembers?.length || 0} Members</p>
+                      <p className="text-sm text-nexus-text-muted">Team Size</p>
+                      <p className="font-medium text-nexus-text">{project.teamMembers?.length || 0} Members</p>
                     </div>
                   </div>
                 </div>
@@ -337,8 +337,8 @@ export default function ProjectDetailPage() {
 
               {/* Technologies */}
               <div className="glass rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                  <Code className="w-5 h-5 text-[#7B61FF]" />
+                <h3 className="text-xl font-bold text-nexus-text mb-4 flex items-center gap-2">
+                  <Code className="w-5 h-5 text-nexus-purple" />
                   Technologies
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -353,8 +353,8 @@ export default function ProjectDetailPage() {
               {/* Team Members */}
               {project.teamMembers && project.teamMembers.length > 0 && (
                 <div className="glass rounded-2xl p-6">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Users className="w-5 h-5 text-[#FF4FD8]" />
+                  <h3 className="text-xl font-bold text-nexus-text mb-4 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-nexus-pink" />
                     Team
                   </h3>
                   <div className="space-y-4">
@@ -362,10 +362,10 @@ export default function ProjectDetailPage() {
                       <div key={member.id} className="flex items-center gap-3">
                         <Avatar name={member.name} size="sm" />
                         <div>
-                          <p className="font-medium text-white">
+                          <p className="font-medium text-nexus-text">
                             {member.name}
                           </p>
-                          <p className="text-sm text-[#8A8A9E]">{member.role}</p>
+                          <p className="text-sm text-nexus-text-muted">{member.role}</p>
                         </div>
                       </div>
                     ))}
@@ -376,11 +376,11 @@ export default function ProjectDetailPage() {
               {/* GitHub Stats */}
               {project.githubUrl && (
                 <div className="glass rounded-2xl p-6">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-nexus-text mb-4 flex items-center gap-2">
                     <Github className="w-5 h-5" />
                     Repository
                   </h3>
-                  <div className="flex items-center gap-6 text-[#B5B5C3] mb-4">
+                  <div className="flex items-center gap-6 text-nexus-text-secondary mb-4">
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4" />
                       <span>128</span>
@@ -399,7 +399,7 @@ export default function ProjectDetailPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="w-full px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-all border border-white/10">
+                    <button className="w-full px-4 py-2 rounded-lg bg-nexus-glass hover:bg-nexus-glass text-nexus-text transition-all border border-nexus-border">
                       View Repository
                     </button>
                   </a>

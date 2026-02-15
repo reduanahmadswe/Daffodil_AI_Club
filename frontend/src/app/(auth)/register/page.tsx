@@ -110,7 +110,7 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex items-center justify-center bg-nexus-bg relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
         {/* Background Orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="orb orb-green w-[600px] h-[600px] top-[-10%] left-[-10%] opacity-30 blur-[100px] animate-pulse-slow" />
@@ -125,17 +125,17 @@ export default function RegisterPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full relative z-10"
         >
-          <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl shadow-green-500/10 backdrop-blur-xl bg-black/40 text-center">
+          <div className="glass rounded-3xl p-8 border border-nexus-border shadow-2xl shadow-green-500/10 backdrop-blur-xl bg-black/40 text-center">
             <div className="w-20 h-20 mx-auto mb-6 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 shadow-glow-green">
               <Mail className="w-10 h-10 text-green-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-4">Check Your Email!</h2>
-            <p className="text-[#B5B5C3] mb-6">
+            <h2 className="text-2xl font-bold text-nexus-text mb-4">Check Your Email!</h2>
+            <p className="text-nexus-text-secondary mb-6">
               We've sent a verification link to your DIU email. Please click the link to verify
               your account and complete registration.
             </p>
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-8">
-              <p className="text-sm text-[#8A8A9E]">
+            <div className="p-4 rounded-xl bg-nexus-glass border border-nexus-border mb-8">
+              <p className="text-sm text-nexus-text-muted">
                 After verification, you'll receive your unique AI Club Member ID!
               </p>
             </div>
@@ -154,7 +154,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-nexus-bg relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
       {/* Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="orb orb-purple w-[800px] h-[800px] top-[-20%] right-[-20%] opacity-30 blur-[100px] animate-pulse-slow" />
@@ -171,19 +171,19 @@ export default function RegisterPage() {
       >
         <Link
           href="/"
-          className="inline-flex items-center mb-8 text-[#B5B5C3] hover:text-[#7B61FF] transition-colors"
+          className="inline-flex items-center mb-8 text-nexus-text-secondary hover:text-nexus-purple transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
         </Link>
 
-        <div className="glass rounded-3xl p-8 md:p-10 border border-white/10 shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-black/40">
+        <div className="glass rounded-3xl p-8 md:p-10 border border-nexus-border shadow-2xl shadow-purple-500/10 backdrop-blur-xl bg-nexus-bg/40">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20" style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}>
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/20 bg-nexus-gradient">
               AI
             </div>
-            <h2 className="text-3xl font-display font-bold text-white mb-2">Join the Club</h2>
-            <p className="text-[#B5B5C3]">
+            <h2 className="text-3xl font-display font-bold text-nexus-text mb-2">Join the Club</h2>
+            <p className="text-nexus-text-secondary">
               Create your Daffodil AI Club membership account
             </p>
           </div>
@@ -209,7 +209,7 @@ export default function RegisterPage() {
                   leftIcon={<User className="w-5 h-5" />}
                   error={errors.name?.message}
                   {...register('name')}
-                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                  className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
                 />
               </div>
 
@@ -221,7 +221,7 @@ export default function RegisterPage() {
                   leftIcon={<Mail className="w-5 h-5" />}
                   error={errors.email?.message}
                   {...register('email')}
-                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                  className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
                 />
               </div>
 
@@ -234,14 +234,14 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-nexus-text transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 }
                 error={errors.password?.message}
                 {...register('password')}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
               />
 
               <Input
@@ -251,7 +251,7 @@ export default function RegisterPage() {
                 leftIcon={<Lock className="w-5 h-5" />}
                 error={errors.confirmPassword?.message}
                 {...register('confirmPassword')}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
               />
 
               <div className="md:col-span-2">
@@ -262,7 +262,7 @@ export default function RegisterPage() {
                   leftIcon={<Phone className="w-5 h-5" />}
                   error={errors.phone?.message}
                   {...register('phone')}
-                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                  className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
                 />
               </div>
 
@@ -274,7 +274,7 @@ export default function RegisterPage() {
                   leftIcon={<GraduationCap className="w-5 h-5" />}
                   error={errors.studentId?.message}
                   {...register('studentId')}
-                  className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                  className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
                 />
               </div>
 
@@ -286,8 +286,7 @@ export default function RegisterPage() {
                   { value: '', label: 'Select Department' },
                   ...departments
                 ]}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all text-white"
-                style={{ backgroundColor: '#111118' }}
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all text-nexus-text"
               />
 
               <Input
@@ -297,7 +296,7 @@ export default function RegisterPage() {
                 leftIcon={<BookOpen className="w-5 h-5" />}
                 error={errors.batch?.message}
                 {...register('batch')}
-                className="bg-white/5 border-white/10 focus:border-[#7B61FF]/50 hover:border-white/20 transition-all"
+                className="bg-nexus-glass border-nexus-border focus:border-nexus-purple/50 hover:border-nexus-border transition-all"
               />
             </div>
 
@@ -306,15 +305,15 @@ export default function RegisterPage() {
                 <input
                   type="checkbox"
                   required
-                  className="w-4 h-4 mt-1 rounded border-white/20 bg-white/5 text-[#7B61FF] focus:ring-[#7B61FF] focus:ring-offset-0"
+                  className="w-4 h-4 mt-1 rounded border-nexus-border bg-nexus-glass text-nexus-purple focus:ring-[#7B61FF] focus:ring-offset-0"
                 />
-                <span className="text-sm text-[#B5B5C3] group-hover:text-white transition-colors">
+                <span className="text-sm text-nexus-text-secondary group-hover:text-nexus-text transition-colors">
                   I agree to the{' '}
-                  <Link href="/terms" className="text-[#7B61FF] hover:text-[#FF4FD8] hover:underline transition-colors">
+                  <Link href="/terms" className="text-nexus-purple hover:text-nexus-pink hover:underline transition-colors">
                     Terms & Conditions
                   </Link>{' '}
                   and{' '}
-                  <Link href="/privacy" className="text-[#7B61FF] hover:text-[#FF4FD8] hover:underline transition-colors">
+                  <Link href="/privacy" className="text-nexus-purple hover:text-nexus-pink hover:underline transition-colors">
                     Privacy Policy
                   </Link>
                 </span>
@@ -324,7 +323,7 @@ export default function RegisterPage() {
             <Button
               type="submit"
               variant="ghost"
-              className="w-full h-12 text-base font-semibold border border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
+              className="w-full h-12 text-base font-semibold border border-nexus-border bg-transparent text-nexus-text hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01] transition-all relative overflow-hidden group shadow-none"
               isLoading={isLoading}
             >
               <span className="flex items-center gap-2">
@@ -334,10 +333,10 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <p className="text-[#B5B5C3]">
+          <div className="mt-8 pt-6 border-t border-nexus-border text-center">
+            <p className="text-nexus-text-secondary">
               Already have an account?{' '}
-              <Link href="/login" className="text-white hover:text-[#6EF3FF] font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
+              <Link href="/login" className="text-nexus-text hover:text-nexus-cyan font-medium transition-colors hover:underline decoration-[#6EF3FF]/30">
                 Sign In
               </Link>
             </p>

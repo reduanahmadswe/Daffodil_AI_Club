@@ -22,8 +22,8 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen" style={{ background: '#000000' }}>
-        <div className="w-64 glass border-r border-[rgba(255,255,255,0.1)] p-4">
+      <div className="flex min-h-screen bg-nexus-bg">
+        <div className="w-64 glass border-r border-nexus-border p-4">
           <Skeleton className="h-10 w-10 rounded-xl mb-8" style={{ background: 'rgba(123, 97, 255, 0.2)' }} />
           <div className="space-y-4">
             {[...Array(6)].map((_, i) => (
@@ -48,7 +48,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: '#0B0B12' }}>
+    <div className="flex min-h-screen bg-nexus-surface-1">
       <DashboardSidebar />
       <main className="flex-1 ml-64 p-8">{children}</main>
     </div>

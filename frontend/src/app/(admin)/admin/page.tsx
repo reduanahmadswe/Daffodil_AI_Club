@@ -81,7 +81,7 @@ export default function AdminDashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white">
+        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text">
           Admin Dashboard
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between">
                   <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                    <stat.icon className="w-6 h-6 text-nexus-text" />
                   </div>
                   <Badge 
                     color={stat.trend === 'up' ? 'green' : 'red'} 
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
                   </Badge>
                 </div>
                 <div className="mt-4">
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
+                  <p className="text-3xl font-bold text-gray-900 dark:text-nexus-text">{stat.value}</p>
                   <p className="text-sm text-gray-500">{stat.label}</p>
                 </div>
               </CardContent>
@@ -137,7 +137,7 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {quickActions.map((action) => (
               <Link key={action.label} href={action.href}>
-                <div className={`p-4 rounded-xl bg-gradient-to-br ${action.color} text-white text-center hover:opacity-90 transition-opacity cursor-pointer`}>
+                <div className={`p-4 rounded-xl bg-gradient-to-br ${action.color} text-nexus-text text-center hover:opacity-90 transition-opacity cursor-pointer`}>
                   <action.icon className="w-8 h-8 mx-auto mb-2" />
                   <span className="font-medium">{action.label}</span>
                 </div>
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
                 <div key={member.email} className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                   <Avatar name={member.name} size="md" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 dark:text-white truncate">{member.name}</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text truncate">{member.name}</p>
                     <p className="text-sm text-gray-500 truncate">{member.email}</p>
                   </div>
                   <div className="text-right">
@@ -199,7 +199,7 @@ export default function AdminDashboard() {
               {recentMessages.map((message, index) => (
                 <div key={index} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="font-medium text-gray-900 dark:text-white">{message.name}</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">{message.name}</p>
                     <span className="text-xs text-gray-500">{message.date}</span>
                   </div>
                   <p className="text-sm font-medium text-primary-600 mb-1">{message.subject}</p>

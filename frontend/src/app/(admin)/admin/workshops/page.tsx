@@ -157,7 +157,7 @@ export default function AdminWorkshopsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Workshops Management
           </h1>
           <p className="text-gray-500">Create and manage workshop series</p>
@@ -179,7 +179,7 @@ export default function AdminWorkshopsPage() {
                 <BookOpen className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.total}</p>
                 <p className="text-sm text-gray-500">Total Workshops</p>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function AdminWorkshopsPage() {
                 <Calendar className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.upcoming}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.upcoming}</p>
                 <p className="text-sm text-gray-500">Upcoming</p>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function AdminWorkshopsPage() {
                 <Clock className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.ongoing}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.ongoing}</p>
                 <p className="text-sm text-gray-500">Ongoing</p>
               </div>
             </div>
@@ -218,7 +218,7 @@ export default function AdminWorkshopsPage() {
                 <Users className="w-5 h-5 text-orange-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalEnrollments}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stats.totalEnrollments}</p>
                 <p className="text-sm text-gray-500">Total Enrollments</p>
               </div>
             </div>
@@ -292,7 +292,7 @@ export default function AdminWorkshopsPage() {
                           </Badge>
                         )}
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text">
                         {workshop.title}
                       </h3>
                     </div>
@@ -327,7 +327,7 @@ export default function AdminWorkshopsPage() {
                   <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800">
                     <Avatar name={workshop.instructor.name} size="sm" />
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="font-medium text-gray-900 dark:text-nexus-text">
                         {workshop.instructor.name}
                       </p>
                       <p className="text-sm text-gray-500">Instructor</p>
@@ -353,7 +353,7 @@ export default function AdminWorkshopsPage() {
                   {/* Price & Actions */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xl font-bold text-gray-900 dark:text-white">
+                      <span className="text-xl font-bold text-gray-900 dark:text-nexus-text">
                         {workshop.price === 0 ? 'Free' : `৳${workshop.price}`}
                       </span>
                     </div>

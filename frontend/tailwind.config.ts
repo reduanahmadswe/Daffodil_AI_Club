@@ -10,38 +10,43 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // NexusAI Strict Color Palette
+        // NexusAI Theme-Aware Color Palette (auto-switches via CSS vars)
         nexus: {
           // Backgrounds
-          black: '#000000',
-          'dark-1': '#0B0B12',
-          'dark-2': '#111118',
+          bg: 'var(--nexus-bg)',
+          'surface-1': 'var(--nexus-surface-1)',
+          'surface-2': 'var(--nexus-surface-2)',
           // Accents
-          purple: '#7B61FF',
-          pink: '#FF4FD8',
-          blue: '#5B8CFF',
-          cyan: '#6EF3FF',
+          purple: 'var(--nexus-purple)',
+          pink: 'var(--nexus-pink)',
+          blue: 'var(--nexus-blue)',
+          cyan: 'var(--nexus-cyan)',
           // Text
-          white: '#FFFFFF',
-          'text-secondary': '#B5B5C3',
-          'text-muted': '#8A8A9E',
+          text: 'var(--nexus-text)',
+          'text-secondary': 'var(--nexus-text-secondary)',
+          'text-muted': 'var(--nexus-text-muted)',
+          // Border
+          border: 'var(--nexus-border)',
+          // Glass
+          glass: 'var(--nexus-glass-bg)',
+          'glass-border': 'var(--nexus-glass-border)',
         },
       },
       borderColor: {
-        DEFAULT: 'rgba(255, 255, 255, 0.1)',
+        DEFAULT: 'var(--nexus-border)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        // Gradients - strictly from palette
-        'nexus-gradient': 'linear-gradient(90deg, #7B61FF, #FF4FD8)',
-        'nexus-gradient-multi': 'linear-gradient(#7B61FF, #5B8CFF, #FF4FD8)',
-        'nexus-gradient-cyan': 'linear-gradient(#6EF3FF, #7B61FF)',
-        'nexus-bg': 'linear-gradient(to bottom right, #0B0B12, #000000, #111118)',
+        // Gradients - using CSS vars for theme awareness
+        'nexus-gradient': 'linear-gradient(90deg, var(--nexus-purple), var(--nexus-pink))',
+        'nexus-gradient-multi': 'linear-gradient(var(--nexus-purple), var(--nexus-blue), var(--nexus-pink))',
+        'nexus-gradient-cyan': 'linear-gradient(var(--nexus-cyan), var(--nexus-purple))',
+        'nexus-bg': 'linear-gradient(to bottom right, var(--nexus-surface-1), var(--nexus-bg), var(--nexus-surface-2))',
         // Grid pattern
-        'nexus-grid': 'linear-gradient(rgba(123, 97, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(123, 97, 255, 0.03) 1px, transparent 1px)',
+        'nexus-grid': 'linear-gradient(var(--nexus-purple-03) 1px, transparent 1px), linear-gradient(90deg, var(--nexus-purple-03) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid': '60px 60px',
@@ -73,12 +78,12 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'glow-purple': '0 0 40px rgba(123, 97, 255, 0.4), 0 0 80px rgba(123, 97, 255, 0.2)',
-        'glow-pink': '0 0 30px rgba(255, 79, 216, 0.5), 0 0 60px rgba(255, 79, 216, 0.3)',
-        'glow-cyan': '0 0 20px rgba(110, 243, 255, 0.6)',
-        'glow-blue': '0 0 15px rgba(91, 140, 255, 0.6)',
-        'btn-primary': '0 0 20px rgba(255, 79, 216, 0.4), inset 0 0 20px rgba(255, 79, 216, 0.1)',
-        'btn-primary-hover': '0 0 30px rgba(255, 79, 216, 0.6), inset 0 0 30px rgba(255, 79, 216, 0.2)',
+        'glow-purple': '0 0 40px var(--nexus-purple-40), 0 0 80px var(--nexus-purple-20)',
+        'glow-pink': '0 0 30px var(--nexus-pink-50), 0 0 60px var(--nexus-pink-30)',
+        'glow-cyan': '0 0 20px var(--nexus-cyan-60)',
+        'glow-blue': '0 0 15px var(--nexus-blue-60)',
+        'btn-primary': '0 0 20px var(--nexus-pink-40), inset 0 0 20px var(--nexus-pink-10)',
+        'btn-primary-hover': '0 0 30px var(--nexus-pink-60), inset 0 0 30px var(--nexus-pink-20)',
       },
     },
   },

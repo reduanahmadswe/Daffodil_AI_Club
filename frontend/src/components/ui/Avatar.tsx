@@ -58,11 +58,11 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       <div
         ref={ref}
         className={cn(
-          'flex items-center justify-center rounded-full text-white font-semibold',
+          'flex items-center justify-center rounded-full text-nexus-text font-semibold',
           sizes[size],
           className
         )}
-        style={{ background: 'linear-gradient(135deg, #7B61FF, #FF4FD8)' }}
+        className="bg-nexus-gradient"
         {...props}
       >
         {getInitials(name)}

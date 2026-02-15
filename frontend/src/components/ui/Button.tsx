@@ -27,11 +27,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-      primary: 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white hover:shadow-glow-purple focus:ring-[#7B61FF] shadow-lg',
-      secondary: 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-white hover:shadow-glow-cyan focus:ring-[#5B8CFF] shadow-lg',
-      outline: 'border-2 border-[#7B61FF] text-[#7B61FF] hover:bg-[rgba(123,97,255,0.1)] dark:hover:bg-[rgba(123,97,255,0.2)] focus:ring-[#7B61FF]',
-      ghost: 'text-[#B5B5C3] hover:bg-[rgba(255,255,255,0.05)] dark:text-[#8A8A9E] dark:hover:bg-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
-      danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+      primary: 'bg-gradient-to-r from-nexus-purple to-nexus-pink text-nexus-text hover:shadow-glow-purple focus:ring-[#7B61FF] shadow-lg',
+      secondary: 'bg-gradient-to-r from-[#5B8CFF] to-[#6EF3FF] text-nexus-text hover:shadow-glow-cyan focus:ring-[#5B8CFF] shadow-lg',
+      outline: 'border-2 border-nexus-purple text-nexus-purple hover:bg-nexus-purple/20 dark:hover:bg-nexus-purple/20 focus:ring-[#7B61FF]',
+      ghost: 'text-nexus-text-secondary hover:bg-[rgba(255,255,255,0.05)] dark:text-nexus-text-muted dark:hover:bg-[rgba(255,255,255,0.1)] focus:ring-[#7B61FF]',
+      danger: 'bg-red-600 text-nexus-text hover:bg-red-700 focus:ring-red-500',
     };
 
     const sizes = {

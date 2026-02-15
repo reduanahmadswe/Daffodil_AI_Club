@@ -88,8 +88,7 @@ export default function SplitText({
                             ? `translate(${to.x ?? 0}px, ${to.y ?? 0}px)`
                             : `translate(${from.x ?? 0}px, ${from.y ?? 0}px)`,
                         transition: `all ${duration}s ${ease} ${wordIndex * delay}ms`,
-                        color: '#E5E5E5',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6)',
+                        color: 'var(--nexus-text-secondary)',
                     }}
                 >
                     {word}
@@ -111,14 +110,15 @@ export default function SplitText({
             };
 
             if (gradient) {
-                baseStyle.background = 'linear-gradient(135deg, #7B61FF 0%, #FF4FD8 100%)';
+                baseStyle.background = 'linear-gradient(135deg, var(--nexus-purple) 0%, var(--nexus-pink) 100%)';
                 baseStyle.WebkitBackgroundClip = 'text';
                 baseStyle.WebkitTextFillColor = 'transparent';
                 baseStyle.backgroundClip = 'text';
-                baseStyle.textShadow = 'none'; // Remove text shadow for gradient
+                // Use visibility instead of opacity for gradient chars so background-clip works
+                baseStyle.opacity = 1;
+                baseStyle.visibility = isVisible ? 'visible' : 'hidden';
             } else {
-                baseStyle.color = '#FFFFFF';
-                baseStyle.textShadow = '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)';
+                baseStyle.color = 'var(--nexus-text)';
             }
 
             return (
@@ -129,15 +129,17 @@ export default function SplitText({
         });
     };
 
+    const containerStyle: React.CSSProperties = {
+        textAlign,
+        display: 'inline-block',
+        width: '100%',
+    };
+
     return (
         <div
             ref={containerRef}
             className={className}
-            style={{
-                textAlign,
-                display: 'inline-block',
-                width: '100%',
-            }}
+            style={containerStyle}
         >
             {splitText()}
         </div>

@@ -58,7 +58,7 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-40 pb-20 overflow-hidden bg-nexus-bg">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-pink w-96 h-96 top-1/4 left-1/4" />
@@ -75,10 +75,10 @@ export default function ProjectsPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge color="pink" className="mb-6">Projects</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-nexus-text">
               Our AI <span className="gradient-text">Projects</span>
             </h1>
-            <p className="text-xl text-[#B5B5C3]">
+            <p className="text-xl text-nexus-text-secondary">
               Explore innovative AI projects built by our talented club members
             </p>
           </motion.div>
@@ -86,7 +86,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-black relative overflow-hidden border-b border-white/10">
+      <section className="py-8 bg-nexus-bg relative overflow-hidden border-b border-nexus-border">
         {/* Subtle Orb */}
         <div className="absolute inset-0">
           <div className="orb orb-blue w-64 h-64 top-1/2 right-1/4 opacity-30" />
@@ -112,8 +112,8 @@ export default function ProjectsPage() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === cat
-                    ? 'bg-gradient-to-r from-[#7B61FF] to-[#FF4FD8] text-white shadow-glow-purple'
-                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-nexus-purple to-nexus-pink text-nexus-text shadow-glow-purple'
+                    : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                     }`}
                 >
                   {cat}
@@ -128,8 +128,8 @@ export default function ProjectsPage() {
                   key={stat}
                   onClick={() => setStatus(stat)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${status === stat
-                    ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-white shadow-glow-pink'
-                    : 'bg-white/5 text-[#B5B5C3] hover:bg-white/10 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#FF4FD8] to-[#7B61FF] text-nexus-text shadow-glow-pink'
+                    : 'bg-nexus-glass text-nexus-text-secondary hover:bg-nexus-glass hover:text-nexus-text'
                     }`}
                 >
                   {stat}
@@ -141,7 +141,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-nexus-bg relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute inset-0">
           <div className="orb orb-purple w-96 h-96 top-1/3 left-1/4" />
@@ -175,7 +175,7 @@ export default function ProjectsPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300 h-full flex flex-col border border-white/5">
+                  <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-pink-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border">
                     {/* Project Image */}
                     <div className="aspect-video bg-gradient-to-br from-[#FF4FD8] to-[#7B61FF] relative overflow-hidden">
                       {project.image && (
@@ -207,17 +207,17 @@ export default function ProjectsPage() {
                         <Badge color="purple" size="sm">{project.category}</Badge>
                       </div>
 
-                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">{project.title}</h3>
-                      <p className="text-[#B5B5C3] mb-4 line-clamp-3 flex-1">
+                      <h3 className="text-xl font-bold text-nexus-text mb-3 line-clamp-2">{project.title}</h3>
+                      <p className="text-nexus-text-secondary mb-4 line-clamp-3 flex-1">
                         {project.description}
                       </p>
 
                       {/* Project Details */}
-                      <div className="space-y-2 text-sm text-[#8A8A9E] mb-4">
+                      <div className="space-y-2 text-sm text-nexus-text-muted mb-4">
                         {project.technologies && (
                           <div className="flex flex-wrap gap-1">
                             {Array.isArray(project.technologies) && project.technologies.slice(0, 3).map((tech: string, i: number) => (
-                              <span key={i} className="px-2 py-1 rounded bg-white/5 text-xs text-[#B5B5C3]">
+                              <span key={i} className="px-2 py-1 rounded bg-nexus-glass text-xs text-nexus-text-secondary">
                                 {tech}
                               </span>
                             ))}
@@ -225,14 +225,14 @@ export default function ProjectsPage() {
                         )}
                         {project.teamMembers && project.teamMembers.length > 0 && (
                           <div className="flex items-center gap-2">
-                            <Users className="w-4 h-4 text-[#FF4FD8]" />
+                            <Users className="w-4 h-4 text-nexus-pink" />
                             <span>{project.teamMembers.length} members</span>
                           </div>
                         )}
                       </div>
 
                       {/* Links */}
-                      <div className="flex gap-2 pt-4 border-t border-white/10">
+                      <div className="flex gap-2 pt-4 border-t border-nexus-border">
                         {project.githubUrl && (
                           <a
                             href={project.githubUrl}
@@ -240,7 +240,7 @@ export default function ProjectsPage() {
                             rel="noopener noreferrer"
                             className="flex-1"
                           >
-                            <button className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm font-medium text-white transition-all hover:bg-white/10 hover:border-white/20 flex items-center justify-center gap-2">
+                            <button className="w-full px-4 py-3 rounded-xl border border-nexus-border bg-nexus-glass text-sm font-medium text-nexus-text transition-all hover:bg-nexus-glass hover:border-nexus-border flex items-center justify-center gap-2">
                               <Github className="w-4 h-4" />
                               Code
                             </button>
@@ -248,7 +248,7 @@ export default function ProjectsPage() {
                         )}
                         <Link href={`/projects/${project.slug}`} className="flex-1">
                           <FadeContent blur={true} duration={500} delay={200}>
-                            <button className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-transparent px-4 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40 hover:scale-[1.01] flex items-center justify-center gap-2">
+                            <button className="group relative w-full overflow-hidden rounded-xl border border-nexus-border bg-transparent px-4 py-3 font-semibold text-nexus-text transition-all hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01] flex items-center justify-center gap-2">
                               Details
                               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </button>
@@ -262,11 +262,11 @@ export default function ProjectsPage() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <Folder className="w-16 h-16 mx-auto text-[#FF4FD8] mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <Folder className="w-16 h-16 mx-auto text-nexus-pink mb-4" />
+              <h3 className="text-xl font-semibold text-nexus-text mb-2">
                 No projects found
               </h3>
-              <p className="text-[#B5B5C3]">
+              <p className="text-nexus-text-secondary">
                 {search ? 'Try a different search term' : 'Check back later for new projects'}
               </p>
             </div>

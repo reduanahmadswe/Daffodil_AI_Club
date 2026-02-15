@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -86,9 +87,32 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Inline script to prevent FOUC (flash of unstyled content) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = JSON.parse(localStorage.getItem('theme-storage') || '{}');
+                  var theme = (stored.state && stored.state.theme) || 'system';
+                  if (theme === 'system') {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                  if (theme === 'light') {
+                    document.documentElement.style.colorScheme = 'light';
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} font-sans`} style={{ background: '#000000', color: '#FFFFFF' }}>
-        <div id="root">{children}</div>
+      <body className={`${inter.variable} ${poppins.variable} font-sans`}>
+        <ThemeProvider>
+          <div id="root">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

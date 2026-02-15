@@ -47,7 +47,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text">
             Welcome back, {user?.name?.split(' ')[0]}! 👋
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -72,14 +72,14 @@ export default function DashboardPage() {
         <div className="relative flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Avatar src={user?.profileImage} name={user?.name || ''} size="lg" />
-            <div className="text-white">
+            <div className="text-nexus-text">
               <p className="text-sm opacity-80">Your Member ID</p>
               <p className="text-2xl font-mono font-bold">{user?.uniqueId || 'DAIC-SPRING-00001'}</p>
               <p className="text-sm opacity-80 mt-1">{user?.department} • Batch {user?.batch}</p>
             </div>
           </div>
           <Link href="/dashboard/id-card" className="hidden md:block">
-            <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30">
+            <Button className="bg-white/20 hover:bg-white/30 text-nexus-text border-white/30">
               Download ID Card
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -100,10 +100,10 @@ export default function DashboardPage() {
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                    <stat.icon className="w-6 h-6 text-nexus-text" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-nexus-text">{stat.value}</p>
                     <p className="text-sm text-gray-500">{stat.label}</p>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                     <Calendar className="w-5 h-5 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">{event.title}</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">{event.title}</p>
                     <p className="text-sm text-gray-500">{event.date} at {event.time}</p>
                   </div>
                   <Badge color={event.type === 'Workshop' ? 'blue' : event.type === 'Competition' ? 'purple' : 'green'}>
@@ -169,7 +169,7 @@ export default function DashboardPage() {
                     <activity.icon className="w-5 h-5 text-green-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">{activity.action}</p>
+                    <p className="font-medium text-gray-900 dark:text-nexus-text">{activity.action}</p>
                     <p className="text-sm text-gray-500 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {activity.time}

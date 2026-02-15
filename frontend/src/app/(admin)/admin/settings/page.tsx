@@ -34,7 +34,7 @@ export default function AdminSettingsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-3">
+        <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-3">
           <Settings className="w-8 h-8 text-primary-500" />
           Settings
         </h1>
@@ -102,7 +102,7 @@ export default function AdminSettingsPage() {
                       Site Logo
                     </label>
                     <div className="flex items-center gap-4">
-                      <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold text-2xl">
+                      <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-nexus-text font-bold text-2xl">
                         AI
                       </div>
                       <Button variant="outline">
@@ -173,7 +173,7 @@ export default function AdminSettingsPage() {
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{item.label}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{item.label}</p>
                         <p className="text-sm text-gray-500">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
@@ -241,7 +241,7 @@ export default function AdminSettingsPage() {
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{item.label}</p>
+                        <p className="font-medium text-gray-900 dark:text-nexus-text">{item.label}</p>
                         <p className="text-sm text-gray-500">{item.desc}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">

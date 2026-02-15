@@ -181,14 +181,14 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom">
-          <Skeleton className="h-8 w-32 mb-8 bg-white/10" />
-          <Skeleton className="h-12 w-3/4 mb-4 bg-white/10" />
-          <Skeleton className="h-6 w-1/4 mb-8 bg-white/10" />
-          <Skeleton className="h-[400px] w-full mb-8 bg-white/10" />
+          <Skeleton className="h-8 w-32 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-12 w-3/4 mb-4 bg-nexus-glass" />
+          <Skeleton className="h-6 w-1/4 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-[400px] w-full mb-8 bg-nexus-glass" />
           <div className="space-y-4">
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-3/4 bg-white/10" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-3/4 bg-nexus-glass" />
           </div>
         </div>
       </div>
@@ -199,10 +199,10 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">
+          <h1 className="text-2xl font-bold text-nexus-text mb-4">
             Post Not Found
           </h1>
-          <p className="text-[#B5B5C3] mb-8">The blog post you're looking for doesn't exist.</p>
+          <p className="text-nexus-text-secondary mb-8">The blog post you're looking for doesn't exist.</p>
           <Link href="/blog">
             <button className="btn-nexus-primary px-6 py-3 rounded-xl">Browse Blog</button>
           </Link>
@@ -230,7 +230,7 @@ export default function BlogDetailPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/blog" className="inline-flex items-center gap-2 text-[#B5B5C3] hover:text-white mb-6 transition-colors">
+            <Link href="/blog" className="inline-flex items-center gap-2 text-nexus-text-secondary hover:text-nexus-text mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Blog
             </Link>
@@ -242,22 +242,22 @@ export default function BlogDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6">
               {blog.title}
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-[#B5B5C3]">
+            <div className="flex flex-wrap items-center gap-6 text-nexus-text-secondary">
               <div className="flex items-center gap-3">
                 <Avatar name={blog.author.name} size="sm" />
-                <span className="text-white font-medium">{blog.author.name}</span>
+                <span className="text-nexus-text font-medium">{blog.author.name}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#5B8CFF]" />
+                <Calendar className="w-4 h-4 text-nexus-blue" />
                 <span>{formatDate(blog.publishedAt || blog.createdAt)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#5B8CFF]" />
+                <Clock className="w-4 h-4 text-nexus-blue" />
                 <span>5 min read</span>
               </div>
             </div>
@@ -295,18 +295,18 @@ export default function BlogDetailPage() {
                 <div className="sticky top-32 space-y-4">
                   <div className="flex flex-col gap-2">
                     <button
-                      className={`p-3 rounded-full transition-all ${isLiked ? 'bg-red-500/10 text-red-500' : 'bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10'}`}
+                      className={`p-3 rounded-full transition-all ${isLiked ? 'bg-red-500/10 text-red-500' : 'bg-nexus-glass text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass'}`}
                       onClick={handleLike}
                     >
                       <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
                     </button>
-                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                    <button className="p-3 rounded-full bg-nexus-glass text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass transition-all">
                       <MessageSquare className="w-5 h-5" />
                     </button>
-                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                    <button className="p-3 rounded-full bg-nexus-glass text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass transition-all">
                       <Bookmark className="w-5 h-5" />
                     </button>
-                    <button className="p-3 rounded-full bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                    <button className="p-3 rounded-full bg-nexus-glass text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass transition-all">
                       <Share2 className="w-5 h-5" />
                     </button>
                   </div>
@@ -317,32 +317,32 @@ export default function BlogDetailPage() {
               <div className="lg:col-span-11">
                 <div className="glass rounded-2xl p-8 md:p-12 mb-12">
                   {/* Article Content */}
-                  <article className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-[#B5B5C3] prose-strong:text-white prose-a:text-[#5B8CFF]">
+                  <article className="prose prose-invert prose-lg max-w-none prose-headings:text-nexus-text prose-p:text-nexus-text-secondary prose-strong:text-nexus-text prose-a:text-nexus-blue">
                     {blog.content.split('\n').map((line, index) => {
                       if (line.startsWith('# ')) {
-                        return <h1 key={index} className="text-3xl font-bold mb-6 text-white">{line.slice(2)}</h1>;
+                        return <h1 key={index} className="text-3xl font-bold mb-6 text-nexus-text">{line.slice(2)}</h1>;
                       } else if (line.startsWith('## ')) {
-                        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-white">{line.slice(3)}</h2>;
+                        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-nexus-text">{line.slice(3)}</h2>;
                       } else if (line.startsWith('### ')) {
-                        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-white">{line.slice(4)}</h3>;
+                        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-nexus-text">{line.slice(4)}</h3>;
                       } else if (line.startsWith('- ')) {
-                        return <li key={index} className="ml-4 text-[#B5B5C3] mb-2">{line.slice(2)}</li>;
+                        return <li key={index} className="ml-4 text-nexus-text-secondary mb-2">{line.slice(2)}</li>;
                       } else if (line.trim()) {
-                        return <p key={index} className="mb-4 text-[#B5B5C3] leading-relaxed">{line}</p>;
+                        return <p key={index} className="mb-4 text-nexus-text-secondary leading-relaxed">{line}</p>;
                       }
                       return null;
                     })}
                   </article>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-white/10">
+                  <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-nexus-border">
                     {Array.isArray(blog.tags) && blog.tags.map((tag: string) => (
                       <Badge key={tag} color="blue" size="sm">#{tag}</Badge>
                     ))}
                   </div>
 
                   {/* Stats */}
-                  <div className="flex items-center gap-6 mt-6 text-[#8A8A9E] text-sm">
+                  <div className="flex items-center gap-6 mt-6 text-nexus-text-muted text-sm">
                     <div className="flex items-center gap-2">
                       <Eye className="w-4 h-4" />
                       <span>{blog.views} views</span>
@@ -362,10 +362,10 @@ export default function BlogDetailPage() {
                 <div className="glass rounded-2xl p-8 mb-12 flex items-center gap-6">
                   <Avatar name={blog.author.name} size="lg" />
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-xl font-bold text-nexus-text mb-2">
                       {blog.author.name}
                     </h3>
-                    <p className="text-[#B5B5C3]">
+                    <p className="text-nexus-text-secondary">
                       Member of Daffodil AI Club | Machine Learning Enthusiast
                     </p>
                   </div>
@@ -373,8 +373,8 @@ export default function BlogDetailPage() {
 
                 {/* Comments Section */}
                 <div className="glass rounded-2xl p-8 mb-12">
-                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-                    <MessageSquare className="w-6 h-6 text-[#5B8CFF]" />
+                  <h3 className="text-2xl font-bold text-nexus-text mb-8 flex items-center gap-3">
+                    <MessageSquare className="w-6 h-6 text-nexus-blue" />
                     Comments ({comments.length})
                   </h3>
 
@@ -388,7 +388,7 @@ export default function BlogDetailPage() {
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             placeholder="Share your thoughts..."
-                            className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-[#B5B5C3] resize-none focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF] transition-all"
+                            className="w-full px-4 py-3 rounded-xl border border-nexus-border bg-nexus-glass text-nexus-text placeholder:text-nexus-text-secondary resize-none focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF] transition-all"
                             rows={3}
                           />
                           <div className="flex justify-end mt-3">
@@ -405,8 +405,8 @@ export default function BlogDetailPage() {
                       </div>
                     </form>
                   ) : (
-                    <div className="text-center py-8 mb-10 bg-white/5 rounded-xl border border-white/10">
-                      <p className="text-[#B5B5C3] mb-4">Join the discussion by logging in</p>
+                    <div className="text-center py-8 mb-10 bg-nexus-glass rounded-xl border border-nexus-border">
+                      <p className="text-nexus-text-secondary mb-4">Join the discussion by logging in</p>
                       <Link href="/login">
                         <button className="btn-nexus-primary px-6 py-2 rounded-lg">Login to Comment</button>
                       </Link>
@@ -419,22 +419,22 @@ export default function BlogDetailPage() {
                       <div key={comment.id} className="flex gap-4 group">
                         <Avatar name={comment.author.name} size="md" />
                         <div className="flex-1">
-                          <div className="glass rounded-xl p-4 bg-white/5 border-white/5">
+                          <div className="glass rounded-xl p-4 bg-nexus-glass border-nexus-border">
                             <div className="flex items-center justify-between mb-2">
-                              <span className="font-bold text-white">
+                              <span className="font-bold text-nexus-text">
                                 {comment.author.name}
                               </span>
-                              <span className="text-xs text-[#8A8A9E]">
+                              <span className="text-xs text-nexus-text-muted">
                                 {formatRelativeTime(comment.createdAt)}
                               </span>
                             </div>
-                            <p className="text-[#B5B5C3] leading-relaxed">
+                            <p className="text-nexus-text-secondary leading-relaxed">
                               {comment.content}
                             </p>
                           </div>
                           <div className="flex items-center gap-4 mt-2 ml-2">
-                            <button className="text-xs text-[#8A8A9E] hover:text-white transition-colors">Reply</button>
-                            <button className="text-xs text-[#8A8A9E] hover:text-white transition-colors">Like</button>
+                            <button className="text-xs text-nexus-text-muted hover:text-nexus-text transition-colors">Reply</button>
+                            <button className="text-xs text-nexus-text-muted hover:text-nexus-text transition-colors">Like</button>
                           </div>
                         </div>
                       </div>
@@ -444,18 +444,18 @@ export default function BlogDetailPage() {
 
                 {/* Related Posts */}
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-6">Related Articles</h3>
+                  <h3 className="text-2xl font-bold text-nexus-text mb-6">Related Articles</h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     {relatedPosts.map((post) => (
                       <Link key={post.id} href={`/blog/${post.slug}`}>
-                        <div className="glass p-6 rounded-2xl hover:bg-white/10 transition-all cursor-pointer h-full border border-white/10 hover:border-[#5B8CFF]/50 group">
+                        <div className="glass p-6 rounded-2xl hover:bg-nexus-glass transition-all cursor-pointer h-full border border-nexus-border hover:border-[#5B8CFF]/50 group">
                           <Badge color="blue" size="sm" className="mb-3">
                             {post.category}
                           </Badge>
-                          <h4 className="font-bold text-white group-hover:text-[#6EF3FF] transition-colors line-clamp-2">
+                          <h4 className="font-bold text-nexus-text group-hover:text-nexus-cyan transition-colors line-clamp-2">
                             {post.title}
                           </h4>
-                          <div className="mt-4 flex items-center text-sm text-[#5B8CFF] font-medium opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                          <div className="mt-4 flex items-center text-sm text-nexus-blue font-medium opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
                             Read Article <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
                           </div>
                         </div>

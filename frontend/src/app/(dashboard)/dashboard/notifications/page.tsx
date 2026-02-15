@@ -107,7 +107,7 @@ export default function DashboardNotificationsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-nexus-text flex items-center gap-2">
             Notifications
             {unreadCount > 0 && (
               <Badge color="red" className="ml-2">{unreadCount} new</Badge>
@@ -146,7 +146,7 @@ export default function DashboardNotificationsPage() {
             key={tab.value}
             onClick={() => setFilter(tab.value as NotificationType)}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${filter === tab.value
-                ? 'bg-primary-500 text-white'
+                ? 'bg-primary-500 text-nexus-text'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
               }`}
           >
@@ -176,13 +176,13 @@ export default function DashboardNotificationsPage() {
                     >
                       {/* Icon */}
                       <div className={`flex-shrink-0 w-10 h-10 rounded-full ${notification.color} flex items-center justify-center`}>
-                        <IconComponent className="w-5 h-5 text-white" />
+                        <IconComponent className="w-5 h-5 text-nexus-text" />
                       </div>
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <p className="font-medium text-gray-900 dark:text-white">
+                          <p className="font-medium text-gray-900 dark:text-nexus-text">
                             {notification.title}
                           </p>
                           {!notification.isRead && (
@@ -224,7 +224,7 @@ export default function DashboardNotificationsPage() {
           ) : (
             <div className="p-12 text-center">
               <Bell className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text mb-2">
                 No notifications
               </h3>
               <p className="text-gray-500">
@@ -245,7 +245,7 @@ export default function DashboardNotificationsPage() {
             <div className="flex items-center gap-3">
               <Settings className="w-5 h-5 text-gray-500" />
               <div>
-                <p className="font-medium text-gray-900 dark:text-white">Notification Settings</p>
+                <p className="font-medium text-gray-900 dark:text-nexus-text">Notification Settings</p>
                 <p className="text-sm text-gray-500">Configure what notifications you receive</p>
               </div>
             </div>

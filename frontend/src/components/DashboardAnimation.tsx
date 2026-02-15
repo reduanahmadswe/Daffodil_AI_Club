@@ -16,7 +16,7 @@ export default function DashboardAnimation() {
             .catch((err) => console.error('Failed to load animation:', err));
     }, []);
 
-    if (!animationData) return <div className="w-full h-full bg-white/5 animate-pulse rounded-2xl" />;
+    if (!animationData) return <div className="w-full h-full bg-nexus-glass animate-pulse rounded-2xl" />;
 
     return (
         <div className="w-full h-full flex items-center justify-center">

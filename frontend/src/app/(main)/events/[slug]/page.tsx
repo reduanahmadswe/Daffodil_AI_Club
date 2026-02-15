@@ -171,14 +171,14 @@ export default function EventDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom">
-          <Skeleton className="h-8 w-32 mb-8 bg-white/10" />
-          <Skeleton className="h-12 w-3/4 mb-4 bg-white/10" />
-          <Skeleton className="h-6 w-1/4 mb-8 bg-white/10" />
-          <Skeleton className="h-[400px] w-full mb-8 bg-white/10" />
+          <Skeleton className="h-8 w-32 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-12 w-3/4 mb-4 bg-nexus-glass" />
+          <Skeleton className="h-6 w-1/4 mb-8 bg-nexus-glass" />
+          <Skeleton className="h-[400px] w-full mb-8 bg-nexus-glass" />
           <div className="space-y-4">
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-full bg-white/10" />
-            <Skeleton className="h-6 w-3/4 bg-white/10" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-full bg-nexus-glass" />
+            <Skeleton className="h-6 w-3/4 bg-nexus-glass" />
           </div>
         </div>
       </div>
@@ -189,10 +189,10 @@ export default function EventDetailPage() {
     return (
       <div className="min-h-screen bg-black pt-32 pb-20">
         <div className="container-custom text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">
+          <h1 className="text-2xl font-bold text-nexus-text mb-4">
             Event Not Found
           </h1>
-          <p className="text-[#B5B5C3] mb-8">The event you're looking for doesn't exist.</p>
+          <p className="text-nexus-text-secondary mb-8">The event you're looking for doesn't exist.</p>
           <Link href="/events">
             <button className="btn-nexus-primary px-6 py-3 rounded-xl">Browse Events</button>
           </Link>
@@ -223,7 +223,7 @@ export default function EventDetailPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             {/* Back Button */}
-            <Link href="/events" className="inline-flex items-center gap-2 text-[#B5B5C3] hover:text-white mb-6 transition-colors">
+            <Link href="/events" className="inline-flex items-center gap-2 text-nexus-text-secondary hover:text-nexus-text mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Events
             </Link>
@@ -240,51 +240,51 @@ export default function EventDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6">
               {event.title}
             </h1>
 
             {/* Meta Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 text-[#B5B5C3]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 text-nexus-text-secondary">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <Calendar className="w-5 h-5 text-[#FF4FD8]" />
+                <div className="p-2 rounded-lg bg-nexus-glass border border-nexus-border">
+                  <Calendar className="w-5 h-5 text-nexus-pink" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8A8A9E] uppercase tracking-wider font-semibold">Date</p>
-                  <p className="text-white font-medium">{formatDate(event.startDate)}</p>
+                  <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Date</p>
+                  <p className="text-nexus-text font-medium">{formatDate(event.startDate)}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <Clock className="w-5 h-5 text-[#7B61FF]" />
+                <div className="p-2 rounded-lg bg-nexus-glass border border-nexus-border">
+                  <Clock className="w-5 h-5 text-nexus-purple" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8A8A9E] uppercase tracking-wider font-semibold">Time</p>
-                  <p className="text-white font-medium">
+                  <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Time</p>
+                  <p className="text-nexus-text font-medium">
                     {new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <MapPin className="w-5 h-5 text-[#6EF3FF]" />
+                <div className="p-2 rounded-lg bg-nexus-glass border border-nexus-border">
+                  <MapPin className="w-5 h-5 text-nexus-cyan" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8A8A9E] uppercase tracking-wider font-semibold">Venue</p>
-                  <p className="text-white font-medium truncate" title={event.venue}>{event.venue}</p>
+                  <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Venue</p>
+                  <p className="text-nexus-text font-medium truncate" title={event.venue}>{event.venue}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <Users className="w-5 h-5 text-[#5B8CFF]" />
+                <div className="p-2 rounded-lg bg-nexus-glass border border-nexus-border">
+                  <Users className="w-5 h-5 text-nexus-blue" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8A8A9E] uppercase tracking-wider font-semibold">Availability</p>
-                  <p className="text-white font-medium">{remainingSpots} spots left</p>
+                  <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Availability</p>
+                  <p className="text-nexus-text font-medium">{remainingSpots} spots left</p>
                 </div>
               </div>
             </div>
@@ -314,7 +314,7 @@ export default function EventDetailPage() {
                   </button>
                 </div>
               )}
-              <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all flex items-center gap-2">
+              <button className="px-6 py-3 rounded-xl bg-nexus-glass border border-nexus-border text-nexus-text hover:bg-nexus-glass transition-all flex items-center gap-2">
                 <Share2 className="w-5 h-5" />
                 Share Event
               </button>
@@ -351,8 +351,8 @@ export default function EventDetailPage() {
             <div className="lg:col-span-2 space-y-8">
               {/* Event Description */}
               <div className="glass rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-white mb-6">About Event</h2>
-                <article className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-[#B5B5C3] prose-strong:text-white prose-li:text-[#B5B5C3]">
+                <h2 className="text-2xl font-bold text-nexus-text mb-6">About Event</h2>
+                <article className="prose prose-invert prose-lg max-w-none prose-headings:text-nexus-text prose-p:text-nexus-text-secondary prose-strong:text-nexus-text prose-li:text-nexus-text-secondary">
                   {event.description?.split('\n').map((line, index) => {
                     if (line.startsWith('# ')) {
                       return <h1 key={index} className="text-2xl font-bold mb-4">{line.slice(2)}</h1>;
@@ -365,7 +365,7 @@ export default function EventDetailPage() {
                       const parts = line.split('**');
                       return (
                         <li key={index} className="ml-4 mb-2">
-                          <strong className="text-white">{parts[1]}</strong>{parts.slice(2).join('**')}
+                          <strong className="text-nexus-text">{parts[1]}</strong>{parts.slice(2).join('**')}
                         </li>
                       );
                     } else if (line.startsWith('- ')) {
@@ -384,26 +384,26 @@ export default function EventDetailPage() {
               {/* Speaker Card */}
               {event.speaker && (
                 <div className="glass rounded-2xl p-6">
-                  <h3 className="text-xl font-bold text-white mb-6">Speaker</h3>
+                  <h3 className="text-xl font-bold text-nexus-text mb-6">Speaker</h3>
                   <div className="flex flex-col items-center text-center">
                     <Avatar name={event.speaker.name} size="xl" />
-                    <h4 className="mt-4 text-lg font-bold text-white">{event.speaker.name}</h4>
-                    <p className="text-sm text-[#5B8CFF] font-medium mb-3">{event.speaker.title}</p>
-                    <p className="text-sm text-[#B5B5C3] mb-6">{event.speaker.bio}</p>
+                    <h4 className="mt-4 text-lg font-bold text-nexus-text">{event.speaker.name}</h4>
+                    <p className="text-sm text-nexus-blue font-medium mb-3">{event.speaker.title}</p>
+                    <p className="text-sm text-nexus-text-secondary mb-6">{event.speaker.bio}</p>
 
                     <div className="flex gap-3">
                       {event.speaker.social?.linkedin && (
-                        <a href={event.speaker.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/5 text-[#B5B5C3] hover:text-[#0077b5] hover:bg-white/10 transition-all">
+                        <a href={event.speaker.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-nexus-glass text-nexus-text-secondary hover:text-[#0077b5] hover:bg-nexus-glass transition-all">
                           <Linkedin className="w-5 h-5" />
                         </a>
                       )}
                       {event.speaker.social?.twitter && (
-                        <a href={event.speaker.social.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/5 text-[#B5B5C3] hover:text-[#1DA1F2] hover:bg-white/10 transition-all">
+                        <a href={event.speaker.social.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-nexus-glass text-nexus-text-secondary hover:text-[#1DA1F2] hover:bg-nexus-glass transition-all">
                           <Twitter className="w-5 h-5" />
                         </a>
                       )}
                       {event.speaker.social?.website && (
-                        <a href={event.speaker.social.website} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/5 text-[#B5B5C3] hover:text-white hover:bg-white/10 transition-all">
+                        <a href={event.speaker.social.website} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-nexus-glass text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass transition-all">
                           <Globe className="w-5 h-5" />
                         </a>
                       )}
@@ -414,15 +414,15 @@ export default function EventDetailPage() {
 
               {/* Location Map Placeholder */}
               <div className="glass rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-white mb-4">Location</h3>
-                <div className="bg-white/5 rounded-xl h-48 w-full flex items-center justify-center border border-white/5">
+                <h3 className="text-xl font-bold text-nexus-text mb-4">Location</h3>
+                <div className="bg-nexus-glass rounded-xl h-48 w-full flex items-center justify-center border border-nexus-border">
                   <div className="text-center p-4">
-                    <MapPin className="w-8 h-8 text-[#6EF3FF] mx-auto mb-2" />
-                    <p className="text-white text-sm font-medium">{event.venue}</p>
-                    <p className="text-[#B5B5C3] text-xs mt-1">Daffodil International University</p>
+                    <MapPin className="w-8 h-8 text-nexus-cyan mx-auto mb-2" />
+                    <p className="text-nexus-text text-sm font-medium">{event.venue}</p>
+                    <p className="text-nexus-text-secondary text-xs mt-1">Daffodil International University</p>
                   </div>
                 </div>
-                <button className="w-full mt-4 py-2 rounded-lg border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/5 transition-all text-sm font-medium">
+                <button className="w-full mt-4 py-2 rounded-lg border border-nexus-border text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass transition-all text-sm font-medium">
                   Get Directions
                 </button>
               </div>
@@ -440,7 +440,7 @@ export default function EventDetailPage() {
               <div>
                 <h4 className="text-blue-400 font-bold text-sm mb-1">Confirm your spot</h4>
                 <p className="text-blue-200/70 text-sm">
-                  You are about to register for <span className="text-white">{event.title}</span>.
+                  You are about to register for <span className="text-nexus-text">{event.title}</span>.
                   An email confirmation will be sent to your registered address.
                 </p>
               </div>
@@ -450,7 +450,7 @@ export default function EventDetailPage() {
         <ModalFooter>
           <button
             onClick={() => setShowRegisterModal(false)}
-            className="px-4 py-2 rounded-lg text-[#B5B5C3] hover:text-white hover:bg-white/5"
+            className="px-4 py-2 rounded-lg text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass"
           >
             Cancel
           </button>
@@ -467,21 +467,21 @@ export default function EventDetailPage() {
       {/* Cancel Modal */}
       <Modal isOpen={showCancelModal} onClose={() => setShowCancelModal(false)} title="Cancel Registration">
         <ModalBody>
-          <p className="text-[#B5B5C3]">
+          <p className="text-nexus-text-secondary">
             Are you sure you want to cancel your registration? This action cannot be undone and you might lose your spot if the event fills up.
           </p>
         </ModalBody>
         <ModalFooter>
           <button
             onClick={() => setShowCancelModal(false)}
-            className="px-4 py-2 rounded-lg text-[#B5B5C3] hover:text-white hover:bg-white/5"
+            className="px-4 py-2 rounded-lg text-nexus-text-secondary hover:text-nexus-text hover:bg-nexus-glass"
           >
             Keep Spot
           </button>
           <button
             onClick={confirmCancellation}
             disabled={processing}
-            className="px-6 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
+            className="px-6 py-2 rounded-lg bg-red-500 text-nexus-text hover:bg-red-600 transition-colors"
           >
             {processing ? 'Cancelling...' : 'Yes, Cancel'}
           </button>
