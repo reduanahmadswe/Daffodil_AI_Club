@@ -218,7 +218,7 @@ Examples:
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Utility-first styling
 - **Framer Motion** - Animations
-- **Zustand** - State management
+- **Redux Toolkit** - State management
 - **React Hook Form** - Form handling
 - **Zod** - Schema validation
 - **Lucide Icons** - Icon library
