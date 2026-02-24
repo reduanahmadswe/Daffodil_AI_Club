@@ -7,6 +7,9 @@ export interface Member {
     department?: string;
     id?: string;
     bloodGroup?: string;
+    facebook?: string;
+    linkedin?: string;
+    portfolio?: string;
 }
 
 export const convenerPanel: Member[] = [
@@ -16,7 +19,7 @@ export const convenerPanel: Member[] = [
         email: "fernaz.cse@diu.edu.bd",
         phone: "01886411541",
         department: "CSE",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=800&fit=crop"
+        image: "https://i1.rgstatic.net/ii/profile.image/11431281663681747-1759730754086_Q512/Fernaz-Nur.jpg"
     },
     {
         name: "Associate Professor Dr. Md. Akhtaruzzaman",
@@ -24,7 +27,7 @@ export const convenerPanel: Member[] = [
         email: "akhtaruzzaman.cse@diu.edu.bd",
         phone: "01754823989",
         department: "CSE",
-        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=800&fit=crop"
+        image: "https://faculty.daffodilvarsity.edu.bd/images/teacher/db4f56fa91ad68479a39f33538abd45d.jpg"
     },
     {
         name: "Assistant Professor Mr. Md. Hasanuzzaman Dipu",
@@ -32,7 +35,7 @@ export const convenerPanel: Member[] = [
         email: "dipu.cse@diu.edu.bd",
         phone: "01725568350",
         department: "CSE",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop"
+        image: "https://microcredentials.daffodilvarsity.edu.bd/images/expert/8a490783610399e8acb481d04230a001.png"
     }
 ];
 
@@ -57,51 +60,52 @@ export const advisingPanel: Member[] = [
 
 export const studentPanel: Member[] = [
     // President
-    { name: "Md. Rony", position: "President", email: "rony15-4967@diu.edu.bd", phone: "01890190638", department: "CSE", id: "221-15-4967", bloodGroup: "B+", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop" },
+    { name: "Md. Rony", position: "President", email: "rony15-4967@diu.edu.bd", phone: "01890190638", department: "CSE", id: "221-15-4967", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=162Hul9dyQ7rA68dw0smPqi6tvNilu046" },
 
     // Vice President
-    { name: "Md Mobashir Hasan", position: "Vice President", email: "hasan15-5405@diu.edu.bd", phone: "01986981820", department: "CSE", id: "221-15-5405", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=800&fit=crop" },
+    { name: "Md Mobashir Hasan", position: "Vice President", email: "hasan15-5405@diu.edu.bd", phone: "01986981820", department: "CSE", id: "221-15-5405", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1ktznCbL_d2whXgyA5jF4cOR8YZYsy3YR" },
 
     // General Secretary
-    { name: "Abid Khan", position: "General Secretary", email: "khan15-4894@diu.edu.bd", phone: "01825929393", department: "CSE", id: "221-15-4894", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=800&h=800&fit=crop" },
+    { name: "Abid Khan", position: "General Secretary", email: "khan15-4894@diu.edu.bd", phone: "01825929393", department: "CSE", id: "221-15-4894", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1BFK_aSn3hsajqb-hqQXrvlPpqJuEW6FH" },
 
     // Joint Secretaries
-    { name: "Md Mehedi Hasan Nayeem", position: "Joint Secretary", email: "nayeem15-5049@diu.edu.bd", phone: "01711311861", department: "CSE", id: "221-15-5049", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop" },
+    { name: "Md Mehedi Hasan Nayeem", position: "Joint Secretary", email: "nayeem15-5049@diu.edu.bd", phone: "01711311861", department: "CSE", id: "221-15-5049", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1d5P73weenMh4BlyrRvDwF8dbUMrG68Ta" },
 
     // Organizing
-    { name: "Md. Latifur Rahman Rafi", position: "Organizing Secretary", email: "latifur23105101451@diu.edu.bd", phone: "01856862093", department: "CSE", id: "0242310005101451", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=800&fit=crop" },
-    { name: "Md Minhajul Islam", position: "Joint Organizing Secretary", email: "islam2305101257@diu.edu.bd", phone: "01715904240", department: "CSE", id: "0242310005101257", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=800&fit=crop" },
+    { name: "Md. Latifur Rahman Rafi", position: "Organizing Secretary", email: "latifur23105101451@diu.edu.bd", phone: "01856862093", department: "CSE", id: "0242310005101451", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1o8Kjc8anZXrM1bZ7sVzMRiEb1Mvcp0Vf" },
+    { name: "Md Minhajul Islam", position: "Joint Organizing Secretary", email: "islam2305101257@diu.edu.bd", phone: "01715904240", department: "CSE", id: "0242310005101257", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1DSoiVjYe1MXy3Juftq5Lf8UBQ_cJYeLr" },
 
     // Treasurer
-    { name: "Md Abdur Rahman Roky", position: "Treasurer", email: "roky15-4972@diu.edu.bd", phone: "01706-959630", department: "CSE", id: "221-15-4972", bloodGroup: "B+", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop" },
+    { name: "Md Abdur Rahman Roky", position: "Treasurer", email: "roky15-4972@diu.edu.bd", phone: "01706-959630", department: "CSE", id: "221-15-4972", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=1fxs4cfU19SBxO_sqEhlXX-_lUHtp6-bK" },
 
     // Communication
-    { name: "Md. Kholilur Rahman Rabby", position: "Communication Secretary", email: "rabby15-4973@diu.edu.bd", phone: "01719019635", department: "CSE", id: "221-15-4973", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800&h=800&fit=crop" },
-    { name: "Anmay Paul Arpan", position: "Assistant Communication Secretary", email: "arpan2305101696@diu.edu.bd", phone: "01725590258", department: "CSE", id: "232-15-696", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=800&h=800&fit=crop" },
+    { name: "Md. Kholilur Rahman Rabby", position: "Communication Secretary", email: "rabby15-4973@diu.edu.bd", phone: "01719019635", department: "CSE", id: "221-15-4973", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=17Pnc9tv5qQ6eWfurYpcdKIKSRPsZX8uE" },
+    { name: "Anmay Paul Arpan", position: "Assistant Communication Secretary", email: "arpan2305101696@diu.edu.bd", phone: "01725590258", department: "CSE", id: "232-15-696", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1qmKlYgIAgysZnaY00ZLyyNXluCvs603Z" },
 
     // Press & Publication
-    { name: "Md Muhasin Ali", position: "Press Secretary", email: "muhasin15-4739@diu.edu.bd", phone: "01707745849", department: "CSE", id: "221-15-4739", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop" },
-    { name: "Esrat Anam Kamy", position: "Assistant Publication Secretary", email: "anam241-15-445@diu.edu.bd", phone: "01970455551", department: "CSE", id: "241-15-445", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&h=800&fit=crop" },
-    { name: "MD Rezwan Ahmed Rayhan", position: "Assistant Publication Secretary", email: "rayhan241-15-901@diu.edu.bd", phone: "01937729128", department: "CSE", id: "241-15-901", bloodGroup: "B+", image: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=800&h=800&fit=crop" },
-    { name: "Maria Rahman Momo", position: "Assistant Press Secretary", email: "rahman241-15-359@diu.edu.bd", phone: "01405041959", department: "CSE", id: "241-15-359", bloodGroup: "B+", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=800&fit=crop" },
-    { name: "Kazi Hafijur Rahman Rifad", position: "Assistant Press Secretary", email: "rifad22205101873@diu.edu.bd", phone: "01851247137", department: "CSE", id: "0242220005101873", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=800&h=800&fit=crop" },
-    { name: "Asma Tabassum Nabila", position: "Assistant Media Secretary", email: "tabassum241-15-800@diu.edu.bd", phone: "01719415535", department: "CSE", id: "241-15-800", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1548142813-c348350df52b?w=800&h=800&fit=crop" },
+    { name: "Md Muhasin Ali", position: "Press Secretary", email: "muhasin15-4739@diu.edu.bd", phone: "01707745849", department: "CSE", id: "221-15-4739", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=15EvIyetSAZO-jM9pi0WuVRcfCElG0sYQ" },
+    { name: "Shakir Ahmed Shihab", position: "Publication Secretary", email: "ahmed241-15-203@diu.edu.bd", phone: "01889372939", department: "CSE", id: "241-15-203", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=1FbdJNbrx5gsgZgRbix_qjusYjmY7LAnQ" },
+    { name: "Esrat Anam Kamy", position: "Assistant Publication Secretary", email: "anam241-15-445@diu.edu.bd", phone: "01970455551", department: "CSE", id: "241-15-445", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1Dve-UfuAD2nj09v9peTv11m5vf4z9D3J" },
+    { name: "MD Rezwan Ahmed Rayhan", position: "Assistant Publication Secretary", email: "rayhan241-15-901@diu.edu.bd", phone: "01937729128", department: "CSE", id: "241-15-901", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=1nL_o3PMafjHWoXy482G3Kuvlg72gDFA_" },
+    { name: "Maria Rahman Momo", position: "Assistant Press Secretary", email: "rahman241-15-359@diu.edu.bd", phone: "01405041959", department: "CSE", id: "241-15-359", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=1_MK9vgToIIDTL1mAstzX4DVBauBk25Iw" },
+    { name: "Kazi Hafijur Rahman Rifad", position: "Assistant Press Secretary", email: "rifad22205101873@diu.edu.bd", phone: "01851247137", department: "CSE", id: "0242220005101873", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=19KdmACPNd-h7oeF92q0uIRHrogefrO1O" },
+    { name: "Asma Tabassum Nabila", position: "Assistant Media Secretary", email: "tabassum241-15-800@diu.edu.bd", phone: "01719415535", department: "CSE", id: "241-15-800", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1mnSy1E8l4zK_nEXuERR4c7nQquBCtigA" },
 
     // Leads & Heads
-    { name: "Tamim Hossain", position: "Head of Executive", email: "hossain2305191034@diu.edu.bd", phone: "01789509447", department: "ITM", id: "232-51-034", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=800&fit=crop" },
-    { name: "Shafayat Yeamin Jian", position: "Lead Executive", email: "yeamin241-15-679@diu.edu.bd", phone: "01601721676", department: "CSE", id: "0242410005101679", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=800&h=800&fit=crop" },
-    { name: "Yeasin Arafat", position: "Lead Executive", email: "yeasin241-35-126@diu.edu.bd", phone: "01746163645", department: "SWE", id: "241-35-126", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1522075469751-3a3694c60e9e?w=800&h=800&fit=crop" },
-    { name: "Md.Mahathir Islam", position: "Lead Executive", email: "251-15-821@diu.edu.bd", phone: "01731724838", department: "CSE", id: "251-15-821", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1517502886367-e0fa6f72f052?w=800&h=800&fit=crop" },
-    { name: "Shamim Faysal", position: "Lead Executive", email: "faysal241-15-016@diu.edu.bd", phone: "01798722061", department: "CSE", id: "241-15-016", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&h=800&fit=crop" },
+    { name: "Tamim Hossain", position: "Head of Executive", email: "hossain2305191034@diu.edu.bd", phone: "01789509447", department: "ITM", id: "232-51-034", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1NgB61dwCN2Ru-njqhFoSOeIQq_bkpY0-" },
+    { name: "Shafayat Yeamin Jian", position: "Lead Executive", email: "yeamin241-15-679@diu.edu.bd", phone: "01601721676", department: "CSE", id: "0242410005101679", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1ihBhmtW4gGCQgQnuWm3fKY0FiZS5Hsnv" },
+    { name: "Yeasin Arafat", position: "Lead Executive", email: "yeasin241-35-126@diu.edu.bd", phone: "01746163645", department: "SWE", id: "241-35-126", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1Elxj2Vt-YGOhEMpv1mFBVfKpOQV5MdjF" },
+    { name: "Md.Mahathir Islam", position: "Lead Executive", email: "251-15-821@diu.edu.bd", phone: "01731724838", department: "CSE", id: "251-15-821", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1_r4M7v6IsMD7Dq8r6erA-PAa3Nmp-Pxz" },
+    { name: "Shamim Faysal", position: "Lead Executive", email: "faysal241-15-016@diu.edu.bd", phone: "01798722061", department: "CSE", id: "241-15-016", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1sPN5agxT83JEdNqFhQEIeCEkX9McycBj" },
 
     // Designers & Developers
-    { name: "Mohammad Robiul Islam", position: "Lead Creative Designer", email: "robiul241-35-321@diu.edu.bd", phone: "01518694904", department: "SWE", id: "241-35-321", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop" },
-    { name: "Reduan Ahmad", position: "Web Developer", email: "ahmad2305341016@diu.edu.bd", phone: "+8801538363737", department: "SWE", id: "232-35-016", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=800&h=800&fit=crop" },
-    { name: "MD Robiul islam", position: "Creative Designer", email: "251-40-007@diu.edu.bd", phone: "01750970358", department: "MCT", id: "251-40-007", bloodGroup: "Ab+", image: "https://images.unsplash.com/photo-1542596768-5d1d21f1cfde?w=800&h=800&fit=crop" },
-    { name: "Tarif Hasan Samin", position: "Digital Content Creator", email: "251-15-003@diu.edu.bd", phone: "01788209907", department: "CSE", id: "251-15-003", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1522075469751-3a3694c60e9e?w=800&h=800&fit=crop" },
+    { name: "Mohammad Robiul Islam", position: "Lead Creative Designer", email: "robiul241-35-321@diu.edu.bd", phone: "01518694904", department: "SWE", id: "241-35-321", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1uQWa30la8LbxPFjeDzJw0pF5DgLRFx_Y" },
+    { name: "Reduan Ahmad", position: "Web Developer", email: "ahmad2305341016@diu.edu.bd", phone: "+8801538363737", department: "SWE", id: "232-35-016", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=1ysrkUgHInxt4D9jukBm_AWjtWVKKGJch", facebook: "https://www.facebook.com/reduanahmadswe/", linkedin: "https://www.linkedin.com/in/reduanahmadswe/", portfolio: "https://www.reduanahmadswe.site/" },
+    { name: "MD Robiul islam", position: "Creative Designer", email: "251-40-007@diu.edu.bd", phone: "01750970358", department: "MCT", id: "251-40-007", bloodGroup: "Ab+", image: "https://drive.google.com/uc?export=view&id=1RH4HFHAZzyfR2T9cIqQ7_XP6xgBO3ocW" },
+    { name: "Tarif Hasan Samin", position: "Digital Content Creator", email: "251-15-003@diu.edu.bd", phone: "01788209907", department: "CSE", id: "251-15-003", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=1ezLSf3WDEq0IXZ1yOUmFnEEuToiFyj98" },
 
     // Assistant General Secretaries
-    { name: "Tapon Paul", position: "Assistant General Secretary", email: "paul15-5086@diu.edu.bd", phone: "01864327175", department: "CSE", id: "221-15-5086", bloodGroup: "O+", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=800&h=800&fit=crop" },
-    { name: "Md Muntaqim Meherab", position: "Assistant General Secretary", email: "meherab2305101354@diu.edu.bd", phone: "01704452423", department: "CSE", id: "232-15-354", bloodGroup: "A+", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop" },
-    { name: "Shifat Mahmud Tonmoy", position: "Assistant General Secretary", email: "tonmoy15-6058@diu.edu.bd", phone: "01687959536", department: "CSE", id: "221-15-6058", bloodGroup: "B+", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=800&fit=crop" },
+    { name: "Tapon Paul", position: "Assistant General Secretary", email: "paul15-5086@diu.edu.bd", phone: "01864327175", department: "CSE", id: "221-15-5086", bloodGroup: "O+", image: "https://drive.google.com/uc?export=view&id=18ePyfuOIkkUNnvq8tBwlY1W4zOzNYZKo" },
+    { name: "Md Muntaqim Meherab", position: "Assistant General Secretary", email: "meherab2305101354@diu.edu.bd", phone: "01704452423", department: "CSE", id: "232-15-354", bloodGroup: "A+", image: "https://drive.google.com/uc?export=view&id=17ygTY-Y-sy84s5hwrlRJRjkDCyIhHen3" },
+    { name: "Shifat Mahmud Tonmoy", position: "Assistant General Secretary", email: "tonmoy15-6058@diu.edu.bd", phone: "01687959536", department: "CSE", id: "221-15-6058", bloodGroup: "B+", image: "https://drive.google.com/uc?export=view&id=1JDcdoHjLRxHda_WBGV60irfxmWaFHju3" },
 ];

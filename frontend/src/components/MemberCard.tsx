@@ -1,14 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, GraduationCap } from 'lucide-react';
+import { Mail, Phone, GraduationCap, Facebook, Linkedin, Globe, Droplets } from 'lucide-react';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Member } from '@/data/leadership';
 
 export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' | 'STUDENT' }) => {
     const dispatch = useAppDispatch();
+    const [imgError, setImgError] = useState(false);
+
+    const fallbackImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0D8ABC&color=fff&size=400&bold=true`;
+
+    const imageSrc = imgError || !member.image ? fallbackImage : member.image;
 
     const handleCopyEmail = () => {
         navigator.clipboard.writeText(member.email);
@@ -36,8 +41,10 @@ export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' |
                 <div className="relative w-full aspect-[4/3] overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity" />
                     <img
-                        src={member.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random`}
+                        src={imageSrc}
                         alt={member.name}
+                        referrerPolicy="no-referrer"
+                        onError={() => setImgError(true)}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
