@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Router } from 'express';
 import cors from 'cors';
 import { env } from './config/env.js';
 import { errorHandler, notFoundHandler } from './middleware/validation.middleware.js';
@@ -47,16 +47,21 @@ export const createApp = (): Express => {
     res.json({ message: "Welcome to Daffodil AI Club Backend API" });
   }); 
 
-  // API Routes
-  app.use('/api/auth', authRouter);
-  app.use('/api/events', eventRouter);
-  app.use('/api/blogs', blogRouter);
-  app.use('/api/members', memberRouter);
-  app.use('/api/projects', projectRouter);
-  app.use('/api/gallery', galleryRouter);
-  app.use('/api/contact', contactRouter);
-  app.use('/api/media', mediaRouter);
-  app.use('/api/membership', membershipRouter);
+  // Create API router with all module routes
+  const apiRouter = Router();
+  apiRouter.use('/auth', authRouter);
+  apiRouter.use('/events', eventRouter);
+  apiRouter.use('/blogs', blogRouter);
+  apiRouter.use('/members', memberRouter);
+  apiRouter.use('/projects', projectRouter);
+  apiRouter.use('/gallery', galleryRouter);
+  apiRouter.use('/contact', contactRouter);
+  apiRouter.use('/media', mediaRouter);
+  apiRouter.use('/membership', membershipRouter);
+
+  // Mount at /api (for local dev) and / (for Vercel serverless where /api is stripped)
+  app.use('/api', apiRouter);
+  app.use('/', apiRouter);
 
   // Error handlers
   app.use(notFoundHandler);
