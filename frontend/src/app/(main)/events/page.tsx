@@ -30,7 +30,8 @@ export default function EventsPage() {
     const fetchEvents = async () => {
       try {
         const response = await eventsApi.getAll({ type: filter !== 'All' ? filter : undefined });
-        setEvents(response.data.events || mockEvents);
+        const apiEvents = response.data?.events || response.data?.data || [];
+        setEvents(Array.isArray(apiEvents) && apiEvents.length > 0 ? apiEvents : mockEvents);
       } catch (error) {
         setEvents(mockEvents);
       } finally {
@@ -201,7 +202,7 @@ export default function EventsPage() {
                       </div>
 
                       <div className="mt-auto pt-4 border-t border-nexus-border">
-                        <Link href={`/events/${event.id}`} className="block w-full">
+                        <Link href={`/events/${event.slug || event.id}`} className="block w-full">
                           <FadeContent blur={true} duration={500} delay={200}>
                             <button className="group relative w-full overflow-hidden rounded-xl border border-nexus-border bg-transparent px-6 py-3 font-semibold text-nexus-text transition-all hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01]">
                               <span className="flex items-center justify-center gap-2">

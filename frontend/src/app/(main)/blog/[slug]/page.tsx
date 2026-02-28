@@ -123,8 +123,13 @@ export default function BlogDetailPage() {
     const fetchBlog = async () => {
       try {
         const response = await blogsApi.getBySlug(params.slug as string);
-        setBlog(response.data.data.blog);
-        setComments(response.data.data.comments || []);
+        const blogData = response.data?.blog || response.data?.data?.blog || response.data?.data;
+        if (!blogData) {
+          throw new Error('Blog not found');
+        }
+        setBlog(blogData);
+        const commentsData = response.data?.comments || response.data?.data?.comments || [];
+        setComments(Array.isArray(commentsData) ? commentsData : []);
       } catch (error) {
         // Use mock data for development
         setBlog(mockBlog);

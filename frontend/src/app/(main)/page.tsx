@@ -281,7 +281,7 @@ export default function HomePage() {
                       <span>•</span>
                       <span>{event.time}</span>
                     </div>
-                    <Link href={`/events/${event.id}`} className="mt-4 inline-block">
+                    <Link href={`/events/${(event as any).slug || event.id}`} className="mt-4 inline-block">
                       <button className="text-nexus-purple hover:text-nexus-pink font-medium flex items-center gap-1 transition-colors">
                         Learn More
                         <ChevronRight className="w-4 h-4" />

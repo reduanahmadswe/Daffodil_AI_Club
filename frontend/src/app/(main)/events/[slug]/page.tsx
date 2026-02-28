@@ -110,7 +110,11 @@ export default function EventDetailPage() {
     const fetchEvent = async () => {
       try {
         const response = await eventsApi.getBySlug(params.slug as string);
-        setEvent(response.data.event);
+        const eventData = response.data?.event || response.data?.data?.event || response.data?.data;
+        if (!eventData) {
+          throw new Error('Event not found');
+        }
+        setEvent(eventData);
         // Check if user is registered (mock logic)
         if (isAuthenticated) {
           setIsRegistered(response.data.isRegistered || false);

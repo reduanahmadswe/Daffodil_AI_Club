@@ -143,7 +143,11 @@ export default function WorkshopDetailPage() {
     const fetchWorkshop = async () => {
       try {
         const response = await workshopsApi.getBySlug(params.slug as string);
-        setWorkshop(response.data.data.workshop);
+        const workshopData = response.data?.workshop || response.data?.data?.workshop || response.data?.data;
+        if (!workshopData) {
+          throw new Error('Workshop not found');
+        }
+        setWorkshop(workshopData);
       } catch (error) {
         // Use mock data for development
         setWorkshop(mockWorkshop);

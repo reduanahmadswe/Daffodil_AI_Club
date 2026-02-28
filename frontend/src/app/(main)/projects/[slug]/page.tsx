@@ -119,7 +119,11 @@ export default function ProjectDetailPage() {
     const fetchProject = async () => {
       try {
         const response = await projectsApi.getBySlug(params.slug as string);
-        setProject(response.data.data.project);
+        const projectData = response.data?.project || response.data?.data?.project || response.data?.data;
+        if (!projectData) {
+          throw new Error('Project not found');
+        }
+        setProject(projectData);
       } catch (error) {
         // Use mock data for development
         setProject(mockProject);

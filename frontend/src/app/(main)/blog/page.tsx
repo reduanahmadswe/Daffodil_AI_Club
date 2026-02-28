@@ -24,7 +24,8 @@ export default function BlogPage() {
     const fetchBlogs = async () => {
       try {
         const response = await blogsApi.getAll({ category: category !== 'All' ? category : undefined });
-        setBlogs(response.data.blogs || mockBlogs);
+        const apiBlogs = response.data?.blogs || response.data?.data || [];
+        setBlogs(Array.isArray(apiBlogs) && apiBlogs.length > 0 ? apiBlogs : mockBlogs);
       } catch (error) {
         setBlogs(mockBlogs);
       } finally {
@@ -144,7 +145,7 @@ export default function BlogPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Link href={`/blog/${blog.slug}`}>
+                  <Link href={`/blog/${blog.slug || blog.id}`}>
                     <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border group relative">
                       {/* Blog Image */}
                       <div className="aspect-video bg-gradient-to-br from-[#5B8CFF] to-[#6EF3FF] relative overflow-hidden">

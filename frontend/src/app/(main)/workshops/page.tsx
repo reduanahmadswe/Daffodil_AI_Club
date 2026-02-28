@@ -35,7 +35,8 @@ export default function WorkshopsPage() {
     const fetchWorkshops = async () => {
       try {
         const response = await workshopsApi.getAll({ level: level !== 'All' ? level : undefined });
-        setWorkshops(response.data.workshops || mockWorkshops);
+        const apiWorkshops = response.data?.workshops || response.data?.data || [];
+        setWorkshops(Array.isArray(apiWorkshops) && apiWorkshops.length > 0 ? apiWorkshops : mockWorkshops);
       } catch (error) {
         setWorkshops(mockWorkshops);
       } finally {
@@ -173,7 +174,7 @@ export default function WorkshopsPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Link href={`/workshops/${workshop.slug}`}>
+                    <Link href={`/workshops/${workshop.slug || workshop.id}`}>
                       <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border group relative">
                         {/* Workshop Image */}
                         <div className="aspect-video bg-gradient-to-br from-[#6EF3FF] to-[#5B8CFF] relative overflow-hidden">

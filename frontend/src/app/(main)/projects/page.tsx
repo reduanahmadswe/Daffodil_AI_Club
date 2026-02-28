@@ -39,7 +39,8 @@ export default function ProjectsPage() {
           category: category !== 'All' ? category : undefined,
           status: status !== 'All' ? status : undefined
         });
-        setProjects(response.data.projects || mockProjects);
+        const apiProjects = response.data?.projects || response.data?.data || [];
+        setProjects(Array.isArray(apiProjects) && apiProjects.length > 0 ? apiProjects : mockProjects);
       } catch (error) {
         setProjects(mockProjects);
       } finally {
@@ -246,7 +247,7 @@ export default function ProjectsPage() {
                             </button>
                           </a>
                         )}
-                        <Link href={`/projects/${project.slug}`} className="flex-1">
+                        <Link href={`/projects/${project.slug || project.id}`} className="flex-1">
                           <FadeContent blur={true} duration={500} delay={200}>
                             <button className="group relative w-full overflow-hidden rounded-xl border border-nexus-border bg-transparent px-4 py-3 font-semibold text-nexus-text transition-all hover:bg-nexus-glass hover:border-white/40 hover:scale-[1.01] flex items-center justify-center gap-2">
                               Details
