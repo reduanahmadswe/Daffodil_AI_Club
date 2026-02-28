@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Download, Share2, Printer, Shield, ArrowRight } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, Share2, Printer, Shield, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useAppSelector } from '@/lib/redux/hooks';
+import { authApi } from '@/lib/api';
 
 const departments: Record<string, string> = {
   CSE: 'Computer Science & Engineering',
@@ -20,89 +21,32 @@ const departments: Record<string, string> = {
   ACC: 'Accounting & Information Systems',
 };
 
-// SVG corner decorations (green geometric shapes matching the reference)
-const TopLeftDecor = () => (
-  <svg className="absolute top-0 left-0 w-24 h-24" viewBox="0 0 100 100" fill="none">
-    <path d="M0 0 L60 0 L30 30 L0 50 Z" fill="#4CAF50" opacity="0.9" />
-    <path d="M0 0 L35 0 L15 20 L0 30 Z" fill="#2E7D32" opacity="0.95" />
-    <path d="M10 30 L40 10 L50 25 L25 45 Z" fill="#66BB6A" opacity="0.7" />
-  </svg>
-);
+// Modern geometric corner accents
+const CornerAccent = ({ position }: { position: 'tl' | 'tr' | 'bl' | 'br' }) => {
+  const transforms: Record<string, string> = {
+    tl: '',
+    tr: 'scale(-1, 1)',
+    bl: 'scale(1, -1)',
+    br: 'scale(-1, -1)',
+  };
+  const positions: Record<string, string> = {
+    tl: 'top-0 left-0',
+    tr: 'top-0 right-0',
+    bl: 'bottom-0 left-0',
+    br: 'bottom-0 right-0',
+  };
 
-const TopRightDecor = () => (
-  <svg className="absolute top-0 right-0 w-24 h-24" viewBox="0 0 100 100" fill="none">
-    <path d="M100 0 L40 0 L70 30 L100 50 Z" fill="#4CAF50" opacity="0.9" />
-    <path d="M100 0 L65 0 L85 20 L100 30 Z" fill="#2E7D32" opacity="0.95" />
-    <path d="M90 30 L60 10 L50 25 L75 45 Z" fill="#66BB6A" opacity="0.7" />
-  </svg>
-);
-
-const BottomLeftDecor = () => (
-  <svg className="absolute bottom-0 left-0 w-24 h-24" viewBox="0 0 100 100" fill="none">
-    <path d="M0 100 L60 100 L30 70 L0 50 Z" fill="#4CAF50" opacity="0.9" />
-    <path d="M0 100 L35 100 L15 80 L0 70 Z" fill="#2E7D32" opacity="0.95" />
-    <path d="M10 70 L40 90 L50 75 L25 55 Z" fill="#66BB6A" opacity="0.7" />
-  </svg>
-);
-
-const BottomRightDecor = () => (
-  <svg className="absolute bottom-0 right-0 w-24 h-24" viewBox="0 0 100 100" fill="none">
-    <path d="M100 100 L40 100 L70 70 L100 50 Z" fill="#4CAF50" opacity="0.9" />
-    <path d="M100 100 L65 100 L85 80 L100 70 Z" fill="#2E7D32" opacity="0.95" />
-    <path d="M90 70 L60 90 L50 75 L75 55 Z" fill="#66BB6A" opacity="0.7" />
-  </svg>
-);
-
-// Dotted circle pattern behind avatar
-const DottedCircle = () => (
-  <svg className="absolute w-40 h-40 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2" viewBox="0 0 160 160" fill="none">
-    {Array.from({ length: 8 }).map((_, row) =>
-      Array.from({ length: 8 }).map((_, col) => {
-        const x = 10 + col * 20;
-        const y = 10 + row * 20;
-        const dist = Math.sqrt((x - 80) ** 2 + (y - 80) ** 2);
-        if (dist > 70 || dist < 20) return null;
-        return (
-          <circle
-            key={`${row}-${col}`}
-            cx={x}
-            cy={y}
-            r="3"
-            fill="#E0E0E0"
-            opacity={0.5}
-          />
-        );
-      })
-    )}
-  </svg>
-);
-
-// Simple barcode SVG
-const Barcode = ({ code }: { code: string }) => {
-  // Generate pseudo-random bar widths from the code
-  const bars: number[] = [];
-  for (let i = 0; i < code.length; i++) {
-    const charCode = code.charCodeAt(i);
-    bars.push(charCode % 2 === 0 ? 2 : 1);
-    bars.push(1);
-    bars.push(charCode % 3 === 0 ? 3 : 1);
-    bars.push(1);
-  }
-
-  let x = 0;
   return (
-    <div className="flex flex-col items-center gap-1">
-      <svg width="180" height="40" viewBox={`0 0 ${bars.reduce((a, b) => a + b, 0) + 10} 40`}>
-        {bars.map((w, i) => {
-          const barX = x + 5;
-          x += w;
-          return i % 2 === 0 ? (
-            <rect key={i} x={barX} y="2" width={w} height="36" fill="#1a1a1a" />
-          ) : null;
-        })}
-      </svg>
-      <p className="text-xs font-mono text-gray-600 tracking-wider">ID {code}</p>
-    </div>
+    <svg
+      className={`absolute ${positions[position]} w-20 h-20 pointer-events-none`}
+      viewBox="0 0 80 80"
+      fill="none"
+      style={{ transform: transforms[position] }}
+    >
+      <path d="M0 0 L50 0 L20 25 L0 40 Z" fill="#16a34a" opacity="0.85" />
+      <path d="M0 0 L28 0 L10 15 L0 22 Z" fill="#15803d" />
+      <path d="M5 22 L30 5 L42 18 L18 38 Z" fill="#22c55e" opacity="0.6" />
+    </svg>
   );
 };
 
@@ -110,8 +54,21 @@ export default function IDCardPage() {
   const { user } = useAppSelector((state) => state.auth);
   const cardRef = useRef<HTMLDivElement>(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [qrCode, setQrCode] = useState<string | null>(null);
 
   const isMember = user?.role === 'MEMBER' || user?.role === 'EXECUTIVE' || user?.role === 'ADMIN';
+  const memberIdDisplay = user?.uniqueId || 'N/A';
+
+  // Fetch real QR code from profile
+  useEffect(() => {
+    if (isMember && user?.uniqueId) {
+      authApi.getProfile().then((res) => {
+        if (res.data?.data?.qrCode) {
+          setQrCode(res.data.data.qrCode);
+        }
+      }).catch(() => {});
+    }
+  }, [isMember, user?.uniqueId]);
 
   const handleDownload = () => {
     alert('Downloading ID Card PDF...');
@@ -125,16 +82,13 @@ export default function IDCardPage() {
     if (navigator.share) {
       navigator.share({
         title: 'My Daffodil AI Club ID',
-        text: `Check out my AI Club Member ID: ${user?.uniqueId || 'N/A'}`,
+        text: `Check out my AI Club Member ID: ${memberIdDisplay}`,
         url: window.location.href,
       });
     }
   };
 
-  const deptFullName = user?.department ? (departments[user.department] || user.department) : 'N/A';
-  const memberIdDisplay = user?.uniqueId || 'N/A';
-
-  // If not a member, show restricted message
+  // Not a member
   if (!isMember) {
     return (
       <div className="max-w-2xl mx-auto text-center py-20">
@@ -146,9 +100,7 @@ export default function IDCardPage() {
           <div className="w-20 h-20 rounded-2xl bg-nexus-purple/10 border border-nexus-purple/30 flex items-center justify-center mx-auto">
             <Shield className="w-10 h-10 text-nexus-purple" />
           </div>
-          <h1 className="text-3xl font-display font-bold text-nexus-text">
-            Members Only
-          </h1>
+          <h1 className="text-3xl font-display font-bold text-nexus-text">Members Only</h1>
           <p className="text-nexus-text-secondary max-w-md mx-auto">
             The ID Card is available exclusively for club members. Apply for membership to get your digital ID card.
           </p>
@@ -162,6 +114,8 @@ export default function IDCardPage() {
     );
   }
 
+  const roleLabel = user?.role === 'ADMIN' ? 'Administrator' : user?.role === 'EXECUTIVE' ? 'Executive Member' : 'Member';
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
@@ -169,15 +123,15 @@ export default function IDCardPage() {
           My ID Card
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
-          Your official Daffodil AI Club membership card — hover to see the back
+          Your official Daffodil AI Club membership card
         </p>
       </div>
 
-      {/* ID Card with Flip Animation */}
+      {/* ID Card with 3D Flip */}
       <div className="flex justify-center">
         <div
           ref={cardRef}
-          className="w-full max-w-sm cursor-pointer"
+          className="w-full max-w-[340px] cursor-pointer select-none"
           style={{ perspective: '1200px' }}
           onMouseEnter={() => setIsFlipped(true)}
           onMouseLeave={() => setIsFlipped(false)}
@@ -185,49 +139,58 @@ export default function IDCardPage() {
         >
           <motion.div
             animate={{ rotateY: isFlipped ? 180 : 0 }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
             style={{ transformStyle: 'preserve-3d' }}
             className="relative w-full"
           >
-            {/* ===== FRONT SIDE ===== */}
+            {/* ========== FRONT SIDE ========== */}
             <div
-              className="relative w-full rounded-2xl overflow-hidden shadow-2xl"
-              style={{ backfaceVisibility: 'hidden', aspectRatio: '2.1/3.4' }}
+              className="relative w-full rounded-2xl overflow-hidden"
+              style={{
+                backfaceVisibility: 'hidden',
+                aspectRatio: '0.618',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1)',
+              }}
             >
+              {/* White background */}
               <div className="absolute inset-0 bg-white" />
 
-              {/* Green corner decorations */}
-              <TopLeftDecor />
-              <TopRightDecor />
-              <BottomLeftDecor />
-              <BottomRightDecor />
+              {/* Subtle top gradient band */}
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600" />
+
+              {/* Corner accents */}
+              <CornerAccent position="tl" />
+              <CornerAccent position="tr" />
+              <CornerAccent position="bl" />
+              <CornerAccent position="br" />
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col items-center h-full px-6 py-8">
-                {/* Club Logo & Name */}
-                <div className="flex flex-col items-center mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-1.5">
-                    AI
+              <div className="relative z-10 flex flex-col items-center h-full px-5 pt-6 pb-5">
+                {/* Club header */}
+                <div className="flex items-center gap-2.5 mb-5">
+                  <div className="w-9 h-9 bg-gradient-to-br from-green-500 to-emerald-700 rounded-lg flex items-center justify-center shadow-md">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-base font-bold text-gray-800">Daffodil AI Club</h3>
-                  <p className="text-[10px] text-gray-500">Daffodil International University</p>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-800 leading-tight">Daffodil AI Club</h3>
+                    <p className="text-[9px] text-gray-400 leading-tight">Daffodil International University</p>
+                  </div>
                 </div>
 
-                {/* Dotted pattern + Profile Image */}
-                <div className="relative w-32 h-32 mb-4">
-                  <DottedCircle />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-full border-[3px] border-green-500 overflow-hidden bg-gray-100">
+                {/* Profile photo with ring */}
+                <div className="relative mb-4">
+                  <div className="w-[110px] h-[110px] rounded-full p-[3px] bg-gradient-to-br from-green-400 via-emerald-500 to-green-600">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-gray-100">
                       {user?.profileImage ? (
                         <Image
                           src={user.profileImage}
                           alt={user.name || 'Profile'}
-                          width={112}
-                          height={112}
+                          width={104}
+                          height={104}
                           className="object-cover w-full h-full"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-400 to-green-600 text-white text-3xl font-bold">
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-400 to-emerald-600 text-white text-3xl font-bold">
                           {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
                       )}
@@ -235,101 +198,116 @@ export default function IDCardPage() {
                   </div>
                 </div>
 
-                {/* Name & Role */}
-                <h2 className="text-xl font-bold text-gray-900 mb-0.5">{user?.name}</h2>
-                <p className="text-sm text-green-700 font-medium mb-4">
-                  {user?.role === 'ADMIN' ? 'Admin' : user?.role === 'EXECUTIVE' ? 'Executive' : 'Member'}
-                  {user?.department ? ` • ${user.department}` : ''}
-                </p>
+                {/* Name */}
+                <h2 className="text-lg font-bold text-gray-900 leading-tight">{user?.name}</h2>
+                <p className="text-xs text-green-600 font-semibold mt-0.5 mb-3">{roleLabel}</p>
 
-                {/* Info Box */}
-                <div className="w-full bg-gray-50 rounded-xl px-5 py-3 mb-4 space-y-1.5 border border-gray-100">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-gray-500 min-w-[52px]">Email</span>
-                    <span className="text-xs text-gray-400">:</span>
-                    <span className="text-xs text-gray-700 truncate">{user?.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-gray-500 min-w-[52px]">Phone</span>
-                    <span className="text-xs text-gray-400">:</span>
-                    <span className="text-xs text-gray-700">{user?.phone || 'N/A'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-gray-500 min-w-[52px]">Batch</span>
-                    <span className="text-xs text-gray-400">:</span>
-                    <span className="text-xs text-gray-700">{user?.batch || 'N/A'}</span>
-                  </div>
+                {/* Info grid */}
+                <div className="w-full rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-2.5 space-y-2 mb-3">
+                  <InfoRow label="ID" value={memberIdDisplay} highlight />
+                  <InfoRow label="Dept" value={user?.department || 'N/A'} />
+                  <InfoRow label="Batch" value={user?.batch || 'N/A'} />
+                  <InfoRow label="Email" value={user?.email || ''} truncate />
+                  <InfoRow label="Phone" value={user?.phone || 'N/A'} />
                 </div>
 
-                {/* Barcode + ID */}
-                <div className="mt-auto">
-                  <Barcode code={memberIdDisplay} />
+                {/* QR Code - real and large */}
+                <div className="mt-auto flex flex-col items-center">
+                  {qrCode ? (
+                    <div className="bg-white rounded-xl p-2 shadow-sm border border-gray-100">
+                      <img
+                        src={qrCode}
+                        alt="QR Code"
+                        className="w-24 h-24"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-24 h-24 bg-gray-100 rounded-xl flex items-center justify-center">
+                      <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                        <span className="text-[9px] text-gray-400">QR Code</span>
+                      </div>
+                    </div>
+                  )}
+                  <p className="text-[10px] font-mono text-gray-400 mt-1.5 tracking-widest">{memberIdDisplay}</p>
                 </div>
               </div>
             </div>
 
-            {/* ===== BACK SIDE ===== */}
+            {/* ========== BACK SIDE ========== */}
             <div
-              className="absolute inset-0 w-full rounded-2xl overflow-hidden shadow-2xl"
-              style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', aspectRatio: '2.1/3.4' }}
+              className="absolute inset-0 w-full rounded-2xl overflow-hidden"
+              style={{
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
+                aspectRatio: '0.618',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1)',
+              }}
             >
+              {/* White background */}
               <div className="absolute inset-0 bg-white" />
 
-              {/* Green corner decorations */}
-              <TopLeftDecor />
-              <TopRightDecor />
-              <BottomLeftDecor />
-              <BottomRightDecor />
+              {/* Top gradient band */}
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600" />
+
+              {/* Corners */}
+              <CornerAccent position="tl" />
+              <CornerAccent position="tr" />
+              <CornerAccent position="bl" />
+              <CornerAccent position="br" />
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col items-center h-full px-6 py-8">
-                {/* Club Logo & Name */}
-                <div className="flex flex-col items-center mb-5">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-1.5">
-                    AI
+              <div className="relative z-10 flex flex-col items-center h-full px-6 pt-6 pb-5">
+                {/* Club logo */}
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-9 h-9 bg-gradient-to-br from-green-500 to-emerald-700 rounded-lg flex items-center justify-center shadow-md">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-base font-bold text-gray-800">Daffodil AI Club</h3>
+                  <h3 className="text-sm font-bold text-gray-800">Daffodil AI Club</h3>
                 </div>
 
-                {/* Terms & Conditions */}
-                <h2 className="text-lg font-extrabold text-gray-900 mb-5 tracking-wide uppercase">
+                {/* Divider */}
+                <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent mb-4" />
+
+                {/* Terms title */}
+                <h2 className="text-base font-extrabold text-gray-900 mb-4 tracking-wide uppercase">
                   Terms & Conditions
                 </h2>
 
-                <div className="w-full text-left space-y-4 mb-6 flex-1">
-                  <div className="flex gap-2.5">
-                    <span className="text-green-600 font-bold mt-0.5 text-sm">•</span>
-                    <p className="text-[11px] leading-relaxed text-gray-600 text-justify">
-                      <strong>Identification:</strong> All members must keep their ID cards visible or 
-                      readily available while on university premises during club events to ensure 
-                      proper access control and identity verification.
-                    </p>
-                  </div>
-                  <div className="flex gap-2.5">
-                    <span className="text-green-600 font-bold mt-0.5 text-sm">•</span>
-                    <p className="text-[11px] leading-relaxed text-gray-600 text-justify">
-                      <strong>Usage:</strong> The ID card remains the exclusive property of Daffodil AI Club. 
-                      It is issued for personal use only and must not be lent, copied, or misused 
-                      in any manner.
-                    </p>
-                  </div>
-                  <div className="flex gap-2.5">
-                    <span className="text-green-600 font-bold mt-0.5 text-sm">•</span>
-                    <p className="text-[11px] leading-relaxed text-gray-600 text-justify">
-                      <strong>Validity:</strong> This card is valid only while the member maintains active 
-                      membership status. The club reserves the right to revoke the card at any time.
-                    </p>
-                  </div>
+                {/* Terms content */}
+                <div className="w-full text-left space-y-3 flex-1">
+                  <TermItem>
+                    <strong className="text-gray-700">Identification:</strong> All members must keep their ID cards
+                    visible or readily available during club events to ensure proper access control
+                    and identity verification.
+                  </TermItem>
+                  <TermItem>
+                    <strong className="text-gray-700">Usage:</strong> The ID card remains the exclusive property of
+                    Daffodil AI Club. It is issued for personal use only and must not be lent,
+                    copied, or misused in any manner.
+                  </TermItem>
+                  <TermItem>
+                    <strong className="text-gray-700">Validity:</strong> This card is valid only while the member
+                    maintains active membership status. The club reserves the right to revoke
+                    the card at any time.
+                  </TermItem>
                 </div>
 
                 {/* Website */}
-                <p className="text-xs text-green-700 font-semibold mb-4">
+                <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent mt-4 mb-3" />
+                <p className="text-[11px] text-green-600 font-semibold tracking-wide">
                   www.daffodilaiclub.com
                 </p>
 
-                {/* Barcode + ID */}
-                <div className="mt-auto">
-                  <Barcode code={memberIdDisplay} />
+                {/* QR + ID at bottom */}
+                <div className="mt-auto flex flex-col items-center pt-3">
+                  {qrCode ? (
+                    <div className="bg-white rounded-xl p-1.5 shadow-sm border border-gray-100">
+                      <img src={qrCode} alt="QR Code" className="w-20 h-20" />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 bg-gray-100 rounded-xl" />
+                  )}
+                  <p className="text-[10px] font-mono text-gray-400 mt-1.5 tracking-widest">{memberIdDisplay}</p>
                 </div>
               </div>
             </div>
@@ -338,8 +316,8 @@ export default function IDCardPage() {
       </div>
 
       {/* Flip hint */}
-      <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-        Hover over the card or click to flip it
+      <p className="text-center text-sm text-gray-500 dark:text-gray-400 animate-pulse">
+        Hover or tap the card to flip it
       </p>
 
       {/* Actions */}
@@ -366,32 +344,57 @@ export default function IDCardPage() {
         </CardContent>
       </Card>
 
-      {/* Instructions */}
+      {/* About */}
       <Card>
         <CardHeader>
           <CardTitle>About Your ID Card</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 text-gray-600 dark:text-gray-400">
           <p>
-            Your Daffodil AI Club ID card serves as your official membership credential.
-            Present this card at events for quick check-in and identity verification.
+            Your Daffodil AI Club ID card is your official membership credential.
+            The QR code can be scanned at events for instant check-in and verification.
           </p>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-green-50 dark:bg-green-900/20">
+            <div className="p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30">
               <h4 className="font-semibold text-green-900 dark:text-green-300 mb-2">Digital Card</h4>
               <p className="text-sm text-green-700 dark:text-green-400">
                 Show your digital ID on your phone for event registration and verification.
               </p>
             </div>
-            <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20">
+            <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/30">
               <h4 className="font-semibold text-emerald-900 dark:text-emerald-300 mb-2">Physical Card</h4>
               <p className="text-sm text-emerald-700 dark:text-emerald-400">
-                Print the PDF and laminate it for a durable physical ID card.
+                Download the PDF and get it printed for a professional physical ID card.
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+// Info row component
+function InfoRow({ label, value, highlight, truncate }: { label: string; value: string; highlight?: boolean; truncate?: boolean }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider min-w-[40px]">{label}</span>
+      <span className="text-[10px] text-gray-300">|</span>
+      <span
+        className={`text-[11px] ${highlight ? 'font-bold text-green-600' : 'text-gray-600'} ${truncate ? 'truncate' : ''}`}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
+// Term bullet item
+function TermItem({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex gap-2">
+      <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+      <p className="text-[10px] leading-relaxed text-gray-500 text-justify">{children}</p>
     </div>
   );
 }

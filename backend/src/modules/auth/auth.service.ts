@@ -146,10 +146,16 @@ export class AuthService {
         uniqueId: verifiedUser.uniqueId,
         email: verifiedUser.email,
         name: verifiedUser.name,
+        phone: verifiedUser.phone,
+        department: verifiedUser.department,
+        batch: verifiedUser.batch,
+        studentId: verifiedUser.studentId,
         role: verifiedUser.role,
         membershipStatus: verifiedUser.membershipStatus,
         profileImage: verifiedUser.profileImage,
         points: verifiedUser.points,
+        isVerified: verifiedUser.isVerified,
+        createdAt: verifiedUser.createdAt,
       },
     };
   }
@@ -196,10 +202,16 @@ export class AuthService {
         uniqueId: user.uniqueId,
         email: user.email,
         name: user.name,
+        phone: user.phone,
+        department: user.department,
+        batch: user.batch,
+        studentId: user.studentId,
         role: user.role,
         membershipStatus: user.membershipStatus,
         profileImage: user.profileImage,
         points: user.points,
+        isVerified: user.isVerified,
+        createdAt: user.createdAt,
       },
     };
   }

@@ -28,16 +28,24 @@ export default function DashboardLayout({
       authApi.getProfile().then((res) => {
         const profile = res.data.data || res.data;
         if (profile && user) {
-          // Update Redux if role or membershipStatus changed
-          if (profile.role !== user.role || profile.membershipStatus !== user.membershipStatus) {
-            dispatch(updateUser({
-              role: profile.role,
-              membershipStatus: profile.membershipStatus,
-            }));
-            // Update cookie for middleware routing
-            if (typeof window !== 'undefined') {
-              document.cookie = `auth-role=${profile.role}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
-            }
+          // Sync all profile fields to Redux (catches role changes, missing fields, etc.)
+          dispatch(updateUser({
+            uniqueId: profile.uniqueId,
+            name: profile.name,
+            phone: profile.phone,
+            department: profile.department,
+            batch: profile.batch,
+            studentId: profile.studentId,
+            profileImage: profile.profileImage,
+            role: profile.role,
+            membershipStatus: profile.membershipStatus,
+            points: profile.points,
+            isVerified: profile.isVerified,
+            createdAt: profile.createdAt,
+          }));
+          // Update cookie for middleware routing
+          if (typeof window !== 'undefined' && profile.role !== user.role) {
+            document.cookie = `auth-role=${profile.role}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
           }
         }
       }).catch(() => {
