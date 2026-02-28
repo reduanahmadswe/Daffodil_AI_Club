@@ -19,7 +19,19 @@ export const createApp = (): Express => {
 
   // Middleware
   app.use(cors({
-    origin: env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        env.FRONTEND_URL,
+        'http://localhost:3000',
+        'https://aiclubdiu.vercel.app',
+      ];
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    },
     credentials: true,
   }));
   app.use(express.json({ limit: '10mb' }));
