@@ -81,6 +81,55 @@ export function parseJsonSafe<T>(json: string | null | undefined, fallback: T): 
   }
 }
 
+export function extractGoogleDriveFileId(url: string): string | null {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+
+    if (!parsed.hostname.includes('google')) {
+      return null;
+    }
+
+    const idFromSearch = parsed.searchParams.get('id');
+    if (idFromSearch) {
+      return idFromSearch;
+    }
+
+    const pathSegments = parsed.pathname.split('/').filter(Boolean);
+
+    const dIndex = pathSegments.findIndex((segment) => segment === 'd');
+    if (dIndex !== -1 && pathSegments[dIndex + 1]) {
+      return pathSegments[dIndex + 1];
+    }
+
+    const fileIndex = pathSegments.findIndex((segment) => segment === 'file');
+    if (fileIndex !== -1 && pathSegments[fileIndex + 2]) {
+      return pathSegments[fileIndex + 2];
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function resolveImageUrl(url?: string, fallbackName?: string): string | undefined {
+  if (!url) return undefined;
+
+  const driveFileId = extractGoogleDriveFileId(url);
+  if (!driveFileId) {
+    return url;
+  }
+
+  const params = new URLSearchParams({ id: driveFileId });
+  if (fallbackName) {
+    params.set('name', fallbackName);
+  }
+
+  return `/api/drive-image?${params.toString()}`;
+}
+
 export const eventTypeColors: Record<string, string> = {
   SEMINAR: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
   WORKSHOP: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',

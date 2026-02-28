@@ -2,18 +2,20 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, GraduationCap, Facebook, Linkedin, Globe, Droplets } from 'lucide-react';
+import { Mail, Phone, GraduationCap, Facebook, Linkedin, Globe } from 'lucide-react';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Member } from '@/data/leadership';
+import { resolveImageUrl } from '@/lib/utils';
 
 export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' | 'STUDENT' }) => {
     const dispatch = useAppDispatch();
     const [imgError, setImgError] = useState(false);
 
     const fallbackImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=0D8ABC&color=fff&size=400&bold=true`;
+    const normalizedImage = resolveImageUrl(member.image, member.name);
 
-    const imageSrc = imgError || !member.image ? fallbackImage : member.image;
+    const imageSrc = imgError || !normalizedImage ? fallbackImage : normalizedImage;
 
     const handleCopyEmail = () => {
         navigator.clipboard.writeText(member.email);
@@ -103,6 +105,42 @@ export const MemberCard = ({ member, type }: { member: Member, type: 'TEACHER' |
                                 title={member.phone}
                             >
                                 <Phone className="w-4 h-4" />
+                            </a>
+                        )}
+
+                        {member.facebook && (
+                            <a
+                                href={member.facebook}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-nexus-border transition-all"
+                                title="Facebook"
+                            >
+                                <Facebook className="w-4 h-4" />
+                            </a>
+                        )}
+
+                        {member.linkedin && (
+                            <a
+                                href={member.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-nexus-border transition-all"
+                                title="LinkedIn"
+                            >
+                                <Linkedin className="w-4 h-4" />
+                            </a>
+                        )}
+
+                        {member.portfolio && (
+                            <a
+                                href={member.portfolio}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-lg bg-white/5 border border-white/10 text-[#B5B5C3] hover:text-white hover:bg-white/10 hover:border-nexus-border transition-all"
+                                title="Portfolio"
+                            >
+                                <Globe className="w-4 h-4" />
                             </a>
                         )}
                     </div>
