@@ -26,7 +26,7 @@ import { adminApi } from '@/lib/api';
 
 interface Member {
   id: string;
-  uniqueId: string;
+  uniqueId?: string | null;
   name: string;
   email: string;
   department?: string;
@@ -272,7 +272,7 @@ export default function AdminMembersPage() {
                     </td>
                     <td className="p-4">
                       <code className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-sm font-mono">
-                        {member.uniqueId}
+                        {member.uniqueId || 'N/A'}
                       </code>
                     </td>
                     <td className="p-4">
@@ -356,7 +356,7 @@ export default function AdminMembersPage() {
                 <Avatar name={selectedMember.name} size="xl" className="mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-gray-900 dark:text-nexus-text">{selectedMember.name}</h3>
                 <code className="text-sm text-primary-600 bg-primary-50 dark:bg-primary-900/30 px-2 py-1 rounded">
-                  {selectedMember.uniqueId}
+                  {selectedMember.uniqueId || 'No ID assigned'}
                 </code>
               </div>
               <div className="grid grid-cols-2 gap-4">

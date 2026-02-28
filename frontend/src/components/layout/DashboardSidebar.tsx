@@ -13,7 +13,8 @@ import {
   CreditCard,
   FileText,
   Bell,
-  LogOut
+  LogOut,
+  Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
@@ -61,9 +62,47 @@ export const DashboardSidebar = () => {
             <Avatar src={user.profileImage} name={user.name} size="md" />
             <div className="flex-1 min-w-0">
               <p className="font-semibold truncate text-nexus-text">{user.name}</p>
-              <p className="text-xs truncate text-nexus-purple">{user.uniqueId}</p>
+              {user.uniqueId ? (
+                <p className="text-xs truncate text-nexus-purple">{user.uniqueId}</p>
+              ) : (
+                <p className="text-xs truncate text-nexus-text-secondary capitalize">{user.role.toLowerCase()}</p>
+              )}
+              {/* Membership Status Badge */}
+              <div className="mt-1">
+                {user.role === 'VISITOR' && (!user.membershipStatus || user.membershipStatus === 'NONE') && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-500/20 text-gray-400">
+                    <Shield className="w-3 h-3" /> Visitor
+                  </span>
+                )}
+                {user.membershipStatus === 'PENDING' && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-500/20 text-yellow-400">
+                    <Shield className="w-3 h-3" /> Pending
+                  </span>
+                )}
+                {(user.role === 'MEMBER' || user.role === 'EXECUTIVE' || user.role === 'ADMIN') && user.membershipStatus === 'ACTIVE' && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-400">
+                    <Shield className="w-3 h-3" /> Member
+                  </span>
+                )}
+                {user.membershipStatus === 'REJECTED' && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/20 text-red-400">
+                    <Shield className="w-3 h-3" /> Rejected
+                  </span>
+                )}
+              </div>
             </div>
           </div>
+
+          {/* Apply for Membership CTA for Visitors */}
+          {user.role === 'VISITOR' && user.membershipStatus !== 'PENDING' && (
+            <Link
+              href="/membership"
+              className="mt-3 flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-nexus-gradient hover:opacity-90 transition-opacity shadow-glow-purple"
+            >
+              <Shield className="w-4 h-4" />
+              Apply for Membership
+            </Link>
+          )}
         </div>
       )}
 

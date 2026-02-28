@@ -162,7 +162,7 @@ export const studentPanel: Member[] = [
         phone: "01890190638",
         department: "CSE",
         id: "221-15-4967",
-        image: "https://drive.google.com/open?id=162Hul9dyQ7rA68dw0smPqi6tvNilu046"
+        image: "https://scontent.fdac135-1.fna.fbcdn.net/v/t39.30808-6/587275176_821694083968486_2682932690604288270_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=wurZm0RElSMQ7kNvwHuslIK&_nc_oc=AdlRXpURfB-defMmyxb_mV8MpEZViz0OmuernrSVVMU3ppiCJi0XhbxyQlrHAjjvGqw&_nc_zt=23&_nc_ht=scontent.fdac135-1.fna&_nc_gid=y_U4GLuPXsPhLmqmqIkwjA&_nc_ss=8&oh=00_Afu1vV3F5O8CBn505JrKlfGfXfOUAub-vPodS6aIOKqrWw&oe=69A916A2"
     },
 
     // Vice President

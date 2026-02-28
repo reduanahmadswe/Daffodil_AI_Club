@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -13,7 +13,9 @@ import {
   Italic,
   List,
   Link as LinkIcon,
-  Eye
+  Eye,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,17 +24,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
-import { blogsApi } from '@/lib/api';
+import { blogsApi, mediaApi } from '@/lib/api';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
-import { slugify } from '@/lib/utils';
+import { resolveImageUrl, slugify } from '@/lib/utils';
 
 const blogSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters').max(200, 'Excerpt must be less than 200 characters'),
   content: z.string().min(100, 'Content must be at least 100 characters'),
   category: z.string().min(1, 'Category is required'),
-  status: z.enum(['DRAFT', 'REVIEW', 'PUBLISHED']).default('DRAFT'),
+  status: z.enum(['DRAFT', 'PENDING', 'PUBLISHED']).default('DRAFT'),
+  coverImage: z.string().optional(),
   isFeatured: z.boolean().default(false),
 });
 
@@ -56,6 +59,9 @@ export default function CreateBlogPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [showPreview, setShowPreview] = useState(false);
@@ -64,6 +70,7 @@ export default function CreateBlogPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<BlogFormData>({
     resolver: zodResolver(blogSchema),
@@ -75,6 +82,44 @@ export default function CreateBlogPage() {
 
   const watchedContent = watch('content');
   const watchedTitle = watch('title');
+  const watchedCoverImage = watch('coverImage');
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingImage(true);
+      const response = await mediaApi.uploadDriveImage(file);
+      const driveUrl = response.data?.data?.openUrl;
+
+      if (!driveUrl) {
+        throw new Error('Drive URL not found in upload response');
+      }
+
+      setImagePreview(driveUrl);
+      setValue('coverImage', driveUrl, { shouldDirty: true, shouldValidate: true });
+
+      dispatch(addNotification({
+        message: 'Image uploaded to Google Drive successfully.',
+        type: 'success',
+      }));
+    } catch (error: any) {
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      dispatch(addNotification({
+        message: error.response?.data?.message || 'Failed to upload image to Google Drive.',
+        type: 'error',
+      }));
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    setValue('coverImage', '');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -90,6 +135,11 @@ export default function CreateBlogPage() {
   const onSubmit = async (data: BlogFormData) => {
     setIsSubmitting(true);
     try {
+      // Ensure the Drive image URL is included
+      if (imagePreview && (!data.coverImage || data.coverImage === '')) {
+        data.coverImage = imagePreview;
+      }
+
       const blogData = {
         ...data,
         slug: slugify(data.title),
@@ -295,7 +345,7 @@ export default function CreateBlogPage() {
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500"
                   >
                     <option value="DRAFT">Draft</option>
-                    <option value="REVIEW">In Review</option>
+                    <option value="PENDING">Pending Review</option>
                     <option value="PUBLISHED">Published</option>
                   </select>
                 </div>
@@ -338,15 +388,61 @@ export default function CreateBlogPage() {
             {/* Cover Image */}
             <Card>
               <CardHeader>
-                <CardTitle>Cover Image</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5" />
+                  Cover Image
+                </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center">
-                  <Image className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-2">Upload cover image</p>
-                  <Button type="button" variant="outline" size="sm">
-                    Choose File
-                  </Button>
+              <CardContent className="space-y-3">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  onChange={handleImageSelect}
+                  className="hidden"
+                />
+                {(imagePreview || watchedCoverImage) ? (
+                  <div className="relative">
+                    <img
+                      src={resolveImageUrl(imagePreview || watchedCoverImage || '', watchedTitle || 'Blog cover') || imagePreview || watchedCoverImage}
+                      alt="Cover preview"
+                      className="w-full h-48 object-cover rounded-xl"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => !isUploadingImage && fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-primary-500 transition-colors"
+                  >
+                    <Upload className="w-10 h-10 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-500 text-sm mb-1">
+                      {isUploadingImage ? 'Uploading to Google Drive...' : 'Click to upload cover image'}
+                    </p>
+                    <p className="text-xs text-gray-400">PNG, JPG, WEBP up to 5MB</p>
+                  </div>
+                )}
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Or enter image URL</label>
+                  <Input
+                    value={watchedCoverImage || ''}
+                    placeholder="https://example.com/cover.jpg"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setValue('coverImage', val, { shouldDirty: true, shouldValidate: true });
+                      if (val && !val.startsWith('data:')) {
+                        setImagePreview(val);
+                      } else if (!val) {
+                        setImagePreview(null);
+                      }
+                    }}
+                  />
                 </div>
               </CardContent>
             </Card>

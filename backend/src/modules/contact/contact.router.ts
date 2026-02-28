@@ -84,8 +84,45 @@ router.get('/newsletter/subscribers', authenticate, adminOrExecutive, async (req
 
 router.post('/newsletter/send', authenticate, adminOrExecutive, async (req: AuthRequest, res: Response) => {
   try {
-    const { subject, html } = req.body;
-    const result = await contactService.sendNewsletterEmail(subject, html);
+    const { subject, description, coverImage, pdfUrl, pdfName } = req.body;
+    if (!subject || !description) {
+      return res.status(400).json({ success: false, message: 'Subject and description are required' });
+    }
+    const result = await contactService.sendNewsletterEmail(subject, description, coverImage, pdfUrl, pdfName);
+    res.json({ success: true, message: result.message, data: { sent: result.sent, total: result.total } });
+  } catch (error) {
+    res.status(400).json({ success: false, message: (error as Error).message });
+  }
+});
+
+// Public: list all newsletter posts
+router.get('/newsletter/posts', async (req: Request, res: Response) => {
+  try {
+    const { page, limit } = req.query;
+    const result = await contactService.getNewsletterPosts({
+      page: page ? parseInt(page as string) : undefined,
+      limit: limit ? parseInt(limit as string) : undefined,
+    });
+    res.json({ success: true, data: result.posts, pagination: result.pagination });
+  } catch (error) {
+    res.status(400).json({ success: false, message: (error as Error).message });
+  }
+});
+
+// Public: get single newsletter post
+router.get('/newsletter/posts/:id', async (req: Request, res: Response) => {
+  try {
+    const post = await contactService.getNewsletterPostById(req.params.id);
+    res.json({ success: true, data: post });
+  } catch (error) {
+    res.status(404).json({ success: false, message: (error as Error).message });
+  }
+});
+
+// Admin: delete newsletter post
+router.delete('/newsletter/posts/:id', authenticate, adminOrExecutive, async (req: AuthRequest, res: Response) => {
+  try {
+    const result = await contactService.deleteNewsletterPost(req.params.id);
     res.json({ success: true, message: result.message });
   } catch (error) {
     res.status(400).json({ success: false, message: (error as Error).message });

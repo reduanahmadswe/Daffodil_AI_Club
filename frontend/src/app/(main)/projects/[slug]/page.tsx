@@ -22,7 +22,7 @@ import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { projectsApi } from '@/lib/api';
 import { Project } from '@/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate, resolveImageUrl } from '@/lib/utils';
 
 // Mock data
 const mockProject: Project = {
@@ -253,7 +253,7 @@ export default function ProjectDetailPage() {
           <div className="container-custom">
             <div className="relative rounded-2xl overflow-hidden">
               <img
-                src={project.image}
+                src={resolveImageUrl(project.image, project.title) || project.image}
                 alt={project.title}
                 className="w-full h-[400px] object-cover"
               />

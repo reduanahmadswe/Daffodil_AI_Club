@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { useAppSelector } from '@/lib/redux/hooks';
@@ -12,19 +12,25 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+  const { user, isAuthenticated, isLoading, hasHydrated } = useAppSelector((state) => state.auth);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!isLoading) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted && hasHydrated) {
       if (!isAuthenticated) {
-        router.push('/login');
+        window.location.href = '/login';
       } else if (user?.role !== 'ADMIN' && user?.role !== 'EXECUTIVE') {
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       }
     }
-  }, [isAuthenticated, isLoading, user, router]);
+  }, [isAuthenticated, hasHydrated, mounted, user]);
 
-  if (isLoading) {
+  // Wait for client-side hydration before deciding
+  if (!mounted || !hasHydrated) {
     return (
       <div className="flex min-h-screen bg-nexus-bg">
         <div className="w-64 p-4 bg-nexus-surface-1">

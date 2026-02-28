@@ -21,9 +21,10 @@ import { z } from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { eventsApi } from '@/lib/api';
+import { eventsApi, mediaApi } from '@/lib/api';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
+import { resolveImageUrl } from '@/lib/utils';
 
 const eventSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -47,6 +48,7 @@ export default function CreateEventPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +56,7 @@ export default function CreateEventPage() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
@@ -66,16 +69,40 @@ export default function CreateEventPage() {
     },
   });
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const watchedImage = watch('image');
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        setImagePreview(base64);
-        setValue('image', base64);
-      };
-      reader.readAsDataURL(file);
+    if (!file) {
+      return;
+    }
+
+    try {
+      setIsUploadingImage(true);
+      const response = await mediaApi.uploadDriveImage(file);
+      const driveUrl = response.data?.data?.openUrl;
+
+      if (!driveUrl) {
+        throw new Error('Drive URL not found in upload response');
+      }
+
+      setImagePreview(driveUrl);
+      setValue('image', driveUrl, { shouldDirty: true, shouldValidate: true });
+
+      dispatch(addNotification({
+        message: 'Image uploaded to Google Drive successfully.',
+        type: 'success',
+      }));
+    } catch (error: any) {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      dispatch(addNotification({
+        message: error.response?.data?.message || 'Failed to upload image to Google Drive.',
+        type: 'error',
+      }));
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
@@ -88,6 +115,10 @@ export default function CreateEventPage() {
   const onSubmit = async (data: EventFormData) => {
     setIsSubmitting(true);
     try {
+      // Ensure the Drive image URL is included even if register didn't capture it
+      if (imagePreview && (!data.image || data.image === '')) {
+        data.image = imagePreview;
+      }
       await eventsApi.create(data);
       dispatch(addNotification({ message: 'The event has been created successfully.', type: 'success' }));
       router.push('/admin/events');
@@ -313,7 +344,11 @@ export default function CreateEventPage() {
                 />
                 {imagePreview ? (
                   <div className="relative">
-                    <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover rounded-xl" />
+                    <img
+                      src={resolveImageUrl(imagePreview, 'Event cover') || imagePreview}
+                      alt="Preview"
+                      className="w-full h-48 object-cover rounded-xl"
+                    />
                     <button
                       type="button"
                       onClick={removeImage}
@@ -324,23 +359,28 @@ export default function CreateEventPage() {
                   </div>
                 ) : (
                   <div
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={() => !isUploadingImage && fileInputRef.current?.click()}
                     className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-primary-500 transition-colors"
                   >
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500 mb-2">Click to upload cover image</p>
+                    <p className="text-gray-500 mb-2">
+                      {isUploadingImage ? 'Uploading to Google Drive...' : 'Click to upload cover image'}
+                    </p>
                     <p className="text-xs text-gray-400">PNG, JPG, WEBP up to 5MB</p>
                   </div>
                 )}
                 <div className="mt-3">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Or enter image URL</label>
                   <Input
-                    {...register('image')}
+                    value={watchedImage || ''}
                     placeholder="https://example.com/image.jpg"
                     onChange={(e) => {
-                      register('image').onChange(e);
-                      if (e.target.value && !e.target.value.startsWith('data:')) {
-                        setImagePreview(e.target.value);
+                      const val = e.target.value;
+                      setValue('image', val, { shouldDirty: true, shouldValidate: true });
+                      if (val && !val.startsWith('data:')) {
+                        setImagePreview(val);
+                      } else if (!val) {
+                        setImagePreview(null);
                       }
                     }}
                   />

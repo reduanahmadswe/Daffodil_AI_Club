@@ -36,7 +36,7 @@ const roleOptions = ['VISITOR', 'MEMBER', 'EXECUTIVE', 'ADMIN'];
 
 interface MemberDetail {
   id: string;
-  uniqueId: string;
+  uniqueId?: string | null;
   name: string;
   email: string;
   phone?: string;
@@ -123,7 +123,7 @@ export default function MemberDetailPage() {
                 size="xl"
               />
               <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-nexus-text">{member.name}</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-mono">{member.uniqueId}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-mono">{member.uniqueId || 'No ID assigned'}</p>
               <div className="mt-3 flex items-center gap-2">
                 <Badge color={roleColors[member.role as keyof typeof roleColors] || 'gray'}>{member.role}</Badge>
                 {member.isVerified ? (

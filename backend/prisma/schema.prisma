@@ -10,7 +10,7 @@ datasource db {
 // User/Member Model
 model User {
   id              String   @id @default(uuid())
-  uniqueId        String   @unique // DAIC-SPRING-00001
+  uniqueId        String?  @unique // DAIC-SPRING-00001 — assigned on membership approval
   email           String   @unique
   password        String
   name            String
@@ -19,9 +19,11 @@ model User {
   batch           String?
   studentId       String?
   profileImage    String?
-  role            Role     @default(MEMBER)
+  role            Role     @default(VISITOR)
+  membershipStatus MembershipStatus @default(NONE)
   isVerified      Boolean  @default(false)
   verifyToken     String?
+  otpExpiresAt    DateTime?
   resetToken      String?
   resetTokenExpiry DateTime?
   points          Int      @default(0)
@@ -33,6 +35,7 @@ model User {
   projects        Project[]
   certificates    Certificate[]
   badges          UserBadge[]
+  membershipApplications MembershipApplication[]
   
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -340,6 +343,61 @@ model Newsletter {
   isActive  Boolean  @default(true)
   
   createdAt DateTime @default(now())
+}
+
+// Published Newsletter Posts (visible on website)
+model NewsletterPost {
+  id          String   @id @default(uuid())
+  subject     String
+  description String   @db.Text
+  coverImage  String?
+  pdfUrl      String?
+  pdfName     String?
+  sentCount   Int      @default(0)
+  totalCount  Int      @default(0)
+
+  createdAt   DateTime @default(now())
+}
+
+// Membership Applications
+model MembershipApplication {
+  id              String            @id @default(uuid())
+  userId          String
+  paymentMethod   PaymentMethod
+  transactionId   String
+  amount          Float             @default(0)
+  phoneNumber     String?           // bKash/Nagad/Rocket sender number
+  status          ApplicationStatus @default(PENDING)
+  rejectionReason String?           @db.Text
+  reviewedBy      String?           // Admin/Executive who reviewed
+  reviewedAt      DateTime?
+  
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+enum PaymentMethod {
+  BKASH
+  NAGAD
+  ROCKET
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MembershipStatus {
+  NONE
+  PENDING
+  ACTIVE
+  REJECTED
 }
 
 // Site Settings (for About page, etc.)

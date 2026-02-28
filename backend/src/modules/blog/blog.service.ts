@@ -10,6 +10,7 @@ interface CreateBlogData {
   category?: string;
   tags?: string[];
   authorId: string;
+  status?: BlogStatus;
 }
 
 interface BlogQuery {
@@ -40,7 +41,8 @@ export class BlogService {
         category: data.category,
         tags: data.tags ? JSON.stringify(data.tags) : null,
         authorId: data.authorId,
-        status: 'PENDING',
+        status: data.status || 'PENDING',
+        publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
       },
       include: {
         author: {
@@ -106,6 +108,14 @@ export class BlogService {
 
     if (query.status) {
       where.status = query.status;
+    }
+
+    if (query.search) {
+      where.OR = [
+        { title: { contains: query.search } },
+        { content: { contains: query.search } },
+        { category: { contains: query.search } },
+      ];
     }
 
     const [blogs, total] = await Promise.all([
@@ -183,7 +193,14 @@ export class BlogService {
         coverImage: data.coverImage,
         category: data.category,
         tags: data.tags ? JSON.stringify(data.tags) : undefined,
-        status: isAdmin ? undefined : 'PENDING', // Reset to pending on edit
+        status: isAdmin ? (data.status || undefined) : 'PENDING',
+        publishedAt: isAdmin
+          ? data.status === 'PUBLISHED'
+            ? new Date()
+            : data.status
+              ? null
+              : undefined
+          : undefined,
       },
     });
 

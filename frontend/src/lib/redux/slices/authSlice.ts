@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface User {
   id: string;
-  uniqueId: string;
+  uniqueId?: string | null;
   email: string;
   name: string;
   phone?: string;
@@ -11,12 +11,12 @@ export interface User {
   studentId?: string;
   profileImage?: string;
   role: 'VISITOR' | 'MEMBER' | 'EXECUTIVE' | 'ADMIN';
+  membershipStatus?: 'NONE' | 'PENDING' | 'ACTIVE' | 'REJECTED';
   points: number;
   isVerified: boolean;
   qrCode?: string;
   createdAt?: string;
   bio?: string;
-  membershipStatus?: string;
 }
 
 interface AuthState {

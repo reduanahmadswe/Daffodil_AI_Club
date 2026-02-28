@@ -1,10 +1,12 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import sharp from 'sharp';
 import { prisma } from '../../config/database.js';
 import { env } from '../../config/env.js';
-import { generateUniqueId, generateToken, validateDiuEmail } from '../../utils/helpers.js';
+import { generateToken, generateOTP, validateDiuEmail } from '../../utils/helpers.js';
 import { sendEmail, emailTemplates } from '../../utils/email.js';
 import { generateQRCode } from '../../utils/generators.js';
+import { mediaService } from '../media/media.service.js';
 
 interface RegisterData {
   name: string;
@@ -40,19 +42,16 @@ export class AuthService {
       throw new Error('Email already registered');
     }
 
-    // Generate unique member ID
-    const uniqueId = await generateUniqueId();
-
     // Hash password
     const hashedPassword = await bcrypt.hash(data.password, 12);
 
-    // Generate verification token
-    const verifyToken = generateToken(32);
+    // Generate 6-digit OTP with 10 minute expiry
+    const otp = generateOTP(6);
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    // Create user
+    // Create user (no uniqueId — assigned on membership approval)
     const user = await prisma.user.create({
       data: {
-        uniqueId,
         email: data.email.toLowerCase(),
         password: hashedPassword,
         name: data.name,
@@ -60,63 +59,98 @@ export class AuthService {
         department: data.department,
         batch: data.batch,
         studentId: data.studentId,
-        verifyToken,
-        role: 'MEMBER',
+        verifyToken: otp,
+        otpExpiresAt,
+        role: 'VISITOR',
+        membershipStatus: 'NONE',
       },
       select: {
         id: true,
-        uniqueId: true,
         email: true,
         name: true,
         role: true,
       },
     });
 
-    // Send verification email
-    const verifyUrl = `${env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
+    // Send OTP verification email
     await sendEmail({
       to: user.email,
-      subject: 'Verify your Daffodil AI Club account',
-      html: emailTemplates.verification(user.name, verifyUrl),
+      subject: 'Your Daffodil AI Club Verification Code',
+      html: emailTemplates.otpVerification(user.name, otp),
     });
 
     return {
       user,
-      message: 'Registration successful. Please check your email to verify your account.',
+      message: 'Registration successful. Please check your email for the OTP code.',
     };
   }
 
   /**
-   * Verify email
+   * Verify email with OTP
    */
-  async verifyEmail(token: string) {
-    const user = await prisma.user.findFirst({
-      where: { verifyToken: token },
+  async verifyEmail(email: string, otp: string) {
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
     });
 
     if (!user) {
-      throw new Error('Invalid or expired verification token');
+      throw new Error('User not found');
+    }
+
+    if (user.isVerified) {
+      throw new Error('Email already verified');
+    }
+
+    if (!user.verifyToken || user.verifyToken !== otp) {
+      throw new Error('Invalid OTP code');
+    }
+
+    if (!user.otpExpiresAt || user.otpExpiresAt < new Date()) {
+      throw new Error('OTP has expired. Please request a new one.');
     }
 
     // Update user as verified
-    await prisma.user.update({
+    const verifiedUser = await prisma.user.update({
       where: { id: user.id },
       data: {
         isVerified: true,
         verifyToken: null,
+        otpExpiresAt: null,
       },
     });
 
-    // Send welcome email
+    // Send welcome email (no member ID yet — that comes after membership approval)
     await sendEmail({
       to: user.email,
       subject: 'Welcome to Daffodil AI Club! 🎉',
-      html: emailTemplates.welcome(user.name, user.uniqueId),
+      html: emailTemplates.welcome(user.name),
     });
+
+    // Generate JWT token for auto-login after verification
+    const token = jwt.sign(
+      {
+        id: verifiedUser.id,
+        uniqueId: verifiedUser.uniqueId,
+        email: verifiedUser.email,
+        role: verifiedUser.role,
+      },
+      env.JWT_SECRET as string,
+      { expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'] }
+    );
 
     return {
       message: 'Email verified successfully. Welcome to Daffodil AI Club!',
-      uniqueId: user.uniqueId,
+      token,
+      user: {
+        id: verifiedUser.id,
+        uniqueId: verifiedUser.uniqueId,
+        email: verifiedUser.email,
+        name: verifiedUser.name,
+        role: verifiedUser.role,
+        membershipStatus: verifiedUser.membershipStatus,
+        profileImage: verifiedUser.profileImage,
+        points: verifiedUser.points,
+      },
     };
   }
 
@@ -163,6 +197,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
+        membershipStatus: user.membershipStatus,
         profileImage: user.profileImage,
         points: user.points,
       },
@@ -186,6 +221,7 @@ export class AuthService {
         studentId: true,
         profileImage: true,
         role: true,
+        membershipStatus: true,
         points: true,
         isVerified: true,
         createdAt: true,
@@ -199,7 +235,6 @@ export class AuthService {
             blogs: true,
             projects: true,
             eventRegistrations: true,
-            workshopRegistrations: true,
             certificates: true,
           },
         },
@@ -210,8 +245,8 @@ export class AuthService {
       throw new Error('User not found');
     }
 
-    // Generate QR code for member ID
-    const qrCode = await generateQRCode(user.uniqueId);
+    // Generate QR code for member ID (only if user has one)
+    const qrCode = user.uniqueId ? await generateQRCode(user.uniqueId) : null;
 
     return {
       ...user,
@@ -237,10 +272,106 @@ export class AuthService {
         email: true,
         name: true,
         phone: true,
+        studentId: true,
         department: true,
         batch: true,
         profileImage: true,
         role: true,
+        membershipStatus: true,
+        points: true,
+        isVerified: true,
+        createdAt: true,
+      },
+    });
+
+    return user;
+  }
+
+  /**
+   * Compress image to target size (50KB) using sharp
+   * Strategy: Use WebP format for best quality-to-size ratio,
+   * reduce dimensions gradually while keeping quality HIGH
+   */
+  private async compressImage(buffer: Buffer, targetSizeKB: number = 50): Promise<{ buffer: Buffer; mimeType: string; ext: string }> {
+    const targetBytes = targetSizeKB * 1024;
+
+    // Get original image metadata
+    const metadata = await sharp(buffer).metadata();
+    const originalWidth = metadata.width || 800;
+
+    // Step 1: Try WebP at high quality with progressively smaller sizes
+    // WebP gives much better quality-to-size ratio than JPEG
+    const dimensions = [
+      Math.min(originalWidth, 600),
+      Math.min(originalWidth, 500),
+      Math.min(originalWidth, 400),
+      Math.min(originalWidth, 350),
+      Math.min(originalWidth, 300),
+      Math.min(originalWidth, 250),
+    ];
+
+    for (const width of dimensions) {
+      // Try high quality first (90), then slightly lower (80, 75)
+      for (const quality of [90, 82, 75]) {
+        const compressed = await sharp(buffer)
+          .resize(width, width, { fit: 'inside', withoutEnlargement: true })
+          .webp({ quality, effort: 6 })
+          .toBuffer();
+
+        if (compressed.length <= targetBytes) {
+          return { buffer: compressed, mimeType: 'image/webp', ext: 'webp' };
+        }
+      }
+    }
+
+    // Fallback: smallest dimension with moderate quality WebP
+    const fallback = await sharp(buffer)
+      .resize(200, 200, { fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 70, effort: 6 })
+      .toBuffer();
+
+    return { buffer: fallback, mimeType: 'image/webp', ext: 'webp' };
+  }
+
+  /**
+   * Upload profile image - compress and save to Google Drive
+   */
+  async uploadProfileImage(userId: string, file: { buffer: Buffer; originalname: string; mimetype: string }) {
+    // Compress image to <= 50KB while preserving quality
+    const compressed = await this.compressImage(file.buffer);
+
+    // Generate a unique filename
+    const filename = `profile-${userId}-${Date.now()}.${compressed.ext}`;
+
+    // Upload to Google Drive
+    const driveResult = await mediaService.uploadImageToDrive({
+      buffer: compressed.buffer,
+      filename,
+      mimeType: compressed.mimeType,
+    });
+
+    // Use Google Drive thumbnail URL for fast loading
+    const profileImageUrl = `https://drive.google.com/thumbnail?id=${driveResult.id}&sz=w400`;
+
+    // Update user's profileImage in database
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { profileImage: profileImageUrl },
+      select: {
+        id: true,
+        uniqueId: true,
+        email: true,
+        name: true,
+        phone: true,
+        studentId: true,
+        department: true,
+        batch: true,
+        profileImage: true,
+        role: true,
+        membershipStatus: true,
+        points: true,
+        isVerified: true,
+        createdAt: true,
       },
     });
 
@@ -357,23 +488,23 @@ export class AuthService {
       throw new Error('Email already verified');
     }
 
-    // Generate new token
-    const verifyToken = generateToken(32);
+    // Generate new OTP with 10 minute expiry
+    const otp = generateOTP(6);
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await prisma.user.update({
       where: { id: user.id },
-      data: { verifyToken },
+      data: { verifyToken: otp, otpExpiresAt },
     });
 
-    // Send verification email
-    const verifyUrl = `${env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
+    // Send OTP verification email
     await sendEmail({
       to: user.email,
-      subject: 'Verify your Daffodil AI Club account',
-      html: emailTemplates.verification(user.name, verifyUrl),
+      subject: 'Your Daffodil AI Club Verification Code',
+      html: emailTemplates.otpVerification(user.name, otp),
     });
 
-    return { message: 'Verification email sent' };
+    return { message: 'A new OTP has been sent to your email' };
   }
 }
 

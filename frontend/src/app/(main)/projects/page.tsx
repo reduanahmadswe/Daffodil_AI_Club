@@ -21,6 +21,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import FadeContent from '@/components/FadeContent';
 import { projectsApi } from '@/lib/api';
 import { Project } from '@/types';
+import { resolveImageUrl } from '@/lib/utils';
 
 const categories = ['All', 'Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'Web App'];
 const statuses = ['All', 'In Progress', 'Completed'];
@@ -181,7 +182,7 @@ export default function ProjectsPage() {
                     <div className="aspect-video bg-gradient-to-br from-[#FF4FD8] to-[#7B61FF] relative overflow-hidden">
                       {project.image && (
                         <img
-                          src={project.image}
+                          src={resolveImageUrl(project.image, project.title) || project.image}
                           alt={project.title}
                           className="w-full h-full object-cover"
                         />

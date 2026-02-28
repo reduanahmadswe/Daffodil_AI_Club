@@ -17,10 +17,10 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
-  { href: '/workshops', label: 'Workshops' },
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Blog' },
   { href: '/gallery', label: 'Gallery' },
+  { href: '/newsletter', label: 'Newsletter' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -133,7 +133,11 @@ export const Navbar = () => {
                     >
                       <div className="p-4 border-b border-nexus-border">
                         <p className="font-semibold text-nexus-text">{user.name}</p>
-                        <p className="text-sm text-nexus-purple">{user.uniqueId}</p>
+                        {user.uniqueId ? (
+                          <p className="text-sm text-nexus-purple">{user.uniqueId}</p>
+                        ) : (
+                          <p className="text-sm text-nexus-text-secondary capitalize">{user.role.toLowerCase()}</p>
+                        )}
                       </div>
                       <div className="p-2">
                         <Link

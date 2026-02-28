@@ -282,7 +282,7 @@ export default function AdminEventsPage() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-end gap-1">
-                        <Link href={`/events/${event.slug}`}>
+                        <Link href={`/events/${event.slug || event.id}`}>
                           <Button variant="ghost" size="sm" className="p-2">
                             <Eye className="w-4 h-4" />
                           </Button>

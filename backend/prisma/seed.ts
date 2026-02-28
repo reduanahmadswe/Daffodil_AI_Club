@@ -15,9 +15,10 @@ async function main() {
       password: adminPassword,
       role: 'ADMIN',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
     },
     create: {
-      uniqueId: 'DAIC-ADMIN-00001',
+      uniqueId: 'DAIC-CSE-00001',
       email: 'admin@diu.edu.bd',
       password: adminPassword,
       name: 'Admin User',
@@ -27,6 +28,7 @@ async function main() {
       studentId: 'ADM-000001',
       role: 'ADMIN',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
       points: 100,
     },
   });
@@ -42,9 +44,10 @@ async function main() {
       password: execPassword,
       role: 'EXECUTIVE',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
     },
     create: {
-      uniqueId: 'DAIC-EXEC-00001',
+      uniqueId: 'DAIC-SWE-00002',
       email: 'executive@diu.edu.bd',
       password: execPassword,
       name: 'Executive User',
@@ -54,6 +57,7 @@ async function main() {
       studentId: 'EXC-000001',
       role: 'EXECUTIVE',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
       points: 50,
     },
   });
@@ -69,9 +73,10 @@ async function main() {
       password: memberPassword,
       role: 'MEMBER',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
     },
     create: {
-      uniqueId: 'DAIC-SEED-MBR-001',
+      uniqueId: 'DAIC-CSE-00003',
       email: 'member@diu.edu.bd',
       password: memberPassword,
       name: 'Member User',
@@ -81,17 +86,47 @@ async function main() {
       studentId: 'MBR-000001',
       role: 'MEMBER',
       isVerified: true,
+      membershipStatus: 'ACTIVE',
       points: 25,
     },
   });
 
   console.log(`✅ Member user created/updated: ${member.email} (${member.role})`);
 
+  // Create demo visitor user
+  const visitorPassword = await bcrypt.hash('visitor123456', 12);
+
+  const visitor = await prisma.user.upsert({
+    where: { email: 'visitor@diu.edu.bd' },
+    update: {
+      password: visitorPassword,
+      role: 'VISITOR',
+      isVerified: true,
+      membershipStatus: 'NONE',
+    },
+    create: {
+      email: 'visitor@diu.edu.bd',
+      password: visitorPassword,
+      name: 'Visitor User',
+      phone: '01733333333',
+      department: 'SWE',
+      batch: '53',
+      studentId: 'VST-000001',
+      role: 'VISITOR',
+      isVerified: true,
+      membershipStatus: 'NONE',
+      points: 0,
+    },
+  });
+
+  console.log(`✅ Visitor user created/updated: ${visitor.email} (${visitor.role})`);
+
   console.log('\n🎉 Seed completed successfully!');
   console.log('\n📋 Demo Credentials:');
   console.log('  Admin:     admin@diu.edu.bd     / admin123456');
   console.log('  Executive: executive@diu.edu.bd / exec123456');
   console.log('  Member:    member@diu.edu.bd    / member123456');
+  console.log('  Visitor:   visitor@diu.edu.bd   / visitor123456');
 }
 
 main()

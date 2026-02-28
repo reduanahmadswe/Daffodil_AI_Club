@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardSidebar } from '@/components/layout/DashboardSidebar';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { updateUser } from '@/lib/redux/slices/authSlice';
+import { authApi } from '@/lib/api';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function DashboardLayout({
@@ -12,18 +14,45 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { isAuthenticated, hasHydrated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated, hasHydrated } = useAppSelector((state) => state.auth);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Re-fetch profile to catch role/membership changes (e.g. after admin approval)
+  useEffect(() => {
+    if (hasHydrated && isAuthenticated) {
+      authApi.getProfile().then((res) => {
+        const profile = res.data.data || res.data;
+        if (profile && user) {
+          // Update Redux if role or membershipStatus changed
+          if (profile.role !== user.role || profile.membershipStatus !== user.membershipStatus) {
+            dispatch(updateUser({
+              role: profile.role,
+              membershipStatus: profile.membershipStatus,
+            }));
+            // Update cookie for middleware routing
+            if (typeof window !== 'undefined') {
+              document.cookie = `auth-role=${profile.role}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
+            }
+          }
+        }
+      }).catch(() => {
+        // Silently ignore — network error or token expired
+      });
+    }
+  }, [hasHydrated, isAuthenticated]);
+
   useEffect(() => {
     if (hasHydrated && !isAuthenticated) {
-      router.push('/login');
+      window.location.href = '/login';
+    } else if (hasHydrated && isAuthenticated && (user?.role === 'ADMIN' || user?.role === 'EXECUTIVE')) {
+      window.location.href = '/admin';
     }
-  }, [isAuthenticated, hasHydrated, router]);
+  }, [isAuthenticated, hasHydrated, user]);
 
   // Wait for client-side hydration
   if (!mounted || !hasHydrated) {

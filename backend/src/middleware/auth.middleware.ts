@@ -6,7 +6,7 @@ import { prisma } from '../config/database.js';
 export interface AuthRequest extends Request {
   user?: {
     id: string;
-    uniqueId: string;
+    uniqueId: string | null;
     email: string;
     role: string;
   };
@@ -34,7 +34,7 @@ export const authenticate = async (
     
     const decoded = jwt.verify(token, env.JWT_SECRET) as {
       id: string;
-      uniqueId: string;
+      uniqueId: string | null;
       email: string;
       role: string;
     };
@@ -100,7 +100,7 @@ export const optionalAuth = async (
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, env.JWT_SECRET) as {
       id: string;
-      uniqueId: string;
+      uniqueId: string | null;
       email: string;
       role: string;
     };

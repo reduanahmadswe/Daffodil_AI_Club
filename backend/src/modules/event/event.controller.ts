@@ -2,6 +2,21 @@ import { Request, Response } from 'express';
 import { eventService } from './event.service.js';
 import { AuthRequest } from '../../middleware/auth.middleware.js';
 
+// Transform Prisma event to frontend-friendly format
+function transformEvent(event: any) {
+  if (!event) return event;
+  const { date, capacity, _count, ...rest } = event;
+  return {
+    ...rest,
+    date,
+    startDate: date,
+    capacity,
+    maxParticipants: capacity,
+    registeredCount: _count?.registrations ?? 0,
+    _count,
+  };
+}
+
 export class EventController {
   /**
    * POST /api/events
@@ -13,7 +28,7 @@ export class EventController {
       return res.status(201).json({
         success: true,
         message: 'Event created successfully',
-        data: event,
+        data: transformEvent(event),
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to create event';
@@ -42,7 +57,7 @@ export class EventController {
       
       return res.status(200).json({
         success: true,
-        data: result.events,
+        data: result.events.map(transformEvent),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -70,7 +85,7 @@ export class EventController {
       
       return res.status(200).json({
         success: true,
-        data: result.events,
+        data: result.events.map(transformEvent),
         pagination: result.pagination,
       });
     } catch (error) {
@@ -92,7 +107,7 @@ export class EventController {
       
       return res.status(200).json({
         success: true,
-        data: events,
+        data: events.map(transformEvent),
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to fetch events';
@@ -112,7 +127,7 @@ export class EventController {
       
       return res.status(200).json({
         success: true,
-        data: event,
+        data: transformEvent(event),
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Event not found';
@@ -133,7 +148,7 @@ export class EventController {
       return res.status(200).json({
         success: true,
         message: 'Event updated successfully',
-        data: event,
+        data: transformEvent(event),
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to update event';

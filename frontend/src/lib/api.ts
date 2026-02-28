@@ -31,8 +31,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Dispatch logout action to Redux store
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      // 401 = token expired/invalid, 403 = role changed/email unverified
+      // Both mean the session is stale — force re-login
       store.dispatch(logout());
       
       if (typeof window !== 'undefined') {
@@ -47,9 +48,16 @@ api.interceptors.response.use(
 export const authApi = {
   register: (data: any) => api.post('/auth/register', data),
   login: (data: any) => api.post('/auth/login', data),
-  verifyEmail: (token: string) => api.post('/auth/verify-email', { token }),
+  verifyEmail: (email: string, otp: string) => api.post('/auth/verify-email', { email, otp }),
   getProfile: () => api.get('/auth/profile'),
   updateProfile: (data: any) => api.put('/auth/profile', data),
+  uploadProfileImage: (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return api.post('/auth/profile-image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
   forgotPassword: (email: string) => api.post('/auth/forgot-password', { email }),
   resetPassword: (token: string, password: string) => api.post('/auth/reset-password', { token, password }),
   changePassword: (currentPassword: string, newPassword: string) =>
@@ -98,18 +106,6 @@ export const membersApi = {
   updateRole: (id: string, role: string) => api.patch(`/members/${id}/role`, { role }),
 };
 
-// Workshops API
-export const workshopsApi = {
-  getAll: (params?: any) => api.get('/workshops', { params }),
-  getById: (id: string) => api.get(`/workshops/${id}`),
-  getBySlug: (slug: string) => api.get(`/workshops/${slug}`),
-  create: (data: any) => api.post('/workshops', data),
-  update: (id: string, data: any) => api.put(`/workshops/${id}`, data),
-  delete: (id: string) => api.delete(`/workshops/${id}`),
-  register: (id: string) => api.post(`/workshops/${id}/register`),
-  getMyWorkshops: () => api.get('/workshops/my'),
-};
-
 // Projects API
 export const projectsApi = {
   getAll: (params?: any) => api.get('/projects', { params }),
@@ -144,6 +140,50 @@ export const contactApi = {
   send: (data: any) => api.post('/contact/send', data), // Added alias for submit
 };
 
+export const mediaApi = {
+  uploadDriveImage: (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    return api.post('/media/drive-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  uploadDrivePdf: (file: File) => {
+    const formData = new FormData();
+    formData.append('pdf', file);
+
+    return api.post('/media/drive-pdf', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+};
+
+export const newsletterApi = {
+  getSubscribers: () => api.get('/contact/newsletter/subscribers'),
+  send: (data: { subject: string; description: string; coverImage?: string; pdfUrl?: string; pdfName?: string }) =>
+    api.post('/contact/newsletter/send', data),
+  getPosts: (params?: any) => api.get('/contact/newsletter/posts', { params }),
+  getPostById: (id: string) => api.get(`/contact/newsletter/posts/${id}`),
+  deletePost: (id: string) => api.delete(`/contact/newsletter/posts/${id}`),
+};
+
+export const membershipApi = {
+  apply: (data: { paymentMethod: string; transactionId: string; amount: number; phoneNumber?: string }) =>
+    api.post('/membership/apply', data),
+  getMyStatus: () => api.get('/membership/my-status'),
+  getApplications: (params?: any) => api.get('/membership/applications', { params }),
+  getApplicationById: (id: string) => api.get(`/membership/applications/${id}`),
+  approve: (id: string) => api.post(`/membership/applications/${id}/approve`),
+  reject: (id: string, reason?: string) => api.post(`/membership/applications/${id}/reject`, { reason }),
+  getStats: () => api.get('/membership/stats'),
+  directApprove: (userId: string) => api.post(`/membership/direct-approve/${userId}`),
+};
+
 // Admin API (aggregated endpoints)
 export const adminApi = {
   // Dashboard stats
@@ -157,24 +197,18 @@ export const adminApi = {
   deleteMember: (id: string) => api.delete(`/members/${id}`),
 
   // Events management
-  getEvents: (params?: any) => api.get('/events', { params }),
+  getEvents: (params?: any) => api.get('/events/admin/all', { params }),
   createEvent: (data: any) => api.post('/events', data),
   updateEvent: (id: string, data: any) => api.put(`/events/${id}`, data),
   deleteEvent: (id: string) => api.delete(`/events/${id}`),
 
   // Blogs management
-  getBlogs: (params?: any) => api.get('/blogs', { params }),
+  getBlogs: (params?: any) => api.get('/blogs/admin/all', { params }),
   createBlog: (data: any) => api.post('/blogs', data),
   updateBlog: (id: string, data: any) => api.put(`/blogs/${id}`, data),
   deleteBlog: (id: string) => api.delete(`/blogs/${id}`),
   approveBlog: (id: string) => api.post(`/blogs/${id}/approve`),
   rejectBlog: (id: string) => api.post(`/blogs/${id}/reject`),
-
-  // Workshops management
-  getWorkshops: (params?: any) => api.get('/workshops', { params }),
-  createWorkshop: (data: any) => api.post('/workshops', data),
-  updateWorkshop: (id: string, data: any) => api.put(`/workshops/${id}`, data),
-  deleteWorkshop: (id: string) => api.delete(`/workshops/${id}`),
 
   // Projects management
   getProjects: (params?: any) => api.get('/projects', { params }),

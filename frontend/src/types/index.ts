@@ -1,6 +1,6 @@
 export interface User {
   id: string;
-  uniqueId: string;
+  uniqueId?: string | null;
   email: string;
   name: string;
   phone?: string;
@@ -9,6 +9,7 @@ export interface User {
   studentId?: string;
   profileImage?: string;
   role: 'VISITOR' | 'MEMBER' | 'EXECUTIVE' | 'ADMIN';
+  membershipStatus?: 'NONE' | 'PENDING' | 'ACTIVE' | 'REJECTED';
   points: number;
   isVerified: boolean;
   createdAt: string;
@@ -285,4 +286,38 @@ export interface Stats {
   totalWorkshops: number;
   totalBlogs: number;
   totalProjects: number;
+}
+
+export type PaymentMethod = 'BKASH' | 'NAGAD' | 'ROCKET';
+export type ApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type MembershipStatusType = 'NONE' | 'PENDING' | 'ACTIVE' | 'REJECTED';
+
+export interface MembershipApplication {
+  id: string;
+  userId: string;
+  paymentMethod: PaymentMethod;
+  transactionId: string;
+  amount: number;
+  phoneNumber?: string;
+  status: ApplicationStatus;
+  rejectionReason?: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  user?: User;
+}
+
+export interface MembershipStats {
+  totalApplications: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+  totalMembers: number;
+}
+
+export interface MembershipStatusResponse {
+  role: string;
+  membershipStatus: MembershipStatusType;
+  applications: MembershipApplication[];
 }

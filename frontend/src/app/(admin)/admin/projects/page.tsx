@@ -97,7 +97,10 @@ export default function AdminProjectsPage() {
     return () => clearTimeout(debounce);
   }, [fetchProjects]);
 
-  const getTeam = (p: Project) => p.teamMembers || p.members || [];
+  const getTeam = (p: Project) => {
+    const team = p.teamMembers || p.members || [];
+    return Array.isArray(team) ? team : [];
+  };
 
   const stats = {
     total: projects.length,
@@ -282,7 +285,7 @@ export default function AdminProjectsPage() {
                           <p className="text-sm text-gray-500 max-w-xs truncate">
                             {project.shortDescription || project.description}
                           </p>
-                          {project.technologies && project.technologies.length > 0 && (
+                          {Array.isArray(project.technologies) && project.technologies.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-2">
                               {project.technologies.slice(0, 3).map((tech) => (
                                 <span 

@@ -12,7 +12,9 @@ import {
   TrendingUp,
   Clock,
   Bell,
-  CheckCircle
+  CheckCircle,
+  Shield,
+  AlertCircle
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -42,6 +44,8 @@ const recentActivity = [
 export default function DashboardPage() {
   const { user } = useAppSelector((state) => state.auth);
 
+  const isMember = user?.role === 'MEMBER' || user?.role === 'EXECUTIVE' || user?.role === 'ADMIN';
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -54,15 +58,90 @@ export default function DashboardPage() {
             Here's what's happening with your AI Club activities
           </p>
         </div>
-        <Link href="/dashboard/id-card">
-          <Button variant="primary">
-            <CreditCard className="w-4 h-4 mr-2" />
-            View ID Card
-          </Button>
-        </Link>
+        {isMember && (
+          <Link href="/dashboard/id-card">
+            <Button variant="primary">
+              <CreditCard className="w-4 h-4 mr-2" />
+              View ID Card
+            </Button>
+          </Link>
+        )}
       </div>
 
-      {/* Member ID Banner */}
+      {/* Membership Status Banner for non-members */}
+      {!isMember && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {/* Visitor - No application */}
+          {(!user?.membershipStatus || user?.membershipStatus === 'NONE') && (
+            <div className="relative overflow-hidden rounded-2xl border border-nexus-purple/30 bg-gradient-to-r from-nexus-purple/10 via-nexus-purple/5 to-transparent p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-nexus-purple/20 flex items-center justify-center shrink-0">
+                  <Shield className="w-7 h-7 text-nexus-purple" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text">Become a Member</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    You're currently a visitor. Apply for membership to unlock ID cards, certificates, and exclusive benefits!
+                  </p>
+                </div>
+                <Link href="/membership">
+                  <Button variant="primary" className="shrink-0">
+                    Apply Now
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Pending application */}
+          {user?.membershipStatus === 'PENDING' && (
+            <div className="relative overflow-hidden rounded-2xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-yellow-500/5 to-transparent p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-yellow-500/20 flex items-center justify-center shrink-0">
+                  <Clock className="w-7 h-7 text-yellow-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text">Application Under Review</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Your membership application is being reviewed. We'll notify you once it's been processed.
+                  </p>
+                </div>
+                <Badge color="yellow" className="shrink-0 text-sm px-3 py-1">Pending</Badge>
+              </div>
+            </div>
+          )}
+
+          {/* Rejected application */}
+          {user?.membershipStatus === 'REJECTED' && (
+            <div className="relative overflow-hidden rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-500/10 via-red-500/5 to-transparent p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-red-500/20 flex items-center justify-center shrink-0">
+                  <AlertCircle className="w-7 h-7 text-red-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-nexus-text">Application Rejected</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Your previous application was not approved. You can review the reason and submit a new application.
+                  </p>
+                </div>
+                <Link href="/membership">
+                  <Button variant="outline" className="shrink-0 border-red-500/50 text-red-400 hover:bg-red-500/10">
+                    Reapply
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
+
+      {/* Member ID Banner - only for members */}
+      {isMember && (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -74,7 +153,7 @@ export default function DashboardPage() {
             <Avatar src={user?.profileImage} name={user?.name || ''} size="lg" />
             <div className="text-nexus-text">
               <p className="text-sm opacity-80">Your Member ID</p>
-              <p className="text-2xl font-mono font-bold">{user?.uniqueId || 'DAIC-SPRING-00001'}</p>
+              <p className="text-2xl font-mono font-bold">{user?.uniqueId || 'N/A'}</p>
               <p className="text-sm opacity-80 mt-1">{user?.department} • Batch {user?.batch}</p>
             </div>
           </div>
@@ -86,6 +165,7 @@ export default function DashboardPage() {
           </Link>
         </div>
       </motion.div>
+      )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -208,10 +288,10 @@ export default function DashboardPage() {
                 <span>Edit Profile</span>
               </Button>
             </Link>
-            <Link href="/workshops">
+            <Link href="/events">
               <Button variant="outline" className="w-full h-auto py-4 flex-col gap-2">
                 <TrendingUp className="w-6 h-6 text-orange-600" />
-                <span>Workshops</span>
+                <span>Events</span>
               </Button>
             </Link>
           </div>

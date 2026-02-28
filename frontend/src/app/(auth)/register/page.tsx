@@ -84,7 +84,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const {
     register,
@@ -100,58 +99,20 @@ export default function RegisterPage() {
 
     try {
       await authApi.register(data);
-      setSuccess(true);
+      // Redirect to OTP verification page with email
+      router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      const errData = err.response?.data;
+      if (errData?.errors?.length) {
+        const fieldErrors = errData.errors.map((e: any) => e.message).join(', ');
+        setError(fieldErrors);
+      } else {
+        setError(errData?.message || 'Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
   };
-
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-nexus-bg relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
-        {/* Background Orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="orb orb-green w-[600px] h-[600px] top-[-10%] left-[-10%] opacity-30 blur-[100px] animate-pulse-slow" />
-          <div className="orb orb-cyan w-[600px] h-[600px] bottom-[-10%] right-[-10%] opacity-30 blur-[100px] animate-pulse-slow delay-1000" />
-        </div>
-
-        {/* Grid Overlay */}
-        <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full relative z-10"
-        >
-          <div className="glass rounded-3xl p-8 border border-nexus-border shadow-2xl shadow-green-500/10 backdrop-blur-xl bg-black/40 text-center">
-            <div className="w-20 h-20 mx-auto mb-6 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 shadow-glow-green">
-              <Mail className="w-10 h-10 text-green-400" />
-            </div>
-            <h2 className="text-2xl font-bold text-nexus-text mb-4">Check Your Email!</h2>
-            <p className="text-nexus-text-secondary mb-6">
-              We've sent a verification link to your DIU email. Please click the link to verify
-              your account and complete registration.
-            </p>
-            <div className="p-4 rounded-xl bg-nexus-glass border border-nexus-border mb-8">
-              <p className="text-sm text-nexus-text-muted">
-                After verification, you'll receive your unique AI Club Member ID!
-              </p>
-            </div>
-            <Link href="/login" className="block w-full">
-              <Button
-                variant="ghost"
-                className="w-full h-12 text-base font-semibold border border-green-500/30 bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:border-green-500/50 transition-all"
-              >
-                Go to Login
-              </Button>
-            </Link>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-nexus-bg relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">

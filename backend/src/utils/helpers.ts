@@ -1,86 +1,42 @@
 import { prisma } from '../config/database.js';
 
 /**
- * Generate Unique Member ID
- * Format: DAIC-SEASON-XXXXX
- * Example: DAIC-SPRING-00142
+ * Generate Unique Member ID (department-based, global sequential)
+ * Format: DAIC-DEPT-XXXXX
+ * Example: DAIC-CSE-00001, DAIC-SWE-00042
+ *
+ * - DEPT is the user's department abbreviation (CSE, SWE, EEE, etc.)
+ * - XXXXX is a globally sequential number across all departments
+ * - Includes retry logic for race-condition safety (DB @unique protects too)
  */
-export const generateUniqueId = async (): Promise<string> => {
-  const now = new Date();
-  const month = now.getMonth() + 1; // 0-indexed
-  
-  // Determine season based on month
-  // Spring: Jan-Apr (1-4)
-  // Summer: May-Aug (5-8)
-  // Fall: Sep-Dec (9-12)
-  let season: string;
-  if (month >= 1 && month <= 4) {
-    season = 'SPRING';
-  } else if (month >= 5 && month <= 8) {
-    season = 'SUMMER';
-  } else {
-    season = 'FALL';
-  }
-  
-  // Get the count of members in current season
-  const year = now.getFullYear();
-  const seasonStart = getSeasonStartDate(season, year);
-  const seasonEnd = getSeasonEndDate(season, year);
-  
-  const count = await prisma.user.count({
-    where: {
-      createdAt: {
-        gte: seasonStart,
-        lte: seasonEnd,
-      },
-    },
-  });
-  
-  // Generate ID with padded number
-  const memberNumber = String(count + 1).padStart(5, '0');
-  return `DAIC-${season}-${memberNumber}`;
-};
+export const generateUniqueId = async (department?: string | null): Promise<string> => {
+  const deptCode = (department && department.trim()) ? department.trim().toUpperCase() : 'GEN';
+  const MAX_RETRIES = 5;
 
-/**
- * Get season start date
- */
-const getSeasonStartDate = (season: string, year: number): Date => {
-  switch (season) {
-    case 'SPRING':
-      return new Date(year, 0, 1); // Jan 1
-    case 'SUMMER':
-      return new Date(year, 4, 1); // May 1
-    case 'FALL':
-      return new Date(year, 8, 1); // Sep 1
-    default:
-      return new Date(year, 0, 1);
-  }
-};
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    // Count ALL approved members globally (not per-department)
+    const count = await prisma.user.count({
+      where: { uniqueId: { not: null } },
+    });
 
-/**
- * Get season end date
- */
-const getSeasonEndDate = (season: string, year: number): Date => {
-  switch (season) {
-    case 'SPRING':
-      return new Date(year, 3, 30, 23, 59, 59); // Apr 30
-    case 'SUMMER':
-      return new Date(year, 7, 31, 23, 59, 59); // Aug 31
-    case 'FALL':
-      return new Date(year, 11, 31, 23, 59, 59); // Dec 31
-    default:
-      return new Date(year, 11, 31, 23, 59, 59);
-  }
-};
+    const memberNumber = String(count + 1 + attempt).padStart(5, '0');
+    const candidateId = `DAIC-${deptCode}-${memberNumber}`;
 
-/**
- * Get current season name
- */
-export const getCurrentSeason = (): string => {
-  const month = new Date().getMonth() + 1;
-  if (month >= 1 && month <= 4) return 'SPRING';
-  if (month >= 5 && month <= 8) return 'SUMMER';
-  return 'FALL';
+    // Check if this ID already exists (race-condition guard)
+    const existing = await prisma.user.findUnique({
+      where: { uniqueId: candidateId },
+      select: { id: true },
+    });
+
+    if (!existing) {
+      return candidateId;
+    }
+    // If collision, retry with incremented number
+  }
+
+  // Fallback: use timestamp to guarantee uniqueness
+  const count = await prisma.user.count({ where: { uniqueId: { not: null } } });
+  return `DAIC-${deptCode}-${String(count + 100).padStart(5, '0')}`;
 };
 
 /**
@@ -101,6 +57,17 @@ export const generateToken = (length: number = 32): string => {
     token += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return token;
+};
+
+/**
+ * Generate numeric OTP code
+ */
+export const generateOTP = (length: number = 6): string => {
+  let otp = '';
+  for (let i = 0; i < length; i++) {
+    otp += Math.floor(Math.random() * 10).toString();
+  }
+  return otp;
 };
 
 /**

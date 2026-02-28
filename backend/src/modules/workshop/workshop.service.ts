@@ -1,6 +1,13 @@
 import { prisma } from '../../config/database.js';
 import { generateSlug } from '../../utils/helpers.js';
 
+function sanitizeSyllabus(value: any): string | null {
+  if (value === null || value === undefined) return null;
+  if (Array.isArray(value)) return value.length > 0 ? JSON.stringify(value) : null;
+  if (typeof value === 'string') return value.trim() || null;
+  return JSON.stringify(value);
+}
+
 export class WorkshopService {
   async createWorkshop(data: any) {
     let slug = generateSlug(data.title);
@@ -13,6 +20,7 @@ export class WorkshopService {
       data: {
         ...data,
         slug,
+        syllabus: sanitizeSyllabus(data.syllabus),
         startDate: new Date(data.startDate),
         endDate: data.endDate ? new Date(data.endDate) : null,
       },
@@ -73,6 +81,7 @@ export class WorkshopService {
       where: { id },
       data: {
         ...data,
+        syllabus: data.syllabus !== undefined ? sanitizeSyllabus(data.syllabus) : undefined,
         startDate: data.startDate ? new Date(data.startDate) : undefined,
         endDate: data.endDate ? new Date(data.endDate) : undefined,
       },

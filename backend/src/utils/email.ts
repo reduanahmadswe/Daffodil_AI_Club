@@ -11,10 +11,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+interface EmailAttachment {
+  filename: string;
+  path?: string;
+  content?: Buffer;
+  contentType?: string;
+}
+
 interface EmailOptions {
   to: string;
   subject: string;
   html: string;
+  attachments?: EmailAttachment[];
 }
 
 export const sendEmail = async (options: EmailOptions): Promise<boolean> => {
@@ -24,6 +32,7 @@ export const sendEmail = async (options: EmailOptions): Promise<boolean> => {
       to: options.to,
       subject: options.subject,
       html: options.html,
+      attachments: options.attachments,
     });
     return true;
   } catch (error) {
@@ -34,6 +43,43 @@ export const sendEmail = async (options: EmailOptions): Promise<boolean> => {
 
 // Email Templates
 export const emailTemplates = {
+  otpVerification: (name: string, otp: string) => `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 10px; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 30px; text-align: center; }
+        .header h1 { color: white; margin: 0; }
+        .content { padding: 30px; }
+        .otp-box { background: #f8f9fa; border: 2px dashed #6366f1; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0; }
+        .otp-code { font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #6366f1; font-family: 'Courier New', monospace; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>🤖 Daffodil AI Club</h1>
+        </div>
+        <div class="content">
+          <h2>Welcome, ${name}! 🎉</h2>
+          <p>Thank you for registering with Daffodil AI Club. Use the OTP code below to verify your email address:</p>
+          <div class="otp-box">
+            <div class="otp-code">${otp}</div>
+          </div>
+          <p style="color: #666; font-size: 14px;">This code will expire in <strong>10 minutes</strong>.</p>
+          <p style="color: #666; font-size: 14px;">If you didn't create an account, please ignore this email.</p>
+        </div>
+        <div class="footer">
+          <p>Daffodil AI Club - Daffodil International University</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `,
+
   verification: (name: string, verifyUrl: string) => `
     <!DOCTYPE html>
     <html>
@@ -69,7 +115,7 @@ export const emailTemplates = {
     </html>
   `,
 
-  welcome: (name: string, uniqueId: string) => `
+  welcome: (name: string) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -79,32 +125,32 @@ export const emailTemplates = {
         .header { background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 30px; text-align: center; }
         .header h1 { color: white; margin: 0; }
         .content { padding: 30px; }
-        .id-card { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 20px; border-radius: 10px; color: white; text-align: center; margin: 20px 0; }
-        .id-card h3 { margin: 0 0 10px; font-size: 14px; opacity: 0.8; }
-        .id-card .id { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
+        .info-card { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 20px; border-radius: 10px; color: white; text-align: center; margin: 20px 0; }
+        .info-card p { margin: 8px 0; font-size: 15px; opacity: 0.9; }
+        .info-card .highlight { font-size: 18px; font-weight: bold; opacity: 1; }
         .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; }
       </style>
     </head>
     <body>
       <div class="container">
         <div class="header">
-          <h1>🤖 Welcome to AI Club!</h1>
+          <h1>🤖 Welcome to Daffodil AI Club!</h1>
         </div>
         <div class="content">
           <h2>Congratulations, ${name}! 🎉</h2>
-          <p>Your email has been verified successfully. You are now an official member of Daffodil AI Club!</p>
-          <div class="id-card">
-            <h3>YOUR MEMBER ID</h3>
-            <div class="id">${uniqueId}</div>
+          <p>Your email has been verified successfully. Welcome to the Daffodil AI Club community!</p>
+          <div class="info-card">
+            <p class="highlight">Want to become an official club member?</p>
+            <p>Apply for membership from your dashboard to get your unique Member ID, digital ID card, and access to exclusive benefits!</p>
           </div>
-          <p>With this ID, you can:</p>
+          <p>As a verified user, you can:</p>
           <ul>
-            <li>Register for events & workshops</li>
-            <li>Access exclusive resources</li>
-            <li>Earn points & badges</li>
-            <li>Get certificates</li>
+            <li>Browse upcoming events & workshops</li>
+            <li>Explore club resources</li>
+            <li>Apply for club membership</li>
+            <li>Stay connected with the AI community</li>
           </ul>
-          <p>Start exploring the club activities now!</p>
+          <p>Visit your dashboard to get started!</p>
         </div>
         <div class="footer">
           <p>Daffodil AI Club - Daffodil International University</p>

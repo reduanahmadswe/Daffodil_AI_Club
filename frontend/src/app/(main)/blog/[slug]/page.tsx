@@ -24,7 +24,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { blogsApi } from '@/lib/api';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Blog, Comment } from '@/types';
-import { formatDate, formatRelativeTime } from '@/lib/utils';
+import { formatDate, formatRelativeTime, resolveImageUrl } from '@/lib/utils';
 
 // Mock data
 const mockBlog: Blog = {
@@ -247,7 +247,7 @@ export default function BlogDetailPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-nexus-text mb-6 break-words">
               {blog.title}
             </h1>
 
@@ -271,12 +271,12 @@ export default function BlogDetailPage() {
       </section>
 
       {/* Featured Image */}
-      {blog.coverImage && (
+      {(blog.coverImage || blog.image) && (
         <section className="relative bg-black">
           <div className="container-custom max-w-5xl">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/20">
               <img
-                src={blog.coverImage}
+                src={resolveImageUrl(blog.coverImage || blog.image, blog.title) || blog.coverImage || blog.image}
                 alt={blog.title}
                 className="w-full max-h-[500px] object-cover"
               />
@@ -322,7 +322,7 @@ export default function BlogDetailPage() {
               <div className="lg:col-span-11">
                 <div className="glass rounded-2xl p-8 md:p-12 mb-12">
                   {/* Article Content */}
-                  <article className="prose prose-invert prose-lg max-w-none prose-headings:text-nexus-text prose-p:text-nexus-text-secondary prose-strong:text-nexus-text prose-a:text-nexus-blue">
+                  <article className="prose prose-invert prose-lg max-w-none break-words overflow-hidden prose-headings:text-nexus-text prose-p:text-nexus-text-secondary prose-strong:text-nexus-text prose-a:text-nexus-blue">
                     {blog.content.split('\n').map((line, index) => {
                       if (line.startsWith('# ')) {
                         return <h1 key={index} className="text-3xl font-bold mb-6 text-nexus-text">{line.slice(2)}</h1>;

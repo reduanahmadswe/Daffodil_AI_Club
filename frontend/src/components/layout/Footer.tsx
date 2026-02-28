@@ -8,7 +8,6 @@ const footerLinks = {
   quickLinks: [
     { href: '/about', label: 'About Us' },
     { href: '/events', label: 'Events' },
-    { href: '/workshops', label: 'Workshops' },
     { href: '/projects', label: 'Projects' },
     { href: '/blog', label: 'Blog' },
     { href: '/gallery', label: 'Gallery' },
@@ -16,6 +15,7 @@ const footerLinks = {
   resources: [
     { href: '/membership', label: 'Join Club' },
     { href: '/executives', label: 'Executive Panel' },
+    { href: '/newsletter', label: 'Newsletter' },
     { href: '/resources', label: 'Learning Resources' },
     { href: '/faq', label: 'FAQ' },
     { href: '/contact', label: 'Contact Us' },

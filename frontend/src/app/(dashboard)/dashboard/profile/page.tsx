@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   User,
@@ -36,9 +36,11 @@ export default function ProfilePage() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
       name: user?.name || '',
       phone: user?.phone || '',
@@ -48,18 +50,65 @@ export default function ProfilePage() {
     }
   });
 
+  // Sync form when user data loads/changes
+  React.useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name || '',
+        phone: user.phone || '',
+        department: user.department || '',
+        batch: user.batch || '',
+        bio: (user as any).bio || '',
+      });
+    }
+  }, [user, reset]);
+
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     setMessage({ type: '', text: '' });
 
     try {
       const response = await authApi.updateProfile(data);
-      dispatch(updateUserAction(response.data));
+      dispatch(updateUserAction(response.data.data));
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setMessage({ type: 'error', text: 'Please select an image file' });
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Image size must be less than 10MB' });
+      return;
+    }
+
+    setIsUploading(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const response = await authApi.uploadProfileImage(file);
+      dispatch(updateUserAction(response.data.data));
+      setMessage({ type: 'success', text: 'Profile image updated successfully!' });
+    } catch (err: any) {
+      setMessage({ type: 'error', text: err.response?.data?.message || 'Failed to upload profile image' });
+    } finally {
+      setIsUploading(false);
+      // Reset file input so the same file can be selected again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -89,19 +138,40 @@ export default function ProfilePage() {
                   size="xl"
                   className="w-32 h-32 text-4xl"
                 />
-                <button className="absolute bottom-0 right-0 w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-nexus-text shadow-lg hover:bg-primary-700 transition-colors">
-                  <Camera className="w-5 h-5" />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="absolute bottom-0 right-0 w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-nexus-text shadow-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
+                >
+                  {isUploading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Camera className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               <div className="text-center md:text-left text-nexus-text">
                 <h2 className="text-2xl font-bold">{user?.name}</h2>
                 <p className="text-nexus-text/80">{user?.email}</p>
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-3">
-                  <Badge color="white" className="bg-white/20 text-nexus-text">
-                    {user?.uniqueId}
-                  </Badge>
-                  <Badge color="green" className="bg-white/20 text-nexus-text">
-                    {user?.membershipStatus || 'Active'}
+                  {user?.uniqueId && (
+                    <Badge color="white" className="bg-white/20 text-nexus-text">
+                      {user.uniqueId}
+                    </Badge>
+                  )}
+                  <Badge 
+                    color={user?.membershipStatus === 'ACTIVE' ? 'green' : user?.membershipStatus === 'PENDING' ? 'yellow' : user?.membershipStatus === 'REJECTED' ? 'red' : 'gray'}
+                    className="bg-white/20 text-nexus-text"
+                  >
+                    {user?.membershipStatus === 'ACTIVE' ? 'Active Member' : user?.membershipStatus === 'PENDING' ? 'Pending' : user?.membershipStatus === 'REJECTED' ? 'Rejected' : 'Visitor'}
                   </Badge>
                   <Badge color="blue" className="bg-white/20 text-nexus-text">
                     {user?.role}
@@ -151,7 +221,7 @@ export default function ProfilePage() {
                   value={user?.email || ''}
                   leftIcon={<Mail className="w-5 h-5" />}
                   disabled
-                  className="bg-gray-50"
+                  className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-not-allowed opacity-80"
                 />
 
                 <Input
@@ -166,10 +236,10 @@ export default function ProfilePage() {
                 <Input
                   type="text"
                   label="Student ID"
-                  value={user?.studentId || ''}
+                  value={user?.studentId || 'Not provided'}
                   leftIcon={<GraduationCap className="w-5 h-5" />}
                   disabled
-                  className="bg-gray-50"
+                  className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-not-allowed opacity-80"
                 />
 
                 <Select
@@ -237,11 +307,21 @@ export default function ProfilePage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Member ID</p>
-                <p className="font-mono font-bold text-primary-600">{user?.uniqueId}</p>
+                <p className="font-mono font-bold text-primary-600">{user?.uniqueId || 'Not assigned yet'}</p>
               </div>
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Membership Status</p>
-                <p className="font-bold text-green-600">{user?.membershipStatus || 'Active'}</p>
+                <p className={`font-bold ${
+                  user?.membershipStatus === 'ACTIVE' ? 'text-green-600' :
+                  user?.membershipStatus === 'PENDING' ? 'text-yellow-500' :
+                  user?.membershipStatus === 'REJECTED' ? 'text-red-500' :
+                  'text-gray-500'
+                }`}>
+                  {user?.membershipStatus === 'ACTIVE' ? 'Active Member' :
+                   user?.membershipStatus === 'PENDING' ? 'Pending Approval' :
+                   user?.membershipStatus === 'REJECTED' ? 'Rejected' :
+                   'Not a Member'}
+                </p>
               </div>
               <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                 <p className="text-sm text-gray-500 mb-1">Member Since</p>

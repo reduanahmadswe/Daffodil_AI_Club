@@ -125,7 +125,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           {...props}
         >
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.value} value={option.value} className="bg-nexus-surface-2 text-nexus-text">
               {option.label}
             </option>
           ))}

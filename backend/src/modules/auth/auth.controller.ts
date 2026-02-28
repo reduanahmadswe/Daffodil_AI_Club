@@ -29,21 +29,24 @@ export class AuthController {
    */
   async verifyEmail(req: Request, res: Response) {
     try {
-      const { token } = req.body;
+      const { email, otp } = req.body;
       
-      if (!token) {
+      if (!email || !otp) {
         return res.status(400).json({
           success: false,
-          message: 'Verification token is required',
+          message: 'Email and OTP are required',
         });
       }
 
-      const result = await authService.verifyEmail(token);
+      const result = await authService.verifyEmail(email, otp);
       
       return res.status(200).json({
         success: true,
         message: result.message,
-        data: { uniqueId: result.uniqueId },
+        data: {
+          token: result.token,
+          user: result.user,
+        },
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Verification failed';
@@ -123,6 +126,48 @@ export class AuthController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to update profile';
+      return res.status(400).json({
+        success: false,
+        message,
+      });
+    }
+  }
+
+  /**
+   * POST /api/auth/profile-image
+   */
+  async uploadProfileImage(req: AuthRequest, res: Response) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({
+          success: false,
+          message: 'Authentication required',
+        });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: 'Image file is required',
+        });
+      }
+
+      if (!req.file.mimetype.startsWith('image/')) {
+        return res.status(400).json({
+          success: false,
+          message: 'Only image files are allowed',
+        });
+      }
+
+      const user = await authService.uploadProfileImage(req.user.id, req.file);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Profile image updated successfully',
+        data: user,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to upload profile image';
       return res.status(400).json({
         success: false,
         message,

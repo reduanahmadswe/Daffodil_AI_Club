@@ -26,6 +26,7 @@ import { Badge } from '@/components/ui/Badge';
 import { blogsApi } from '@/lib/api';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
+import { resolveImageUrl } from '@/lib/utils';
 
 const categories = [
   'Artificial Intelligence', 'Machine Learning', 'Deep Learning', 'NLP',
@@ -39,6 +40,7 @@ const blogSchema = z.object({
   content: z.string().min(50, 'Content must be at least 50 characters'),
   category: z.string().min(1, 'Category is required'),
   status: z.enum(['DRAFT', 'PENDING', 'PUBLISHED']).default('DRAFT'),
+  coverImage: z.string().optional(),
   isFeatured: z.boolean().default(false),
 });
 
@@ -56,11 +58,14 @@ export default function EditBlogPage() {
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors },
   } = useForm<BlogFormData>({
     resolver: zodResolver(blogSchema),
   });
+  const watchedCoverImage = watch('coverImage');
+  const watchedTitle = watch('title');
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -73,6 +78,7 @@ export default function EditBlogPage() {
           content: blog.content || '',
           category: blog.category || '',
           status: blog.status || 'DRAFT',
+          coverImage: blog.coverImage || '',
           isFeatured: blog.isFeatured || false,
         });
         if (blog.tags) {
@@ -231,6 +237,29 @@ export default function EditBlogPage() {
                       <button type="button" onClick={() => removeTag(tag)}><X className="w-3 h-3" /></button>
                     </Badge>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader><CardTitle>Cover Image</CardTitle></CardHeader>
+              <CardContent className="space-y-3">
+                <Input
+                  {...register('coverImage')}
+                  placeholder="https://example.com/cover.jpg"
+                />
+                <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/30">
+                  {watchedCoverImage ? (
+                    <img
+                      src={resolveImageUrl(watchedCoverImage, watchedTitle || 'Blog cover') || watchedCoverImage}
+                      alt="Cover preview"
+                      className="w-full h-40 object-cover"
+                    />
+                  ) : (
+                    <div className="h-40 flex items-center justify-center text-gray-400">
+                      No cover image
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

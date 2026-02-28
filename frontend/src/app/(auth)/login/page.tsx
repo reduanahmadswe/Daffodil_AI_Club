@@ -59,11 +59,11 @@ export default function LoginPage() {
       const { user, token } = response.data.data || response.data;
       dispatch(loginAction({ user, token }));
 
-      // Role-based redirect
+      // Use hard navigation so middleware picks up the freshly-set cookies
       if (user.role === 'ADMIN' || user.role === 'EXECUTIVE') {
-        router.push('/admin');
+        window.location.href = '/admin';
       } else {
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
@@ -242,6 +242,20 @@ export default function LoginPage() {
                 </div>
               </div>
               <span className="text-[10px] text-nexus-text-secondary group-hover:text-green-400 transition-colors">Click to fill</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('visitor@diu.edu.bd', 'visitor123456')}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-nexus-glass hover:bg-nexus-surface-2 border border-nexus-border hover:border-orange-500/30 transition-all group cursor-pointer"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-xs font-bold">V</span>
+                <div className="text-left">
+                  <p className="text-xs font-medium text-nexus-text">Visitor</p>
+                  <p className="text-[10px] text-nexus-text-secondary">visitor@diu.edu.bd</p>
+                </div>
+              </div>
+              <span className="text-[10px] text-nexus-text-secondary group-hover:text-orange-400 transition-colors">Click to fill</span>
             </button>
           </div>
           <p className="text-[10px] text-nexus-text-secondary mt-3 flex items-center gap-1">

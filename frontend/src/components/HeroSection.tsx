@@ -23,7 +23,7 @@ const stagger = {
 const stats = [
     { icon: Users, label: 'Active Members', value: '500+', color: 'purple' as const },
     { icon: Calendar, label: 'Events Organized', value: '100+', color: 'blue' as const },
-    { icon: Award, label: 'Workshops', value: '50+', color: 'pink' as const },
+    { icon: Award, label: 'Achievements', value: '50+', color: 'pink' as const },
     { icon: Rocket, label: 'Projects Completed', value: '25+', color: 'cyan' as const },
 ];
 

@@ -17,6 +17,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import FadeContent from '@/components/FadeContent';
 import { eventsApi } from '@/lib/api';
 import { Event } from '@/types';
+import { resolveImageUrl } from '@/lib/utils';
 
 const eventTypes = ['All', 'Workshop', 'Seminar', 'Competition', 'Meetup', 'Conference'];
 
@@ -156,7 +157,7 @@ export default function EventsPage() {
                     <div className="aspect-video bg-gradient-to-br from-nexus-purple to-nexus-pink relative overflow-hidden">
                       {event.image && (
                         <img
-                          src={event.image}
+                          src={resolveImageUrl(event.image, event.title) || event.image}
                           alt={event.title}
                           className="w-full h-full object-cover"
                         />
@@ -183,20 +184,20 @@ export default function EventsPage() {
                       <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-nexus-text-muted mb-4">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-nexus-purple flex-shrink-0" />
-                          <span className="truncate">{formatDate(event.startDate)}</span>
+                          <span className="truncate">{formatDate(event.startDate || (event as any).date)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4 text-nexus-purple flex-shrink-0" />
-                          <span className="truncate">{formatTime(event.startDate)}</span>
+                          <span className="truncate">{event.time || formatTime(event.startDate || (event as any).date)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-nexus-purple flex-shrink-0" />
                           <span className="truncate">{event.venue}</span>
                         </div>
-                        {event.maxParticipants && (
+                        {(event.maxParticipants || event.capacity) && (
                           <div className="flex items-center gap-2">
                             <Users className="w-4 h-4 text-nexus-purple flex-shrink-0" />
-                            <span className="truncate">{event.registeredCount || 0}/{event.maxParticipants} Reg.</span>
+                            <span className="truncate">{event.registeredCount || event._count?.registrations || 0}/{event.maxParticipants || event.capacity} Reg.</span>
                           </div>
                         )}
                       </div>

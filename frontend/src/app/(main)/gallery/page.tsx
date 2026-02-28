@@ -6,6 +6,7 @@ import { Image as ImageIcon, X, ChevronLeft, ChevronRight, Calendar, Filter, Zoo
 import { Badge } from '@/components/ui/Badge';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { galleryApi } from '@/lib/api';
+import { resolveImageUrl } from '@/lib/utils';
 
 interface GalleryImage {
   id: string;
@@ -28,7 +29,19 @@ export default function GalleryPage() {
     const fetchGallery = async () => {
       try {
         const response = await galleryApi.getAll({ category: category !== 'All' ? category : undefined });
-        setImages(response.data.images || mockImages);
+        const raw = response.data?.data || response.data?.images || [];
+        // Map DB fields to component interface
+        const mapped = Array.isArray(raw) && raw.length > 0
+          ? raw.map((img: any) => ({
+              id: img.id,
+              title: img.title || 'Untitled',
+              imageUrl: img.image || img.imageUrl || '',
+              category: img.category || 'Events',
+              eventName: img.eventName,
+              date: img.createdAt ? new Date(img.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+            }))
+          : [];
+        setImages(mapped.length > 0 ? mapped : mockImages);
       } catch (error) {
         setImages(mockImages);
       } finally {
@@ -157,26 +170,11 @@ export default function GalleryPage() {
                   >
                     <div className="aspect-square relative rounded-2xl overflow-hidden glass border border-nexus-border">
                       <img
-                        src={image.imageUrl}
+                        src={resolveImageUrl(image.imageUrl, image.title) || image.imageUrl}
                         alt={image.title}
+                        title=""
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <Badge color="pink" size="sm" className="mb-2 self-start">{image.category}</Badge>
-                        <h3 className="text-nexus-text font-bold text-lg leading-tight mb-1">{image.title}</h3>
-                        {image.eventName && <p className="text-nexus-text/70 text-sm mb-2">{image.eventName}</p>}
-                        <div className="flex items-center gap-2 text-white/50 text-xs mt-auto">
-                          <Calendar className="w-3 h-3" />
-                          <span>{image.date}</span>
-                        </div>
-                      </div>
-
-                      {/* Zoom Icon */}
-                      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        <ZoomIn className="w-5 h-5 text-nexus-text" />
-                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -226,22 +224,20 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={filteredImages[selectedImageIndex].imageUrl}
+                src={resolveImageUrl(filteredImages[selectedImageIndex].imageUrl, filteredImages[selectedImageIndex].title) || filteredImages[selectedImageIndex].imageUrl}
                 alt={filteredImages[selectedImageIndex].title}
-                className="w-auto h-auto max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
+                title=""
+                className="w-auto h-auto max-w-full max-h-[78vh] object-contain rounded-lg shadow-2xl"
               />
 
-              <div className="mt-6 text-center text-nexus-text">
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <Badge color="pink">{filteredImages[selectedImageIndex].category}</Badge>
-                  <span className="text-white/50 text-sm flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {filteredImages[selectedImageIndex].date}
-                  </span>
-                </div>
-                <h2 className="text-2xl font-bold mb-1">{filteredImages[selectedImageIndex].title}</h2>
+              <div className="mt-4 flex items-center justify-center gap-3 text-nexus-text">
+                <Badge color="pink">{filteredImages[selectedImageIndex].category}</Badge>
+                <span className="text-white/50 text-sm flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  {filteredImages[selectedImageIndex].date}
+                </span>
                 {filteredImages[selectedImageIndex].eventName && (
-                  <p className="text-lg text-nexus-text/70">{filteredImages[selectedImageIndex].eventName}</p>
+                  <span className="text-white/60 text-sm">• {filteredImages[selectedImageIndex].eventName}</span>
                 )}
               </div>
             </motion.div>

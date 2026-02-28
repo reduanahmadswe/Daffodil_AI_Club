@@ -8,10 +8,11 @@ import authRouter from './modules/auth/auth.router.js';
 import eventRouter from './modules/event/event.router.js';
 import blogRouter from './modules/blog/blog.router.js';
 import memberRouter from './modules/member/member.router.js';
-import workshopRouter from './modules/workshop/workshop.router.js';
 import projectRouter from './modules/project/project.router.js';
 import galleryRouter from './modules/gallery/gallery.router.js';
 import contactRouter from './modules/contact/contact.router.js';
+import mediaRouter from './modules/media/media.router.js';
+import membershipRouter from './modules/membership/membership.router.js';
 
 export const createApp = (): Express => {
   const app = express();
@@ -39,10 +40,11 @@ export const createApp = (): Express => {
   app.use('/api/events', eventRouter);
   app.use('/api/blogs', blogRouter);
   app.use('/api/members', memberRouter);
-  app.use('/api/workshops', workshopRouter);
   app.use('/api/projects', projectRouter);
   app.use('/api/gallery', galleryRouter);
   app.use('/api/contact', contactRouter);
+  app.use('/api/media', mediaRouter);
+  app.use('/api/membership', membershipRouter);
 
   // Error handlers
   app.use(notFoundHandler);

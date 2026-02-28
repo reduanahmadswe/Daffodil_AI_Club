@@ -32,21 +32,17 @@ interface Blog {
   category?: string;
   author?: { name: string; email: string };
   status: string;
-  isApproved: boolean;
-  isPublished: boolean;
   publishedAt?: string;
   views?: number;
   likes?: number;
   _count?: { comments: number; likes: number };
-  isFeatured: boolean;
   createdAt: string;
 }
 
 const statusColors: Record<string, string> = {
   PUBLISHED: 'green',
   DRAFT: 'gray',
-  REVIEW: 'yellow',
-  APPROVED: 'green',
+  PENDING: 'yellow',
   REJECTED: 'red',
 };
 
@@ -99,7 +95,7 @@ export default function AdminBlogsPage() {
     try {
       await adminApi.approveBlog(blogId);
       setBlogs((prev) =>
-        prev.map((b) => (b.id === blogId ? { ...b, isApproved: true, status: 'APPROVED' } : b))
+        prev.map((b) => (b.id === blogId ? { ...b, status: 'PUBLISHED' } : b))
       );
     } catch (error) {
       console.error('Failed to approve blog:', error);
@@ -110,7 +106,7 @@ export default function AdminBlogsPage() {
     try {
       await adminApi.rejectBlog(blogId);
       setBlogs((prev) =>
-        prev.map((b) => (b.id === blogId ? { ...b, isApproved: false, status: 'REJECTED' } : b))
+        prev.map((b) => (b.id === blogId ? { ...b, status: 'REJECTED' } : b))
       );
     } catch (error) {
       console.error('Failed to reject blog:', error);
@@ -119,15 +115,10 @@ export default function AdminBlogsPage() {
 
   const stats = {
     total: blogs.length,
-    published: blogs.filter((b) => b.isApproved || b.status === 'PUBLISHED').length,
-    drafts: blogs.filter((b) => !b.isApproved && b.status !== 'REJECTED').length,
+    published: blogs.filter((b) => b.status === 'PUBLISHED').length,
+    drafts: blogs.filter((b) => b.status === 'DRAFT').length,
+    pending: blogs.filter((b) => b.status === 'PENDING').length,
     totalViews: blogs.reduce((acc, b) => acc + (b.views || 0), 0),
-  };
-
-  const getStatus = (blog: Blog) => {
-    if (blog.isApproved) return 'PUBLISHED';
-    if (blog.status === 'REJECTED') return 'REJECTED';
-    return 'REVIEW';
   };
 
   return (
@@ -174,6 +165,12 @@ export default function AdminBlogsPage() {
         <Card>
           <CardContent className="p-4 text-center">
             <p className="text-3xl font-bold text-gray-600">{stats.drafts}</p>
+            <p className="text-sm text-gray-500">Drafts</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
             <p className="text-sm text-gray-500">Pending Review</p>
           </CardContent>
         </Card>
@@ -207,7 +204,8 @@ export default function AdminBlogsPage() {
                 <option value="All">All Status</option>
                 <option value="PUBLISHED">Published</option>
                 <option value="DRAFT">Draft</option>
-                <option value="REVIEW">Under Review</option>
+                <option value="PENDING">Pending</option>
+                <option value="REJECTED">Rejected</option>
               </select>
             </div>
           </div>
@@ -239,12 +237,9 @@ export default function AdminBlogsPage() {
                 <CardContent className="p-6 flex-1">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
-                    <Badge color={(statusColors[getStatus(blog)] || 'gray') as any} size="sm">
-                      {getStatus(blog)}
+                    <Badge color={(statusColors[blog.status] || 'gray') as any} size="sm">
+                      {blog.status}
                     </Badge>
-                    {blog.isFeatured && (
-                      <Badge color="yellow" size="sm">Featured</Badge>
-                    )}
                   </div>
 
                   {/* Title */}
@@ -286,7 +281,7 @@ export default function AdminBlogsPage() {
                 {/* Actions */}
                 <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
                   <div className="flex gap-1">
-                    {!blog.isApproved && getStatus(blog) === 'REVIEW' && (
+                    {blog.status === 'PENDING' && (
                       <>
                         <Button variant="ghost" size="sm" className="text-green-500" onClick={() => handleApprove(blog.id)}>
                           <CheckCircle className="w-4 h-4 mr-1" />
@@ -300,7 +295,7 @@ export default function AdminBlogsPage() {
                     )}
                   </div>
                   <div className="flex gap-1">
-                    <Link href={`/blog/${blog.slug}`}>
+                    <Link href={`/blog/${blog.slug || blog.id}`}>
                       <Button variant="ghost" size="sm" className="p-2">
                         <Eye className="w-4 h-4" />
                       </Button>

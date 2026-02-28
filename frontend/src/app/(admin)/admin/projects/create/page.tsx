@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -10,7 +10,9 @@ import {
   X,
   Github,
   Globe,
-  FileText
+  FileText,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,9 +21,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
-import { projectsApi } from '@/lib/api';
+import { projectsApi, mediaApi } from '@/lib/api';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
+import { resolveImageUrl } from '@/lib/utils';
 
 const projectCategories = [
   { value: 'AI_ML', label: 'AI / Machine Learning' },
@@ -39,6 +42,7 @@ const projectSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
   description: z.string().min(20, 'Description must be at least 20 characters'),
   content: z.string().optional(),
+  image: z.string().optional(),
   category: z.enum(['AI_ML', 'DEEP_LEARNING', 'NLP', 'COMPUTER_VISION', 'DATA_SCIENCE', 'ROBOTICS', 'IOT', 'RESEARCH', 'OTHER']).default('AI_ML'),
   githubUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   demoUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
@@ -53,14 +57,19 @@ export default function CreateProjectPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [technologies, setTechnologies] = useState<string[]>([]);
   const [techInput, setTechInput] = useState('');
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
   const [memberInput, setMemberInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
@@ -70,6 +79,8 @@ export default function CreateProjectPage() {
       isPublished: false,
     },
   });
+
+  const watchedImage = watch('image');
 
   const addTech = () => {
     if (techInput.trim() && !technologies.includes(techInput.trim())) {
@@ -85,9 +96,52 @@ export default function CreateProjectPage() {
     }
   };
 
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingImage(true);
+      const response = await mediaApi.uploadDriveImage(file);
+      const driveUrl = response.data?.data?.openUrl;
+
+      if (!driveUrl) {
+        throw new Error('Drive URL not found in upload response');
+      }
+
+      setImagePreview(driveUrl);
+      setValue('image', driveUrl, { shouldDirty: true, shouldValidate: true });
+
+      dispatch(addNotification({
+        message: 'Image uploaded to Google Drive successfully.',
+        type: 'success',
+      }));
+    } catch (error: any) {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      dispatch(addNotification({
+        message: error.response?.data?.message || 'Failed to upload image to Google Drive.',
+        type: 'error',
+      }));
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    setValue('image', '');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   const onSubmit = async (data: ProjectFormData) => {
     setIsSubmitting(true);
     try {
+      // Ensure the Drive image URL is included even if register didn't capture it
+      if (imagePreview && (!data.image || data.image === '')) {
+        data.image = imagePreview;
+      }
       await projectsApi.create({ ...data, technologies, teamMembers });
       dispatch(addNotification({ message: 'Project created successfully!', type: 'success' }));
       router.push('/admin/projects');
@@ -136,6 +190,68 @@ export default function CreateProjectPage() {
                     rows={12}
                     placeholder="Detailed project documentation (Markdown supported)..."
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-nexus-text focus:ring-2 focus:ring-primary-500 resize-none"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Cover Image */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5" />
+                  Project Image
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  onChange={handleImageSelect}
+                  className="hidden"
+                />
+                {imagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={resolveImageUrl(imagePreview, 'Project image') || imagePreview}
+                      alt="Preview"
+                      className="w-full h-48 object-cover rounded-xl"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => !isUploadingImage && fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-primary-500 transition-colors"
+                  >
+                    <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500 mb-2">
+                      {isUploadingImage ? 'Uploading to Google Drive...' : 'Click to upload project image'}
+                    </p>
+                    <p className="text-xs text-gray-400">PNG, JPG, WEBP up to 5MB</p>
+                  </div>
+                )}
+                <div className="mt-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Or enter image URL</label>
+                  <Input
+                    value={watchedImage || ''}
+                    placeholder="https://example.com/image.jpg"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setValue('image', val, { shouldDirty: true, shouldValidate: true });
+                      if (val && !val.startsWith('data:')) {
+                        setImagePreview(val);
+                      } else if (!val) {
+                        setImagePreview(null);
+                      }
+                    }}
                   />
                 </div>
               </CardContent>

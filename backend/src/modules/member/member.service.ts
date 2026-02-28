@@ -172,13 +172,11 @@ export class MemberService {
     const [
       totalMembers,
       totalEvents,
-      totalWorkshops,
       totalBlogs,
       totalProjects,
     ] = await Promise.all([
       prisma.user.count({ where: { isVerified: true } }),
       prisma.event.count({ where: { isPublished: true } }),
-      prisma.workshop.count({ where: { isPublished: true } }),
       prisma.blog.count({ where: { status: 'PUBLISHED' } }),
       prisma.project.count({ where: { isPublished: true } }),
     ]);
@@ -186,7 +184,6 @@ export class MemberService {
     return {
       totalMembers,
       totalEvents,
-      totalWorkshops,
       totalBlogs,
       totalProjects,
     };

@@ -10,6 +10,7 @@ import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import FadeContent from '@/components/FadeContent';
 import { blogsApi } from '@/lib/api';
+import { resolveImageUrl } from '@/lib/utils';
 import { Blog } from '@/types';
 
 const categories = ['All', 'AI', 'Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'Tutorials'];
@@ -149,9 +150,9 @@ export default function BlogPage() {
                     <div className="glass rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 h-full flex flex-col border border-nexus-border group relative">
                       {/* Blog Image */}
                       <div className="aspect-video bg-gradient-to-br from-[#5B8CFF] to-[#6EF3FF] relative overflow-hidden">
-                        {blog.image && (
+                        {(blog.image || blog.coverImage) && (
                           <img
-                            src={blog.image}
+                            src={resolveImageUrl(blog.image || blog.coverImage, blog.title) || blog.image || blog.coverImage}
                             alt={blog.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />

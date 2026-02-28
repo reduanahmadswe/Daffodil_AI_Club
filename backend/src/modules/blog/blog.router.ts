@@ -45,9 +45,11 @@ router.get('/my/posts', authenticate, async (req: AuthRequest, res: Response) =>
 // Create blog
 router.post('/', authenticate, async (req: AuthRequest, res: Response) => {
   try {
+    const isAdmin = ['ADMIN', 'EXECUTIVE'].includes(req.user!.role);
     const blog = await blogService.createBlog({
       ...req.body,
       authorId: req.user!.id,
+      status: isAdmin ? req.body.status : undefined,
     });
     res.status(201).json({ success: true, message: 'Blog submitted for review', data: blog });
   } catch (error) {
@@ -80,11 +82,12 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response) => {
 // Admin: Get all blogs
 router.get('/admin/all', authenticate, adminOrExecutive, async (req: AuthRequest, res: Response) => {
   try {
-    const { page, limit, status } = req.query;
+    const { page, limit, status, search } = req.query;
     const result = await blogService.getAdminBlogs({
       page: page ? parseInt(page as string) : undefined,
       limit: limit ? parseInt(limit as string) : undefined,
       status: status as any,
+      search: search as string,
     });
     res.json({ success: true, data: result.blogs, pagination: result.pagination });
   } catch (error) {

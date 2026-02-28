@@ -10,13 +10,13 @@ import {
   FileText, 
   Image, 
   Settings, 
-  Award,
   Folder,
   MessageSquare,
   Mail,
   BarChart,
   Bell,
-  LogOut
+  LogOut,
+  UserPlus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppDispatch } from '@/lib/redux/hooks';
@@ -25,8 +25,8 @@ import { logout as logoutAction } from '@/lib/redux/slices/authSlice';
 const adminLinks = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/members', label: 'Members', icon: Users },
+  { href: '/admin/membership', label: 'Membership', icon: UserPlus },
   { href: '/admin/events', label: 'Events', icon: Calendar },
-  { href: '/admin/workshops', label: 'Workshops', icon: Award },
   { href: '/admin/projects', label: 'Projects', icon: Folder },
   { href: '/admin/blogs', label: 'Blog Posts', icon: FileText },
   { href: '/admin/gallery', label: 'Gallery', icon: Image },

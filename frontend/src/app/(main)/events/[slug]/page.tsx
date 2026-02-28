@@ -27,7 +27,7 @@ import { eventsApi } from '@/lib/api';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { addNotification } from '@/lib/redux/slices/notificationSlice';
 import { Event } from '@/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate, resolveImageUrl } from '@/lib/utils';
 
 // Mock data for development
 const mockEvent: Event = {
@@ -257,7 +257,7 @@ export default function EventDetailPage() {
                 </div>
                 <div>
                   <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Date</p>
-                  <p className="text-nexus-text font-medium">{formatDate(event.startDate)}</p>
+                  <p className="text-nexus-text font-medium">{formatDate(event.startDate || (event as any).date)}</p>
                 </div>
               </div>
 
@@ -268,7 +268,7 @@ export default function EventDetailPage() {
                 <div>
                   <p className="text-xs text-nexus-text-muted uppercase tracking-wider font-semibold">Time</p>
                   <p className="text-nexus-text font-medium">
-                    {new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {event.time || new Date(event.startDate || (event as any).date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
@@ -334,7 +334,7 @@ export default function EventDetailPage() {
           <div className="container-custom max-w-5xl">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/20">
               <img
-                src={event.image}
+                src={resolveImageUrl(event.image, event.title) || event.image}
                 alt={event.title}
                 className="w-full h-[400px] object-cover"
               />
